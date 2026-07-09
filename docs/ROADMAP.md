@@ -453,6 +453,46 @@ baseline before touching production code, per the team's MEASURE-first practice.
 
 ---
 
+## Test Organization & Trait Convention
+
+Tests are organized by **behavior**, not by the production file they happen to
+exercise. Each `Tests/` subfolder is a behavior area and its name matches the
+file-scoped namespace (`NQueen.<Project>.Tests.<Folder>`).
+
+**Folder taxonomy**
+
+| Project | Folder | Contains |
+|---|---|---|
+| `NQueen.UnitTests` | `Solver/` | Direct `BitmaskSolver` / `BitboardNQueenSolver` behavior (all modes, config, parallel consistency, invariants) |
+| `NQueen.UnitTests` | `Counts/` | Solution-count correctness across board sizes (small, large, high-board) |
+| `NQueen.UnitTests` | `Symmetry/` | Symmetry pruning, canonicalization, `Memory<int>` comparers |
+| `NQueen.UnitTests` | `Domain/` | Pure domain types (settings, context, models, formatter, utilities) |
+| `NQueen.UnitTests` | `Shared/` | Cross-cutting helpers (parsing, numerics) |
+| `NQueen.UnitTests` | `Registration/` | DI / service-registration (Console runner) |
+| `NQueen.ViewModelTests` | `Main/`, `Commands/`, `Converters/`, `Validation/`, `Services/`, `Solver/` | MVVM front-end behavior |
+
+**Trait axes** — two orthogonal `[Trait]` axes, applied at class level:
+
+- `Category` (behavior): `Solver`, `Counts`, `Symmetry`, `Domain`, `Shared`,
+  `Registration`, `ViewModel`, `Validation`, `Converters`.
+- `Speed` (cost): omit for fast tests (the default inner-loop set); `Slow` for
+  multi-second enumerations; `Heavy` for env-gated exhaustive runs.
+
+`SkipInCI` is retained as an independent gate on tests that must not run in CI.
+
+**Filtering examples**
+
+```
+dotnet test --filter "Speed!=Slow&Speed!=Heavy"   # fast inner-loop only
+dotnet test --filter "Category=Solver"            # one behavior area
+```
+
+Rule: reorganizing or renaming test files must **never** change the test count —
+move/rename files and update namespaces, but do not delete or merge away any
+`[Fact]`/`[Theory]`/`[InlineData]`/`[MemberData]` case.
+
+---
+
 ## Active Track — Kernel Test Coverage
 
 Goal: bring every `BitmaskSolver.*.cs` partial up to a dedicated test class so future

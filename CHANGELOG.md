@@ -7,6 +7,21 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Testing
+- **Reorganized both test projects into behavior-based folders + unified trait
+  taxonomy** — restructured `NQueen.UnitTests/Tests/` into `Solver/`, `Counts/`,
+  `Symmetry/`, `Domain/`, `Shared/`, and `Registration/` (previously split across
+  `Kernel/`, `NQueenSolver/`, `SymmetryPruning/`, `Console/`, and a `Slow/`
+  subfolder that mirrored production file layout rather than behavior). All moves
+  used `git mv` to preserve history; file-scoped namespaces were updated to match.
+  Standardized `[Trait]` usage on two orthogonal axes — `Category` (behavior:
+  `Solver`, `Counts`, `Symmetry`, `Registration`, `ViewModel`, `Validation`,
+  `Converters`, `Services`, `Commands`) and `Speed` (`Slow`/`Heavy`; fast omitted)
+  — replacing the prior inconsistent mix (e.g. `Slow` appearing under both
+  `Category` and `Speed`). `NQueen.ViewModelTests` kept its already-behavioral
+  folders and gained consistent `Category` traits. Enables fast inner-loop
+  filtering (e.g. `dotnet test --filter "Speed!=Slow&Speed!=Heavy"`). Pure
+  reorganization — **651/651 tests unchanged**, build clean, no coverage lost.
+  Documented the convention in `docs/ROADMAP.md`.
 - **Added Domain settings & context coverage** — introduced
   `SettingsAndContextTests` under `NQueen.UnitTests/Tests/Domain/`. Covers the
   previously-untested `BoardSettings` and `SimulationSettings` constants (with

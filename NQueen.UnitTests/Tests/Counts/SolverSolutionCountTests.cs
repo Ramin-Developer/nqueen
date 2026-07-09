@@ -1,4 +1,4 @@
-namespace NQueen.UnitTests.Tests.NQueenSolver;
+namespace NQueen.UnitTests.Tests.Counts;
 
 [Collection("SolverBackend")]
 [Trait("Category", "Counts")]

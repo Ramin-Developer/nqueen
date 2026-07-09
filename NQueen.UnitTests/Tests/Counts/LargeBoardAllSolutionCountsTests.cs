@@ -1,8 +1,8 @@
-namespace NQueen.UnitTests.Tests.NQueenSolver;
+namespace NQueen.UnitTests.Tests.Counts;
 
 [Collection("SolverBackend")]
-[Trait("Category", "LargeBoardAllCounts")]
-[Trait("Category", "Slow")]
+[Trait("Category", "Counts")]
+[Trait("Speed", "Slow")]
 public class LargeBoardAllSolutionCountsTests(SolverBackEndFixture fixture)
 {
     private static readonly bool _enableFullAllEnum =
