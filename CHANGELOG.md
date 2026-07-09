@@ -7,6 +7,18 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Testing
+- **Consolidated redundant solution-count tests + trait/API cleanup** — folded
+  `UniqueCountingAccuracyTests` (Unique, boards 4–11) into
+  `SolverSolutionCountTests` as a single `UniqueMode_Enumeration_CountMatchesExpected`
+  theory that forces the enumeration path, removing a genuine duplicate with **zero
+  coverage loss** (the 8 absorbed cases include boards 9–11 not otherwise
+  enumeration-tested). Dropped the `ExpectedSolutions.GetUniqueCount/GetAllCount`
+  wrapper indirection in that file in favor of the Domain
+  `ExpectedSolutionCounts.GetUnique/GetAll` API (the `ExpectedSolutions` helper is
+  retained for its other data consumers). Fixed two stray wrong-axis
+  `[Trait("Category","Slow")]` entries in `LargeBoardAllSolutionCountsTests` to
+  `[Trait("Speed","Slow")]`. **651/651 tests unchanged** (−8 removed, +8 absorbed),
+  build clean.
 - **Reorganized both test projects into behavior-based folders + unified trait
   taxonomy** — restructured `NQueen.UnitTests/Tests/` into `Solver/`, `Counts/`,
   `Symmetry/`, `Domain/`, `Shared/`, and `Registration/` (previously split across

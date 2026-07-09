@@ -17,7 +17,7 @@ public class LargeBoardAllSolutionCountsTests(SolverBackEndFixture fixture)
     // Verify All-mode counts (count-only) match expected lookup table values for enumerated large boards.
     [Theory]
     [MemberData(nameof(LargeBoardsEnumerated))]
-    [Trait("Category", "Slow")]
+    [Trait("Speed", "Slow")]
     [Trait("SkipInCI", "true")]
     public async Task AllMode_CountOnly_LargeBoards_Exact(int n)
     {
@@ -30,7 +30,7 @@ public class LargeBoardAllSolutionCountsTests(SolverBackEndFixture fixture)
 
     // Materialization sanity: ensure at least one solution materialized and count matches expected for sample board (lookup path where possible)
     [Fact]
-    [Trait("Category", "Slow")]
+    [Trait("Speed", "Slow")]
     [Trait("SkipInCI", "true")]
     public async Task AllMode_Materialize_SampleBoard()
     {
