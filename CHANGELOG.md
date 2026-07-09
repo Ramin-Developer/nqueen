@@ -6,6 +6,18 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Docs
+- **Coverage reporting: stopped hand-maintaining a stale number, registered CI
+  automation as backlog.** Rewrote the `docs/ROADMAP.md` *Current State* "Code
+  coverage" row so it no longer presents the frozen `40.24 % line / 23.36 % branch`
+  (2025-04-23) figure as current reality — it is now kept only as a dated historical
+  marker, with coverage described as measured on demand / per-PR, `branch` coverage
+  called out as the metric to watch, and no hard percentage gate. Added a new
+  `## Backlog — CI & Tooling` section registering a future GitHub Actions coverage
+  workflow (`dotnet test --collect:"XPlat Code Coverage"` uploaded as an **artifact**,
+  not committed report files; optional Codecov/Coveralls badge; no-regression ratchet
+  rather than a fixed `fail-under`). Docs-only.
+
 ### Testing
 - **Consolidated redundant solution-count tests + trait/API cleanup** — folded
   `UniqueCountingAccuracyTests` (Unique, boards 4–11) into

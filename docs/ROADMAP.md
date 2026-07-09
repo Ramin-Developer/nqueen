@@ -134,7 +134,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Active branch | **`test/coverage-domain-settings-context`** — adds `SettingsAndContextTests` (Domain `Settings`/`Context` coverage). Branched off freshly-merged `main` (post-PR #38, `57cf574`). (Last shipped: `test/coverage-console-runner` via PR #38, squash-merged — Console runner service-registration tests. Prior: `migrate/fluentassertions-to-shouldly` via PR #33 — FluentAssertions → Shouldly migration.) |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` on this branch. Subsequently reorganized into behavior-based folders with a unified `Category`/`Speed` trait taxonomy, and the redundant `UniqueCountingAccuracyTests` was folded into `SolverSolutionCountTests` — both net-zero on the count. Still includes the 20 parity tests in `BitboardNQueenSolverTests`. |
-| Code coverage | **Pending re-measurement** — last full run reported 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`), but that predates the coverage PRs #35–#38 and the Domain `Settings`/`Context` tests, so the figure now understates reality. Re-run `dotnet test --collect:"XPlat Code Coverage"` to refresh. |
+| Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
 | Build status | 0 errors / 0 warnings |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
@@ -614,6 +614,32 @@ effort × expected impact.
   (ShortRun, 3 iterations) shows CountOnly/Materialize ratios of 0.99–1.01×
   (within noise). The historical gap was fully eliminated by the two-phase split
   shipped earlier (CHANGELOG.md lines 696–710). No further action required._
+
+---
+
+## Backlog — CI & Tooling
+
+Non-perf infrastructure work. Items are listed roughly by effort × expected value.
+
+### Small wins, low risk
+
+- **Coverage measurement in CI (GitHub Actions).** Add a workflow that runs
+  `dotnet test --collect:"XPlat Code Coverage"` on every PR and uploads the result
+  as a **build artifact** — deliberately **not** committing raw coverage report
+  files (`coverage.cobertura.xml` / HTML) into the repo, since they bloat history
+  and produce noisy per-run diffs. Rationale: the "Code coverage" row in *Current
+  State* is a hand-maintained number that has already gone stale; automation
+  replaces it with live, per-PR data that cannot rot.
+  - _Optional add-on:_ wire Codecov or Coveralls for an auto-updating badge + PR
+    comment, then change the *Current State* coverage row to point at the badge
+    instead of any number.
+  - _Guardrail (do this only after a stable baseline exists):_ gate on
+    **no-regression / ratcheting** ("don't drop below current") rather than a fixed
+    aspirational `fail-under` target, and prefer the **branch**-coverage figure over
+    line coverage for a solver with many conditional paths.
+  - _Prerequisite already met:_ coverlet is wired (`--collect:"XPlat Code Coverage"`
+    works today; coverlet 10.0.1 came in via PR #28), so this is essentially one CI
+    step plus optional badge configuration.
 
 ---
 
