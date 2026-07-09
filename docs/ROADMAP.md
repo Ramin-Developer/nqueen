@@ -131,14 +131,22 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **none** — `main` is clean and in sync with `origin/main`. (Last shipped: `migrate/fluentassertions-to-shouldly` via PR #33, squash-merged — FluentAssertions → Shouldly test-assertion migration, 535/535 tests passing. Prior: `fix/gui-issues` via PR #31 — GUI layout consolidation.) |
+| Active branch | **`test/coverage-domain-settings-context`** — adds `SettingsAndContextTests` (Domain `Settings`/`Context` coverage). Branched off freshly-merged `main` (post-PR #38, `57cf574`). (Last shipped: `test/coverage-console-runner` via PR #38, squash-merged — Console runner service-registration tests. Prior: `migrate/fluentassertions-to-shouldly` via PR #33 — FluentAssertions → Shouldly migration.) |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **535 / 535 passing** (446 unit + 89 view-model). Includes the 20 parity tests in `BitboardNQueenSolverTests` (CountSolutions_{Parallel,Sequential}_MatchesRecursive theories + CountSolutionsRecursive_OutOfRange_Throws). Unchanged by PR #31 (layout/naming only). |
-| Code coverage | **40.24 % line / 23.36 % branch** (full run 2025-04-23 on branch `test/coverage-report-refresh` via `dotnet test --collect:"XPlat Code Coverage"`). Note: overall metrics are lower than historical Domain/Kernel/Shared breakdown because the full-solution run now includes all projects and test infrastructure. |
+| Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` on this branch. Still includes the 20 parity tests in `BitboardNQueenSolverTests`. |
+| Code coverage | **Pending re-measurement** — last full run reported 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`), but that predates the coverage PRs #35–#38 and the Domain `Settings`/`Context` tests, so the figure now understates reality. Re-run `dotnet test --collect:"XPlat Code Coverage"` to refresh. |
 | Build status | 0 errors / 0 warnings |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
+- **Test-coverage expansion series** (PRs #35–#38, squash-merged, plus the active
+  `test/coverage-domain-settings-context` branch). Grew the suite from 535 to 651
+  tests across four themed passes: validation & GUI-converter edge cases
+  (`BoardSizeValidatorTests`, `ConverterTests`), Kernel solver edge cases
+  (`BitmaskSolverConfigTests`, `ProgressReporterTests`), Console runner
+  service-registration (`ConsoleServiceRegistrationTests`), and Domain
+  `Settings`/`Context` coverage (`SettingsAndContextTests`). Test-only — build
+  clean, no production-code changes.
 - `migrate/fluentassertions-to-shouldly` — **test-assertion library migration** (PR #33, squash-merged).
   Replaced `FluentAssertions` 8.10.0 with `Shouldly` 4.3.0 to drop the commercial-license
   dependency, converting every assertion call site across the three test projects

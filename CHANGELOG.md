@@ -7,6 +7,16 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Testing
+- **Added Domain settings & context coverage** — introduced
+  `SettingsAndContextTests` under `NQueen.UnitTests/Tests/Domain/`. Covers the
+  previously-untested `BoardSettings` and `SimulationSettings` constants (with
+  size/delay/threshold invariants and the mutable `ProgressThresholdPct`), the
+  `SimulationContext` record (required args, optional sinks defaulting to
+  `null`/`CancellationToken.None`, provided-sink pass-through, value equality, and
+  `with` copies), and the three sink payload records `ProgressInfo`,
+  `SolutionFoundInfo`, and `QueenPlacedInfo` (payload round-trip via
+  `Memory<int>.Span`, plus `ProgressInfo` value equality). 15 new tests, all
+  passing.
 - **Added Console runner service-registration tests** — introduced
   `ConsoleServiceRegistrationTests` under `NQueen.UnitTests/Tests/Console/`.
   Covers `ConsoleServiceCollectionExtensions.AddNQueenServices`: formatter
