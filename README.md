@@ -2,7 +2,7 @@
 
 **SearchComparisonNet — C#/.NET app comparing search methods with benchmarks and visualizations.**
 
-SearchComparisonNet is a compact .NET project that implements, compares, and benchmarks multiple search algorithms over representative datasets. It includes console runners and simple visualization/export helpers so you can reproduce experiments, measure performance with BenchmarkDotNet, and export results for analysis or teaching.
+SearchComparisonNet is a small .NET 10 application that compares the efficiency of **linear search** and **binary search** over a generated, sorted integer dataset. It runs many randomized lookups with each strategy and reports average iteration counts and elapsed time side by side. The project includes a WPF UI for driving simulations and inspecting results, a console runner for automated experiments, and BenchmarkDotNet benchmarks for reproducible performance measurements.
 
 [![CI](https://github.com/Ramin-Developer/SearchComparisonNet/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramin-Developer/SearchComparisonNet/actions/workflows/ci.yml)
 
@@ -10,14 +10,27 @@ SearchComparisonNet is a compact .NET project that implements, compares, and ben
 
 ## Table of Contents
 
+- [What it does](#what-it-does)
 - [Features](#features)
-- [Project Structure](#project-structure)
+- [Solution layout](#solution-layout)
+- [Tech stack](#tech-stack)
 - [Prerequisites](#prerequisites)
-- [Build](#build)
-- [Run](#run)
+- [Build, test, and run](#build-test-and-run)
+- [Run examples](#run-examples)
 - [Benchmarks](#benchmarks)
 - [Contributing](#contributing)
 - [License](#license)
+
+---
+
+## What it does
+
+- Generates a sorted integer dataset of configurable size (Number of Entries).  
+- Runs a configurable number of randomized searches (Number of Searches) using both **linear** and **binary** strategies over the same dataset.  
+- Reports per-strategy averages (iteration count and elapsed time) so the two approaches can be compared directly.  
+- Supports single on‑demand lookups for a specific target value, showing its index (or `-1` when not found).  
+- Shows a compact preview of the generated collection (first, middle, and last values).  
+- Provides export helpers (CSV/JSON) so results can be plotted or analyzed externally.
 
 ---
 
@@ -25,30 +38,42 @@ SearchComparisonNet is a compact .NET project that implements, compares, and ben
 
 | Feature | Detail |
 |---|---|
-| **Multiple search algorithms** | Linear scan; binary search; indexed search; heuristic and hybrid approaches |
-| **Benchmarking** | Uses BenchmarkDotNet for reproducible microbenchmarks |
-| **Datasets** | Small synthetic sets and configurable real-world sample inputs |
-| **Visualization** | Simple console and exportable CSV/JSON for external plotting |
-| **Configurable runs** | Command-line flags for algorithm, dataset, size, and repeat counts |
-| **Extensible** | Modular design to add new search strategies and metrics |
+| **Algorithms** | Linear scan; binary search; pluggable strategy interface for adding new algorithms |
+| **Benchmarking** | BenchmarkDotNet benchmarks for microbenchmarks and reproducible results |
+| **Runners** | WPF GUI for interactive experiments; console runner for scripted runs |
+| **Export** | CSV/JSON export of results for external visualization |
+| **Configurable** | Dataset size, number of searches, seed, and algorithm selection via UI or CLI |
+| **Tests** | Unit tests for algorithms and data generation; view‑model tests for GUI logic |
 
 ---
 
-## Project Structure
+## Solution layout
+
 SearchComparisonNet/
 ├── src/
-│   ├── SearchComparisonNet.Core/     Core algorithms, interfaces, models
-│   ├── SearchComparisonNet.Console/  Console runner and CLI
-│   ├── SearchComparisonNet.Bench/    BenchmarkDotNet benchmarks
-│   └── SearchComparisonNet.Utils/    Helpers: IO, parsing, export
+│   ├── SearchComparisonNet.Kernel/     Core algorithms, data generation, models, interfaces
+│   ├── SearchComparisonNet.GUI/        WPF MVVM front end (net10.0-windows)
+│   ├── SearchComparisonNet.Console/    Console runner and CLI
+│   └── SearchComparisonNet.Bench/      BenchmarkDotNet benchmarks
 ├── tests/
-│   ├── SearchComparisonNet.UnitTests
-│   └── SearchComparisonNet.IntegrationTests
-├── docs/                             Project notes and TODOs
-├── .github/                          CI workflows and issue templates
+│   ├── SearchComparisonNet.Tests/      Unit tests for kernel
+│   └── SearchComparisonNet.ViewModelTests/
+├── docs/                               Project notes and TODOs
+├── .github/                            CI workflows and issue templates
 ├── README.md
 └── LICENSE
 
+
+---
+
+## Tech stack
+
+- **.NET 10** (`net10.0` / `net10.0-windows`)  
+- **WPF** (MVVM) for the GUI  
+- **BenchmarkDotNet** for benchmarks  
+- **xUnit** for unit tests  
+- **CommunityToolkit.Mvvm**, **FluentValidation**, and **Microsoft.Extensions.DependencyInjection** in the GUI  
+- Central package management via `Directory.Packages.props` and shared build settings in `Directory.Build.props`
 
 ---
 
@@ -56,17 +81,21 @@ SearchComparisonNet/
 
 | Requirement | Version |
 |---|---|
-| **.NET SDK** | **10.0** or later |
-| **OS (GUI)** | Windows 10 / 11 (if using any Windows-specific visual helpers) |
-| **OS (Console)** | Windows, Linux, or macOS |
+| .NET SDK | **10.0** or later |
+| OS (GUI) | Windows 10 / 11 (WPF requires `net10.0-windows`) |
+| OS (Console) | Windows, Linux, or macOS |
 
 ---
 
-## Build
+## Build, test, and run
 
-Clone and build the solution:
+From the repository root:
 
 ```bash
-git clone https://github.com/Ramin-Developer/SearchComparisonNet.git
-cd SearchComparisonNet
-dotnet build --configuration Release
+# Restore and build the whole solution
+dotnet build SearchComparisonNet.sln --configuration Release
+
+# Run all tests
+dotnet test SearchComparisonNet.sln --configuration Release
+
+
