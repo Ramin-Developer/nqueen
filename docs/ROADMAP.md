@@ -12,6 +12,11 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
+> **README legacy-rename fix complete** (PR #1, 2026-07-21). Replaced the stale
+> `SearchComparisonNet` README (left over from the pre-rename repository) with correct
+> NQueen content: solver modes, feature table, solution layout, CI badge, and build/test
+> commands. Docs-only; 651/651 tests passing, build clean.
+>
 > **Execution queue complete** (2025-04-23). All seven planned steps shipped or closed.
 > **NuGet package maintenance complete** (PR #28, 2026-06-23). All packages updated to
 > latest compatible versions: 9 packages updated including Microsoft.NET.Test.Sdk 18.7.0,
@@ -131,7 +136,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **`test/coverage-domain-settings-context`** — adds `SettingsAndContextTests` (Domain `Settings`/`Context` coverage). Branched off freshly-merged `main` (post-PR #38, `57cf574`). (Last shipped: `test/coverage-console-runner` via PR #38, squash-merged — Console runner service-registration tests. Prior: `migrate/fluentassertions-to-shouldly` via PR #33 — FluentAssertions → Shouldly migration.) |
+| Active branch | **`main`** — clean, no active branch. Last shipped: `fix/readme-legacy-rename` via PR #1 — README legacy-rename fix. Prior: `test/coverage-domain-settings-context` (Domain `Settings`/`Context` coverage, PR #38 series). |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` on this branch. Subsequently reorganized into behavior-based folders with a unified `Category`/`Speed` trait taxonomy, and the redundant `UniqueCountingAccuracyTests` was folded into `SolverSolutionCountTests` — both net-zero on the count. Still includes the 20 parity tests in `BitboardNQueenSolverTests`. |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
