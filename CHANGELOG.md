@@ -6,6 +6,19 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Chore
+- **`.editorconfig` consolidation — deleted dead `.editconfig`, merged rules.**
+  `.editconfig` (missing `or` in the filename) was an unread file that no editor or
+  tool ever processed. Deleted it and merged its three net-new rules into the canonical
+  `.editorconfig`: `trim_trailing_whitespace = true`; `IDE0065` (using-directive
+  placement) and `IDE0161` (file-scoped namespace) upgraded from `:silent` → `:warning`
+  so they surface as build warnings; `IDE0005` (remove unnecessary usings) kept at
+  `:suggestion` because it requires `GenerateDocumentationFile` to enforce on build
+  (Roslyn limitation — effective in the IDE). `csharp_style_namespace_declarations` and
+  `csharp_using_directive_placement` upgraded from `:silent` → `:warning` to match.
+  Deferred `charset = utf-8-bom` and `insert_final_newline` changes to avoid mass
+  file-content noise. Build clean: 0 errors / 0 warnings. 651 / 651 tests passing.
+
 ### CI
 - **Codecov coverage badge + no-regression ratchet wired** (`ci/coverage-badge-ratchet`).
   Extended the existing non-blocking `coverage` job in `.github/workflows/ci.yml`:

@@ -136,7 +136,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **`ci/coverage-badge-ratchet`** — wiring Codecov badge + no-regression ratchet. Branched off freshly-merged `main` (post-PR #4). |
+| Active branch | **`chore/editorconfig-consolidation`** — delete dead `.editconfig`, merge rules into `.editorconfig`. Branched off `ci/coverage-badge-ratchet`. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` added in that series.
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
@@ -144,6 +144,10 @@ baseline before touching production code, per the team's MEASURE-first practice.
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
+- **`.editorconfig` consolidation** (`chore/editorconfig-consolidation`, 2026-07-21).
+  Deleted dead `.editconfig`; merged `trim_trailing_whitespace`, IDE0065/IDE0161
+  warnings, and `:warning` severity for namespace/using-directive rules into
+  `.editorconfig`. Build clean, 651/651 tests passing.
 - **Codecov coverage badge + no-regression ratchet** (PR #5, `ci/coverage-badge-ratchet`,
   2026-07-21). Extended the non-blocking `coverage` job to run on PRs; added
   `Cobertura` report type + `codecov/codecov-action@v5` upload; created
@@ -635,17 +639,8 @@ effort × expected impact.
 
 ### Small wins, low risk
 
-- **`.editorconfig` consolidation — delete dead `.editconfig` and merge its rules.**
-  A file named `.editconfig` (missing `or`) exists at the repo root. No tool reads it;
-  it has never had any effect. It also contradicts `.editorconfig` on five settings
-  (`insert_final_newline`, `dotnet_sort_system_directives_first`,
-  `dotnet_separate_import_directive_groups`, `csharp_style_namespace_declarations`
-  severity, `csharp_using_directive_placement` severity). Action: delete `.editconfig`;
-  merge its three net-new rules into `.editorconfig` without touching file content
-  (diagnostic severities `IDE0005`/`IDE0065`/`IDE0161` → `warning`; upgrade
-  `file_scoped` namespace + `outside_namespace` using-directive from `:silent` →
-  `:warning`; add `trim_trailing_whitespace = true`). Defer charset/newline changes
-  to avoid mass file-content noise. Run a full build + test pass to confirm no regressions.
+- ~~**`.editorconfig` consolidation — delete dead `.editconfig` and merge its rules.**~~
+  _Shipped on `chore/editorconfig-consolidation`. See `CHANGELOG.md [Unreleased] → Chore`._
 
 ---
 
