@@ -631,6 +631,24 @@ effort × expected impact.
 
 ---
 
+## Backlog — Code Quality
+
+### Small wins, low risk
+
+- **`.editorconfig` consolidation — delete dead `.editconfig` and merge its rules.**
+  A file named `.editconfig` (missing `or`) exists at the repo root. No tool reads it;
+  it has never had any effect. It also contradicts `.editorconfig` on five settings
+  (`insert_final_newline`, `dotnet_sort_system_directives_first`,
+  `dotnet_separate_import_directive_groups`, `csharp_style_namespace_declarations`
+  severity, `csharp_using_directive_placement` severity). Action: delete `.editconfig`;
+  merge its three net-new rules into `.editorconfig` without touching file content
+  (diagnostic severities `IDE0005`/`IDE0065`/`IDE0161` → `warning`; upgrade
+  `file_scoped` namespace + `outside_namespace` using-directive from `:silent` →
+  `:warning`; add `trim_trailing_whitespace = true`). Defer charset/newline changes
+  to avoid mass file-content noise. Run a full build + test pass to confirm no regressions.
+
+---
+
 ## Backlog — CI & Tooling
 
 Non-perf infrastructure work. Items are listed roughly by effort × expected value.
