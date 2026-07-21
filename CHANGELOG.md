@@ -6,6 +6,20 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### CI
+- **Codecov coverage badge + no-regression ratchet wired** (`ci/coverage-badge-ratchet`).
+  Extended the existing non-blocking `coverage` job in `.github/workflows/ci.yml`:
+  (1) coverage now runs on every PR in addition to pushes to `main`; (2) `reportgenerator`
+  now emits `Cobertura` XML alongside the HTML artifact; (3) `codecov/codecov-action@v5`
+  uploads the filtered XML to Codecov (`fail_ci_if_error: false` so a missing token never
+  breaks a build). Added `.github/codecov.yml` — no-regression ratchet (`target: auto`,
+  1 % threshold), informational patch gate, PR comment layout, and ignore list scoped to
+  the three production assemblies (`NQueen.Domain`, `NQueen.Kernel`, `NQueen.Shared`).
+  Added Codecov badge to `README.md`. **One manual step required after merge:** add
+  `CODECOV_TOKEN` to the repo's Actions secrets (Settings → Secrets → Actions → New).
+  CI trigger broadened: `docs/**`, `test/**`, and `ci/**` branches now also trigger the
+  push workflow so these branch patterns don't have to wait for a PR to see CI results.
+
 ### Docs
 - **README rewritten: replaced legacy `SearchComparisonNet` content with correct NQueen
   description.** The file was the original README from the pre-rename repository and

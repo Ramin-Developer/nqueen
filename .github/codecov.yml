@@ -1,0 +1,38 @@
+# Codecov configuration for NQueen.
+# Docs: https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  precision: 2
+  round: down
+  range: "40...100"   # colour scale: red below 40 %, green at 100 %
+
+  status:
+    # Project gate: no-regression ratchet.
+    # target: auto  =>  "don't drop below the last successful commit" — no hard number.
+    # threshold: 1%  =>  allow up to 1 percentage-point drop before reporting a failure
+    #                    (absorbs minor run-to-run noise from the Category!=Slow filter).
+    # This gate is informational only because the coverage job has continue-on-error: true
+    # in ci.yml and will never block a merge.
+    project:
+      default:
+        target: auto
+        threshold: 1%
+
+    # Patch gate: report coverage on new lines introduced by a PR, but never fail.
+    # Kept informational so low-coverage utility PRs (docs, config) are not blocked.
+    patch:
+      default:
+        informational: true
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default    # update existing comment rather than posting a new one each push
+  require_changes: true  # only post a comment when coverage actually changes
+
+ignore:
+  - "NQueen.Benchmarking/**"
+  - "NQueen.Console/**"
+  - "NQueen.GUI/**"
+  - "NQueen.UnitTests/**"
+  - "NQueen.ViewModelTests/**"
+  - "NQueen.TestShared/**"

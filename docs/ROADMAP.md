@@ -136,7 +136,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **`main`** — clean, no active branch. Last shipped: `fix/readme-legacy-rename` via PR #1 — README legacy-rename fix. Prior: `test/coverage-domain-settings-context` (Domain `Settings`/`Context` coverage, PR #38 series). |
+| Active branch | **`ci/coverage-badge-ratchet`** — wiring Codecov badge + no-regression ratchet. Branched off freshly-merged `main` (post-PR #4). |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` added in that series.
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
@@ -144,7 +144,13 @@ baseline before touching production code, per the team's MEASURE-first practice.
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
-- **README legacy-rename fix** (PRs #1–#2, squash-merged, 2026-07-21). Replaced the
+- **Codecov coverage badge + no-regression ratchet** (PR #5, `ci/coverage-badge-ratchet`,
+  2026-07-21). Extended the non-blocking `coverage` job to run on PRs; added
+  `Cobertura` report type + `codecov/codecov-action@v5` upload; created
+  `.github/codecov.yml` (auto ratchet, informational patch gate); added badge to
+  `README.md`. CI triggers broadened to `docs/**`, `test/**`, `ci/**`. Docs-only
+  except `ci.yml` and `codecov.yml` — 651/651 tests passing, build clean.
+- **README legacy-rename fix** (PRs #1–#2, squash-merged, 2026-07-21).
   stale `SearchComparisonNet` README (left over from the pre-rename repository) with
   correct NQueen content: solver modes, feature table, solution layout, CI badge, and
   build/test/run commands. ROADMAP updated in the same pair of commits. Docs-only —
@@ -631,23 +637,11 @@ Non-perf infrastructure work. Items are listed roughly by effort × expected val
 
 ### Small wins, low risk
 
-- **Coverage measurement in CI (GitHub Actions).** Add a workflow that runs
-  `dotnet test --collect:"XPlat Code Coverage"` on every PR and uploads the result
-  as a **build artifact** — deliberately **not** committing raw coverage report
-  files (`coverage.cobertura.xml` / HTML) into the repo, since they bloat history
-  and produce noisy per-run diffs. Rationale: the "Code coverage" row in *Current
-  State* is a hand-maintained number that has already gone stale; automation
-  replaces it with live, per-PR data that cannot rot.
-  - _Optional add-on:_ wire Codecov or Coveralls for an auto-updating badge + PR
-    comment, then change the *Current State* coverage row to point at the badge
-    instead of any number.
-  - _Guardrail (do this only after a stable baseline exists):_ gate on
-    **no-regression / ratcheting** ("don't drop below current") rather than a fixed
-    aspirational `fail-under` target, and prefer the **branch**-coverage figure over
-    line coverage for a solver with many conditional paths.
-  - _Prerequisite already met:_ coverlet is wired (`--collect:"XPlat Code Coverage"`
-    works today; coverlet 10.0.1 came in via PR #28), so this is essentially one CI
-    step plus optional badge configuration.
+- ~~**Coverage measurement in CI (GitHub Actions).**~~ _Shipped on `ci/coverage-badge-ratchet`.
+  `codecov/codecov-action@v5` upload wired into the existing non-blocking `coverage` job;
+  `.github/codecov.yml` added with no-regression ratchet (`target: auto`, 1 % threshold)
+  and informational patch gate. Badge added to `README.md`. One manual step after merge:
+  add `CODECOV_TOKEN` to repo Actions secrets. See `CHANGELOG.md [Unreleased] → CI`._
 
 ---
 

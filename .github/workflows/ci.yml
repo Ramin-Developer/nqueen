@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, "refactor/**", "feature/**", "fix/**"]
+    branches: [main, "refactor/**", "feature/**", "fix/**", "ci/**", "docs/**", "test/**"]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -57,7 +57,10 @@ jobs:
   coverage:
     name: Coverage report (non-blocking)
     runs-on: windows-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'pull_request'
     continue-on-error: true
     timeout-minutes: 60
 
@@ -103,7 +106,7 @@ jobs:
           reportgenerator
           -reports:"**/coverage.cobertura.xml"
           -targetdir:CoverageReport
-          -reporttypes:Html
+          -reporttypes:Html;Cobertura
           -assemblyfilters:+NQueen.Domain;+NQueen.Kernel;+NQueen.Shared
 
       - name: Upload coverage artifact
@@ -112,3 +115,11 @@ jobs:
           name: coverage-report
           path: CoverageReport
           retention-days: 14
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: CoverageReport/Cobertura.xml
+          flags: unittests
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
