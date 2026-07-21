@@ -138,7 +138,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
 | Active branch | **`main`** — clean, no active branch. Last shipped: `fix/readme-legacy-rename` via PR #1 — README legacy-rename fix. Prior: `test/coverage-domain-settings-context` (Domain `Settings`/`Context` coverage, PR #38 series). |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` on this branch. Subsequently reorganized into behavior-based folders with a unified `Category`/`Speed` trait taxonomy, and the redundant `UniqueCountingAccuracyTests` was folded into `SolverSolutionCountTests` — both net-zero on the count. Still includes the 20 parity tests in `BitboardNQueenSolverTests`. |
+| Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` added in that series.
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
 | Build status | 0 errors / 0 warnings |
 
@@ -150,7 +150,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
   build/test/run commands. ROADMAP updated in the same pair of commits. Docs-only —
   651/651 tests passing, build clean.
 - **Test-suite reorganization + consolidation** (shipped on `test/coverage-domain-settings-context`, PR #38 series).
-  into behavior-based folders (`Solver/`, `Counts/`, `Symmetry/`, `Domain/`,
+  Restructured `NQueen.UnitTests` into behavior-based folders
   `Shared/`, `Registration/`) and unified `[Trait]` usage on two orthogonal axes
   (`Category` for behavior, `Speed` for `Slow`/`Heavy`), enabling fast-subset
   filtering. Folded the redundant `UniqueCountingAccuracyTests` into
@@ -158,8 +158,7 @@ baseline before touching production code, per the team's MEASURE-first practice.
   indirection in that file. Test-only, history-preserving (`git mv`) — **651/651
   unchanged**, build clean. See the `## Test Organization & Trait Convention`
   section below for the taxonomy.
-- **Test-coverage expansion series** (PRs #35–#38, squash-merged, plus the active
-  `test/coverage-domain-settings-context` branch). Grew the suite from 535 to 651
+- **Test-coverage expansion series** (PRs #35–#38, squash-merged). Grew the suite from 535 to 651
   tests across four themed passes: validation & GUI-converter edge cases
   (`BoardSizeValidatorTests`, `ConverterTests`), Kernel solver edge cases
   (`BitmaskSolverConfigTests`, `ProgressReporterTests`), Console runner
