@@ -1,10 +1,8 @@
-# SearchComparisonNet
+# NQueen
 
-**SearchComparisonNet — C#/.NET app comparing search methods with benchmarks and visualizations.**
+**NQueen — high-performance N-Queens solver with WPF visualisation, console runner, and BenchmarkDotNet benchmarks.**
 
-SearchComparisonNet is a small .NET 10 application that compares the efficiency of **linear search** and **binary search** over a generated, sorted integer dataset. It runs many randomized lookups with each strategy and reports average iteration counts and elapsed time side by side. The project includes a WPF UI for driving simulations and inspecting results, a console runner for automated experiments, and BenchmarkDotNet benchmarks for reproducible performance measurements.
-
-[![CI](https://github.com/Ramin-Developer/SearchComparisonNet/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramin-Developer/SearchComparisonNet/actions/workflows/ci.yml)
+[![CI](https://github.com/Ramin-Developer/NQueen/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramin-Developer/NQueen/actions/workflows/ci.yml)
 
 ---
 
@@ -16,7 +14,6 @@ SearchComparisonNet is a small .NET 10 application that compares the efficiency 
 - [Tech stack](#tech-stack)
 - [Prerequisites](#prerequisites)
 - [Build, test, and run](#build-test-and-run)
-- [Run examples](#run-examples)
 - [Benchmarks](#benchmarks)
 - [Contributing](#contributing)
 - [License](#license)
@@ -25,12 +22,15 @@ SearchComparisonNet is a small .NET 10 application that compares the efficiency 
 
 ## What it does
 
-- Generates a sorted integer dataset of configurable size (Number of Entries).  
-- Runs a configurable number of randomized searches (Number of Searches) using both **linear** and **binary** strategies over the same dataset.  
-- Reports per-strategy averages (iteration count and elapsed time) so the two approaches can be compared directly.  
-- Supports single on‑demand lookups for a specific target value, showing its index (or `-1` when not found).  
-- Shows a compact preview of the generated collection (first, middle, and last values).  
-- Provides export helpers (CSV/JSON) so results can be plotted or analyzed externally.
+Solves the N-Queens problem — placing N non-attacking queens on an N×N chessboard — across three modes:
+
+| Mode | Description |
+|---|---|
+| **All** | Enumerate every distinct solution (or just count them) |
+| **Unique** | Enumerate symmetry-reduced canonical solutions (or just count them) |
+| **Single** | Find one valid placement quickly |
+
+Results are streamed in real time to both a WPF chessboard visualisation and a solution-list panel. Progress reporting and cancellation are fully supported.
 
 ---
 
@@ -38,42 +38,47 @@ SearchComparisonNet is a small .NET 10 application that compares the efficiency 
 
 | Feature | Detail |
 |---|---|
-| **Algorithms** | Linear scan; binary search; pluggable strategy interface for adding new algorithms |
-| **Benchmarking** | BenchmarkDotNet benchmarks for microbenchmarks and reproducible results |
-| **Runners** | WPF GUI for interactive experiments; console runner for scripted runs |
-| **Export** | CSV/JSON export of results for external visualization |
-| **Configurable** | Dataset size, number of searches, seed, and algorithm selection via UI or CLI |
-| **Tests** | Unit tests for algorithms and data generation; view‑model tests for GUI logic |
+| **Bitmask solver** | `BitmaskSolver` — the single production solver, split across partial-class files for clarity |
+| **Bitboard count** | `BitboardNQueenSolver` — static pure-count utility with half-board symmetry reduction and parallel partitioning |
+| **Symmetry reduction** | Unique mode prunes reflections and rotations via a canonical prefix gate |
+| **Parallelism** | Chunk-of-1 dynamic partitioner over depth-2 work items; tuned for N ≥ 16 |
+| **WPF UI** | MVVM front end — animated queen placement, solution list, board-size selector, progress bar |
+| **Console runner** | Headless runner for scripted experiments |
+| **Benchmarks** | BenchmarkDotNet suite (`AllCountOnly`, `Unique`, `RecursiveVsIterative`, …) |
+| **Tests** | 651 passing tests across unit, view-model, and shared test infrastructure |
 
 ---
 
 ## Solution layout
 
-SearchComparisonNet/
-├── src/
-│   ├── SearchComparisonNet.Kernel/     Core algorithms, data generation, models, interfaces
-│   ├── SearchComparisonNet.GUI/        WPF MVVM front end (net10.0-windows)
-│   ├── SearchComparisonNet.Console/    Console runner and CLI
-│   └── SearchComparisonNet.Bench/      BenchmarkDotNet benchmarks
-├── tests/
-│   ├── SearchComparisonNet.Tests/      Unit tests for kernel
-│   └── SearchComparisonNet.ViewModelTests/
-├── docs/                               Project notes and TODOs
-├── .github/                            CI workflows and issue templates
+```
+NQueen/
+├── NQueen.Domain/          Interfaces, models, enums, context records, settings, utilities
+├── NQueen.Kernel/          Solver implementations (BitmaskSolver, BitboardNQueenSolver) + DI extensions
+├── NQueen.Shared/          Cross-cutting helpers (parsing, numerics)
+├── NQueen.GUI/             WPF MVVM front end (net10.0-windows)
+├── NQueen.Console/         Console runner
+├── NQueen.UnitTests/       Kernel / domain unit tests
+├── NQueen.ViewModelTests/  ViewModel-level integration tests
+├── NQueen.TestShared/      Shared test infrastructure
+├── NQueen.Benchmarking/    BenchmarkDotNet benchmarks
+├── docs/                   ROADMAP.md, GUI audit, benchmark artefacts
+├── .github/workflows/      CI (build-test fast gate + non-blocking coverage report)
 ├── README.md
 └── LICENSE
-
+```
 
 ---
 
 ## Tech stack
 
-- **.NET 10** (`net10.0` / `net10.0-windows`)  
-- **WPF** (MVVM) for the GUI  
-- **BenchmarkDotNet** for benchmarks  
-- **xUnit** for unit tests  
-- **CommunityToolkit.Mvvm**, **FluentValidation**, and **Microsoft.Extensions.DependencyInjection** in the GUI  
-- Central package management via `Directory.Packages.props` and shared build settings in `Directory.Build.props`
+- **.NET 10** (`net10.0` / `net10.0-windows` for the GUI)
+- **WPF** (MVVM via `CommunityToolkit.Mvvm`) for the GUI
+- **BenchmarkDotNet** for reproducible microbenchmarks
+- **xUnit** + **Shouldly** for unit and view-model tests
+- **FluentValidation** for input validation
+- **Microsoft.Extensions.DependencyInjection** for DI composition
+- Central package management via `Directory.Packages.props`; shared build settings in `Directory.Build.props`
 
 ---
 
@@ -82,8 +87,8 @@ SearchComparisonNet/
 | Requirement | Version |
 |---|---|
 | .NET SDK | **10.0** or later |
-| OS (GUI) | Windows 10 / 11 (WPF requires `net10.0-windows`) |
-| OS (Console) | Windows, Linux, or macOS |
+| OS (GUI) | Windows 10 / 11 (`net10.0-windows`) |
+| OS (Console / tests) | Windows, Linux, or macOS |
 
 ---
 
@@ -93,9 +98,25 @@ From the repository root:
 
 ```bash
 # Restore and build the whole solution
-dotnet build SearchComparisonNet.sln --configuration Release
+dotnet build --configuration Release
 
-# Run all tests
-dotnet test SearchComparisonNet.sln --configuration Release
+# Run all tests (fast subset — skips heavy enumeration tests)
+dotnet test --configuration Release --filter "Category!=Slow"
 
+# Run every test including slow enumeration tests
+dotnet test --configuration Release
 
+# Run the console runner
+dotnet run --project NQueen.Console --configuration Release
+```
+
+---
+
+## Benchmarks
+
+```bash
+cd NQueen.Benchmarking
+dotnet run -c Release
+```
+
+Key benchmark classes: `AllCountOnlyParallelScalingBenchmark`, `AllCountOnlyRecursiveVsIterativeBenchmark`, `UniqueFastHalfBoardEvenOddBenchmark`.

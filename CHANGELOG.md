@@ -7,6 +7,13 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Docs
+- **README rewritten: replaced legacy `SearchComparisonNet` content with correct NQueen
+  description.** The file was the original README from the pre-rename repository and
+  described an unrelated search-comparison application. It now accurately describes the
+  NQueen project: solver modes (All / Unique / Single), feature table, correct solution
+  layout, CI badge pointing to `Ramin-Developer/NQueen`, and correct `dotnet` build /
+  test / run commands. Source-only change (`README.md`); no production code affected.
+
 - **Coverage reporting: stopped hand-maintaining a stale number, registered CI
   automation as backlog.** Rewrote the `docs/ROADMAP.md` *Current State* "Code
   coverage" row so it no longer presents the frozen `40.24 % line / 23.36 % branch`
