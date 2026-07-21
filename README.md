@@ -3,6 +3,7 @@
 **NQueen — high-performance N-Queens solver with WPF visualisation, console runner, and BenchmarkDotNet benchmarks.**
 
 [![CI](https://github.com/Ramin-Developer/NQueen/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramin-Developer/NQueen/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Ramin-Developer/NQueen/branch/main/graph/badge.svg)](https://codecov.io/gh/Ramin-Developer/NQueen)
 
 ---
 
