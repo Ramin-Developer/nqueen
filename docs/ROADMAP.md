@@ -144,8 +144,12 @@ baseline before touching production code, per the team's MEASURE-first practice.
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
-- **Test-suite reorganization + consolidation** (on the active
-  `test/coverage-domain-settings-context` branch). Restructured `NQueen.UnitTests`
+- **README legacy-rename fix** (PRs #1–#2, squash-merged, 2026-07-21). Replaced the
+  stale `SearchComparisonNet` README (left over from the pre-rename repository) with
+  correct NQueen content: solver modes, feature table, solution layout, CI badge, and
+  build/test/run commands. ROADMAP updated in the same pair of commits. Docs-only —
+  651/651 tests passing, build clean.
+- **Test-suite reorganization + consolidation** (shipped on `test/coverage-domain-settings-context`, PR #38 series).
   into behavior-based folders (`Solver/`, `Counts/`, `Symmetry/`, `Domain/`,
   `Shared/`, `Registration/`) and unified `[Trait]` usage on two orthogonal axes
   (`Category` for behavior, `Speed` for `Slow`/`Heavy`), enabling fast-subset
