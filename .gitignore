@@ -1,10 +1,10 @@
-# Shared Git ignore template for this workflow repository
-# This file is intended to be copied into other repositories and adapted as needed.
-# It includes common rules for:
-# - general OS/editor noise
-# - .NET/C# projects
-# - LaTeX documents
-# - MATLAB/Octave projects
+# Shared .gitignore template synced from developer-workflow.
+# Copy this file into repositories that need consistent ignore rules for:
+# - general OS/editor artifacts
+# - .NET / C# / F# solutions
+# - LaTeX / PDF projects
+# - MATLAB / Octave work
+# - common Python, Node.js, and JVM tooling
 
 # -------------------------
 # OS files
@@ -24,66 +24,287 @@ $RECYCLE.BIN/
 .vs/
 .vscode/
 .idea/
+.localhistory/
+Generated\ Files/
+MigrationBackup/
+*.rsuser
+*.suo
 *.swp
 *.swo
+*.user
+*.userosscache
+*.userprefs
+*.sln.docstates
 *~
 
 # -------------------------
-# .NET / C# projects
+# Logs, temp files, backups
+# -------------------------
+*.bak
+*.binlog
+*.log
+*.orig
+*.pidb
+*.psess
+*.svclog
+*.tmp
+*.tmp_proj
+*.vsp
+*.vspx
+
+# -------------------------
+# .NET / Visual Studio / F#
 # -------------------------
 [Bb]in/
 [Oo]bj/
+[Oo]ut/
 [Dd]ebug/
+[Dd]ebugPublic/
 [Rr]elease/
+[Rr]eleases/
 x64/
 x86/
+[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
 [Ll]og/
 [Ll]ogs/
-TestResults/
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
+artifacts/
+packages/
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
 *.nupkg
 *.snupkg
-packages/
-artifacts/
-coverage*.xml
-coverage*.info
+*.nuget.props
+*.nuget.targets
+*.fsproj.user
+*.fsx.locked
+*.fsharplint
+
+# -------------------------
+# Tests, coverage, benchmarks
+# -------------------------
+[Tt]est[Rr]esult*/
+TestResult.xml
+nunit-*.xml
 *.coverage
 *.coveragexml
+coverage*.info
+coverage*.json
+coverage*.xml
 BenchmarkDotNet.Artifacts/
 _NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+OpenCover/
+
+# -------------------------
+# ReSharper, Rider, profilers, tooling
+# -------------------------
+_ReSharper*/
+*.[Rr]e[Ss]harper
 *.DotSettings.user
+.axoCover/*
+!.axoCover/settings.json
+_TeamCity*
+AutoTest.Net/
+.sass-cache/
+.mfractor/
+.ionide/
+.fake/
+.paket/paket.exe
+paket-files/
+.cr/personal
+FodyWeavers.xsd
+FakesAssemblies/
+*.GhostDoc.xml
+*.jmconfig
+*.mm.*
+*.tss
+healthchecksdb
+
+# -------------------------
+# Native and generated build artifacts
+# -------------------------
+*_h.h
+*_i.c
+*_p.c
+.builds
+*.e2e
+*.ilk
+*.ipdb
+*.iobj
+*.meta
+*.nvuser
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sap
+*.sbr
+*.scc
+*.tlb
+*.tli
+*.tlh
+*.vspscc
+*.vssscc
+*.dotCover
 
 # -------------------------
 # LaTeX / PDF build artifacts
 # -------------------------
+*.acn
+*.acr
+*.alg
+*.atfi
 *.aux
+*.auxlock
 *.bbl
+*.bbl-SAVE-ERROR
 *.bcf
+*.bcf-SAVE-ERROR
 *.blg
+*.brf
+*.cb
+*.cb2
+*.cut
+*.dpth
+*.ent
 *.fdb_latexmk
 *.fls
-*.log
-*.out
-*.run.xml
-*.synctex.gz
-*.toc
-*.xdv
+*.fmt
+*.fot
+*.gaux
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.gnuplot
+*.hd
+*.hst
+*.idx
+*.idv
+*.ilg
+*.ind
+*.listing
+*.loa
+*.lof
+*.loe
+*.lol
+*.lot
+*.lox
+*.ltjruby
+*.maf
+*.md5
+*.mtc[0-9]*
+*.mw
 *.nav
+*.newpax
+*.nlg
+*.nlo
+*.nls
+*.out
+*.pax
+*.pdf
+*.pdfpc
+*.pdfsync
+*.pre
+*.ptc
+*.pyg
+*.run.xml
+*.sagetex.py
+*.sagetex.sage
+*.sagetex.scmd
+*.slf[0-9]*
+*.slt[0-9]*
 *.snm
+*.soc
+*.spell.bad
+*.spell.txt
+*.spl
+*.sta
+*.stc[0-9]*
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.table
+*.tdo
+*.thm
+*.toc
+*.trc
+*.tuc
+*.tui
+*.tuo
+*.upa
+*.upb
+*.ver
 *.vrb
+*.wrt
+*.xcp
+*.xdy
+*.xdv
+*.xmpi
+*.xwm
+*.xyc
+*.xyd
+*.xref
+latex.out/
+_minted*/
+pythontex-files-*/
+rubber.cache
+svg-inkscape/
+sympy-plots-for-*.tex/
 
 # -------------------------
-# MATLAB / Octave
+# MATLAB / Octave / Simulink
 # -------------------------
 *.asv
+*.autosave
+*.fig
 *.m~
+*.mat
 *.slx.autosave
 *.slxc
-*.mat
-*.fig
+
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+.ipynb_checkpoints/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+env/
+venv/
+
+# -------------------------
+# Node.js / JavaScript / TypeScript
+# -------------------------
+.eslintcache
+.next/
+.nuxt/
+.parcel-cache/
+.turbo/
+build/
+dist/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -------------------------
+# Java / JVM
+# -------------------------
+.gradle/
+*.class
+target/
