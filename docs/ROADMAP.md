@@ -144,6 +144,14 @@ baseline before touching production code, per the team's MEASURE-first practice.
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
+- **Stop/Resume pause for Visualized Single mode (N ≤ 8)** (`feat/visualize-single-pause`).
+  New toggle button pauses/resumes the live queen-placement animation, freezing placed
+  queens and resuming exactly where the DFS stopped. Cooperative pause gate
+  (`ManualResetEventSlim`) threaded `SimulationContext` → `BitmaskSolver` →
+  `BitmaskSearchEngine.Request.WaitIfPaused`, invoked only on the `s._Visualize` path so
+  the perf-critical count/parallel loops are untouched. Button visible only for
+  `Visualize` + `Single` within `MaxVisualizeSingleBoardSize` (= 8). 10 new
+  `MainViewModelPauseTests`; ViewModelTests 135/135, build clean.
 - **`.editorconfig` consolidation** (`chore/editorconfig-consolidation`, 2026-07-21).
   Deleted dead `.editconfig`; merged `trim_trailing_whitespace`, IDE0065/IDE0161
   warnings, and `:warning` severity for namespace/using-directive rules into

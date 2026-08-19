@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public partial class ChessboardViewModel(IDispatcher uiDispatcher) : ObservableObject
 {
@@ -10,6 +10,13 @@ public partial class ChessboardViewModel(IDispatcher uiDispatcher) : ObservableO
 
     [ObservableProperty]
     private double _windowHeight;
+
+    // The grid dimension (columns == rows) that matches the currently populated Squares collection.
+    // Bound by the UniformGrid in ChessboardView so the layout dimension and the squares are always
+    // updated together from CreateSquares, preventing transient distortion when board size, solution
+    // mode, or display mode change in different orders.
+    [ObservableProperty]
+    private int _boardDimension;
 
     public string QueenImagePath { get; } = BoardSettings.QueenImageResource;
 
@@ -60,6 +67,17 @@ public partial class ChessboardViewModel(IDispatcher uiDispatcher) : ObservableO
         _lastBoardSize = boardSize;
         _lastWidth = WindowWidth;
         _lastHeight = WindowHeight;
+
+        // Publish the dimension AFTER the squares are populated so the UniformGrid never lays out
+        // the new squares against a stale column/row count (the source of the observed distortion).
+        BoardDimension = boardSize;
+
+        // Invariant: the layout dimension and the populated squares must always agree; a mismatch
+        // would reintroduce the distortion this method is designed to prevent. DEBUG-only, no cost
+        // in Release (Debug.Assert is [Conditional("DEBUG")]).
+        Debug.Assert(
+            Squares.Count == BoardDimension * BoardDimension,
+            $"Chessboard invariant violated: {Squares.Count} squares for dimension {BoardDimension}.");
     }
 
     public bool IsBoardStateUpdatedAndSquaresPopulated(int boardSize) =>

@@ -29,7 +29,7 @@
             <ItemsControl ItemsSource="{Binding ChessboardVm.Squares}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="{Binding BoardSize}" Rows="{Binding BoardSize}" />
+                        <UniformGrid Columns="{Binding ChessboardVm.BoardDimension}" Rows="{Binding ChessboardVm.BoardDimension}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 

@@ -6,6 +6,59 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Fixed
+- **Chessboard no longer distorts when changing board size, solution mode, or display mode.**
+  The `UniformGrid` in `ChessboardView.xaml` bound its `Columns`/`Rows` to
+  `MainViewModel.BoardSize` (a computed property whose change is raised in only one code path),
+  while the `Squares` collection is rebuilt from several paths (`ResetChessboard`,
+  `EnsureBoardSized`, `CreateSquares`). When the squares were repopulated for a new size but the
+  grid still held the previous column/row count, the board was laid out against the wrong
+  dimension — producing the order-dependent distortion. Added a `BoardDimension` observable to
+  `ChessboardViewModel`, set at the end of `CreateSquares` (after the squares are populated), and
+  rebound the `UniformGrid` to it so the layout dimension and the squares always change atomically.
+  Added `ChessboardViewModelTests` asserting `Squares.Count == BoardDimension * BoardDimension`
+  across multiple sizes and consecutive resizes, plus a DEBUG-only `Debug.Assert` invariant in
+  `CreateSquares`.
+- **Delay slider is now locked at its decided value during a simulation.**
+  delay mid-run had little effect because the engine had already captured the pacing value,
+  which was confusing. The slider's `IsEnabled` now binds to a new `CanEditDelaySlider`
+  property (`DisplayMode == Visualize && !IsSimulating`) so it is disabled while a simulation
+  is running and re-enabled when it finishes, keeping the delay fixed at the value chosen
+  before the run started. Notifications are raised on `IsSimulating` and `DisplayMode` changes.
+- **Visualized Single delay now stays in sync with the queen placements.**
+  The UI `DispatcherTimer` previously ran at the full delay interval, matching the engine's
+  own `Thread.Sleep(delay)` between placements. Because `DispatcherTimer` is imprecise
+  (~15ms granularity) it drifted against the engine's precise sleep, letting a backlog build
+  in the channel so the display fell progressively behind. The engine is now the single pacing
+  clock; the UI timer polls at half the delay (`ComputePollInterval`, min 1ms) so every frame
+  renders as soon as it arrives and the visible spacing equals the fixed delay. On Resume,
+  `TogglePause` re-establishes the poll interval via `SyncTimerInterval` before restarting the
+  timer, so the fixed-delay pacing is reapplied from the last placement.
+- **Visualized Single animation no longer skips stages / runs ahead of the engine.**
+  The queen-placement pipeline used a conflating capacity-1 `DropOldest` channel while the
+  UI timer ran its own "one column per tick" sub-animation, so intermediate placements and
+  backtracks were dropped and the board appeared to "jump over stages" (most visible around
+  Stop/Resume). When a delay is set, `MainViewModel.SimulateAsync` now uses an unbounded FIFO
+  `Channel<QueenPlacedInfo>` and `DrainQueenPlacedChannel` consumes exactly one engine frame
+  per timer tick, keeping the display in lock-step with the engine so evaluation resumes right
+  after the last placement. The no-delay fast path keeps the conflating (latest-only) channel.
+
+### Added
+- **Stop/Resume pause control for Visualized Single mode (N ≤ 8).** A new toggle button
+  in `SimulationPanel.xaml` lets the user pause the live queen-placement animation and
+  resume it exactly where it stopped; placed queens stay on the board while paused. The
+  button label toggles between "Stop" and "Resume" and is visible only for the
+  `Visualize` + `Single` mode within `SimulationSettings.MaxVisualizeSingleBoardSize`
+  (= 8); it is hidden for every other mode/size. Implemented cooperatively: an optional
+  `ManualResetEventSlim PauseGate` is threaded through `SimulationContext` →
+  `BitmaskSolver` → a new `WaitIfPaused` action on `BitmaskSearchEngine.Request`, invoked
+  once per `MainLoop` iteration **guarded by `s._Visualize`** so the count/parallel hot
+  paths are untouched (null gate + guard = zero cost). The gate is created per-run in
+  `MainViewModel.SimulateAsync`, released on `Cancel` (so a paused wait unblocks and
+  observes cancellation), and disposed at run end / on `Dispose`. Added
+  `MainViewModelPauseTests` (visibility matrix, label default/flip, command enablement,
+  and a live-run toggle asserting gate reset/set). Build clean; ViewModelTests 135/135.
+
 ### Chore
 - **`.editorconfig` consolidation — deleted dead `.editconfig`, merged rules.**
   `.editconfig` (missing `or` in the filename) was an unread file that no editor or

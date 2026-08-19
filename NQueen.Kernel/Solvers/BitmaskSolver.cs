@@ -1,4 +1,4 @@
-﻿namespace NQueen.Kernel.Solvers;
+namespace NQueen.Kernel.Solvers;
 
 public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
     int maxDisplayedCount = SimulationSettings.MaxDisplayedCount) : ISolver, IDisposable
@@ -39,6 +39,17 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
     // "cancellation requested", so direct Solve() callers and benchmarks that omit it
     // are unaffected.
     private bool IsCancellationRequested => _cancellation.IsCancellationRequested;
+
+    // Cooperative pause for the animated Single/Visualize path: blocks the search loop while the
+    // gate is reset (paused), leaving placed queens on the board, and returns when it is set
+    // (resumed). A cancellation wakes the wait so the loop can observe IsCancellationRequested.
+    private void WaitIfPaused()
+    {
+        var gate = _pauseGate;
+        if (gate is null || gate.IsSet) return;
+        try { gate.Wait(_cancellation); }
+        catch (OperationCanceledException) { /* cancellation observed by the search loop */ }
+    }
 
     /// <summary>When <see langword="true"/> (default), pushes queen-placement, solution-found, and
     /// progress notifications through the <see cref="SimulationContext"/> sinks during solving.
@@ -109,6 +120,7 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
             _cancellation = simContext.Cancellation;
             _onSolutionFound = simContext.OnSolutionFound;
             _onQueenPlaced = simContext.OnQueenPlaced;
+            _pauseGate = simContext.PauseGate;
             return Solve();
         });
 
@@ -290,6 +302,7 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
     private IProgress<SolutionFoundInfo>? _onSolutionFound;
     private ChannelWriter<QueenPlacedInfo>? _onQueenPlaced;
     private CancellationToken _cancellation;
+    private ManualResetEventSlim? _pauseGate;
     private readonly bool _capEnabled = true;
     private readonly int _maxDisplayedCount = maxDisplayedCount;
     private volatile bool _eventsSuppressedAfterCap;

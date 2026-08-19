@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public sealed partial class MainViewModel
 {
@@ -27,7 +27,22 @@ public sealed partial class MainViewModel
             b.DelayInMillisec = clamped;
 
         if (_visualizeTimer != null)
-            _visualizeTimer.Interval = TimeSpan.FromMilliseconds(clamped > 0 ? clamped : 1);
+            _visualizeTimer.Interval = ComputePollInterval(clamped);
+    }
+
+    // The engine is the single pacing clock: it emits one frame then Thread.Sleep(delay) between
+    // every placement/backtrack. The UI timer must therefore only poll *faster* than the engine
+    // produces so each frame is rendered promptly (one per tick) and the visible spacing equals the
+    // engine's precise delay. Polling AT the delay would make the imprecise DispatcherTimer drift
+    // against the engine's sleep and fall progressively behind. Half the delay (min 1ms) keeps the
+    // UI comfortably ahead without busy-spinning.
+    private static TimeSpan ComputePollInterval(int delayMs)
+    {
+        if (delayMs <= 0)
+            return TimeSpan.FromMilliseconds(1);
+
+        int poll = Math.Max(1, delayMs / 2);
+        return TimeSpan.FromMilliseconds(poll);
     }
 
     // --- Visualization timer helpers ---
@@ -41,7 +56,7 @@ public sealed partial class MainViewModel
 
         _visualizeTimer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(clamped > 0 ? clamped : 1)
+            Interval = ComputePollInterval(clamped)
         };
         _visualizeTimer.Tick += VisualizationTimer_Tick;
     }
@@ -73,16 +88,12 @@ public sealed partial class MainViewModel
 
         if (DelayInMilliseconds > 0)
         {
-            // Animated path: advance one column per tick for a smooth placement effect.
-            if (_displayedDepth < _pendingDepth)
-            {
-                int nextDepth = _displayedDepth + 1;
-                RenderPrefix(_pendingPrefixRows, nextDepth);
-                _displayedPrefixRows = _pendingPrefixRows;
-                _displayedDepth = nextDepth;
-            }
-            else if (_displayedPrefixRows == null ||
-                     !RowsEqual(_displayedPrefixRows, _pendingPrefixRows, _pendingDepth))
+            // Animated path: each drained frame is already a single engine step (one placement or
+            // backtrack), so render the staged prefix as-is. Consuming one frame per tick keeps the
+            // display in lock-step with the engine instead of running a second, drifting clock.
+            if (_displayedPrefixRows == null ||
+                _displayedDepth != _pendingDepth ||
+                !RowsEqual(_displayedPrefixRows, _pendingPrefixRows, _pendingDepth))
             {
                 RenderPrefix(_pendingPrefixRows, _pendingDepth);
             }
@@ -165,10 +176,24 @@ public sealed partial class MainViewModel
 
         bool drainedAny = false;
         QueenPlacedInfo latest = default;
-        while (reader.TryRead(out var info))
+        if (DelayInMilliseconds > 0)
         {
-            latest = info;
-            drainedAny = true;
+            // Delayed animation: consume exactly ONE engine frame per tick so every placement and
+            // backtrack is rendered in order and the board never jumps ahead of the engine.
+            if (reader.TryRead(out var info))
+            {
+                latest = info;
+                drainedAny = true;
+            }
+        }
+        else
+        {
+            // No delay: only the most recent prefix matters; collapse the queue to the latest frame.
+            while (reader.TryRead(out var info))
+            {
+                latest = info;
+                drainedAny = true;
+            }
         }
 
         if (!drainedAny) return;
@@ -210,7 +235,7 @@ public sealed partial class MainViewModel
         int clamped = DelayInMilliseconds <= 0
             ? 0
             : Math.Max(SimulationSettings.MinDelayInMilliseconds, DelayInMilliseconds);
-        _visualizeTimer.Interval = TimeSpan.FromMilliseconds(clamped > 0 ? clamped : 1);
+        _visualizeTimer.Interval = ComputePollInterval(clamped);
     }
 
     // --- Solution sink callback (replaces the former SolutionFound event handler) ---

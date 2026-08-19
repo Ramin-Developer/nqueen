@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public sealed partial class MainViewModel : ObservableObject
 {
@@ -12,6 +12,11 @@ public sealed partial class MainViewModel : ObservableObject
     // Disable DisplayMode and Delay editing while simulating
     public bool CanEditDisplayMode => IsInInputMode && !IsSimulating;
     public bool CanEditDelay => IsInInputMode && !IsSimulating;
+
+    // The delay slider is only meaningful in Visualize mode and must stay fixed at the value
+    // decided before the run starts, because changing it mid-simulation has little effect on the
+    // already-running engine. Keep it enabled only when visualizing and not simulating.
+    public bool CanEditDelaySlider => DisplayMode == DisplayMode.Visualize && !IsSimulating;
 
     [ObservableProperty]
     private string _progressLabel = string.Empty;
@@ -129,6 +134,7 @@ public sealed partial class MainViewModel : ObservableObject
         RefreshCommandStates();
         OnPropertyChanged(nameof(CanEditDisplayMode));
         OnPropertyChanged(nameof(CanEditDelay));
+        OnPropertyChanged(nameof(CanEditDelaySlider));
     }
 
     [ObservableProperty]
@@ -226,4 +232,19 @@ public sealed partial class MainViewModel : ObservableObject
     }
 
     public bool CanChangeStorageMode => !IsVisualized && IsInInputMode && SolutionMode != SolutionMode.Single;
+
+    // --- Stop/Resume pause (Visualized Single mode, N <= 8 only) ---
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(PauseButtonLabel))]
+    private bool _isPaused;
+
+    public string PauseButtonLabel => IsPaused ? "Resume" : "Stop";
+
+    // The button exists only for the Visualized Single mode with N <= 8; hidden otherwise.
+    public Visibility PauseButtonVisibility =>
+        DisplayMode == DisplayMode.Visualize &&
+        SolutionMode == SolutionMode.Single &&
+        BoardSize <= SimulationSettings.MaxVisualizeSingleBoardSize
+            ? Visibility.Visible
+            : Visibility.Collapsed;
 }

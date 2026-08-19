@@ -1,4 +1,4 @@
-﻿namespace NQueen.Domain.Settings;
+namespace NQueen.Domain.Settings;
 
 public static class SimulationSettings
 {
@@ -42,6 +42,10 @@ public static class SimulationSettings
 
     // Visualization is allowed only up to and including this board size.
     public const int MaxVisualizeBoardSize = 10;
+
+    // Visualized Single mode is restricted to boards up to and including this size; the
+    // Stop/Resume pause control is available only within this range.
+    public const int MaxVisualizeSingleBoardSize = 8;
 
     // Threshold at/above which symmetry-pruned unique counting is used for Unique+CountOnly mode.
     public const int LargeBoardSymmetryPruningThreshold = 15;
