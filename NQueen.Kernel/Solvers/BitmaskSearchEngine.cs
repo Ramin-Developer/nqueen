@@ -18,7 +18,8 @@ internal sealed class BitmaskSearchEngine
         Action<Memory<int>> OnQueenPlaced,
         Func<int[], bool> OnSolution,
         bool PrefixMinimalityPruning = false,
-        bool ReflectionPruning = false
+        bool ReflectionPruning = false,
+        Action? WaitIfPaused = null
     );
 
     public static void Run(Request request) => ExecuteDepthFirst(request);
@@ -117,6 +118,8 @@ internal sealed class BitmaskSearchEngine
         while (true)
         {
             if (request.IsCanceled()) break;
+
+            if (s._Visualize) request.WaitIfPaused?.Invoke();
 
             if (col == N)
             {

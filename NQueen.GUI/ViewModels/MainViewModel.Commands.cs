@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public sealed partial class MainViewModel
 {
@@ -51,6 +51,18 @@ public sealed partial class MainViewModel
 
         try
         {
+            // Pause gate is only meaningful for the animated Visualized Single (N <= 8) path.
+            // Signaled = running; the Stop/Resume button flips it. Null otherwise so nothing blocks.
+            // Created BEFORE the Started status transition so CanTogglePause sees a non-null gate
+            // when RefreshCommandStates first evaluates the toggle button's enabled state.
+            IsPaused = false;
+            _pauseGate?.Dispose();
+            _pauseGate = (DisplayMode == DisplayMode.Visualize &&
+                          SolutionMode == SolutionMode.Single &&
+                          boardSize <= SimulationSettings.MaxVisualizeSingleBoardSize)
+                ? new ManualResetEventSlim(initialState: true)
+                : null;
+
             ResetSimulationState();
             ManageSimulationStatus(SimulationStatus.Started);
             UpdateUiState();
@@ -60,14 +72,23 @@ public sealed partial class MainViewModel
 
             if (DisplayMode == DisplayMode.Visualize)
             {
-                queenChannel = Channel.CreateBounded<QueenPlacedInfo>(
-                    new BoundedChannelOptions(1) { FullMode = BoundedChannelFullMode.DropOldest });
+                // When a delay is set we want a faithful, in-order animation: every placement and
+                // backtrack the engine emits must be rendered, one step per timer tick. A conflating
+                // (drop-oldest) channel would discard intermediate frames and make the board "jump
+                // over stages" because the engine runs ahead of the UI. Use an unbounded FIFO so no
+                // frame is lost; the engine's own Thread.Sleep keeps the queue small.
+                // With no delay we only care about the latest prefix, so keep the conflating fast path.
+                queenChannel = DelayInMilliseconds > 0
+                    ? Channel.CreateUnbounded<QueenPlacedInfo>(
+                        new UnboundedChannelOptions { SingleReader = true })
+                    : Channel.CreateBounded<QueenPlacedInfo>(
+                        new BoundedChannelOptions(1) { FullMode = BoundedChannelFullMode.DropOldest });
                 StartQueenPlacedDrain(queenChannel.Reader);
             }
 
             var simContext = new SimulationContext(
                 boardSize, SolutionMode, DisplayMode, progress, cancellationToken, solutionSink,
-                queenChannel?.Writer);
+                queenChannel?.Writer, _pauseGate);
             _solver.DelayInMillisec = DelayInMilliseconds;
 
             SimulationResults = await _solver.GetSimResultsAsync(simContext);
@@ -106,6 +127,11 @@ public sealed partial class MainViewModel
             // Signal no more placements will be written; the drain timer is stopped via
             // StopVisualizationTimer in the status transitions below / cancel path.
             queenChannel?.Writer.TryComplete();
+
+            // Tear down the pause gate; the run is over so no loop can be waiting on it.
+            IsPaused = false;
+            _pauseGate?.Dispose();
+            _pauseGate = null;
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -156,6 +182,10 @@ public sealed partial class MainViewModel
         // it via the token captured in SimulateAsync (threaded through SimulationContext.Cancellation),
         // and the VM's post-cancel guards read CancellationTokenSource?.IsCancellationRequested.
         try { CancellationTokenSource?.Cancel(); } catch (Exception ex) { Debug.WriteLine($"[Cancel] CTS cancel exception: {ex}"); }
+
+        // Release a paused search so its wait unblocks and the loop can observe cancellation.
+        IsPaused = false;
+        _pauseGate?.Set();
 
         StopVisualizationTimer();
 
@@ -334,6 +364,38 @@ public sealed partial class MainViewModel
         SimulateCommand?.NotifyCanExecuteChanged();
         CancelCommand?.NotifyCanExecuteChanged();
         SaveCommand?.NotifyCanExecuteChanged();
+        TogglePauseCommand?.NotifyCanExecuteChanged();
+    }
+
+    // Stop/Resume is available only while an animated Visualized Single (N <= 8) run is active.
+    private bool CanTogglePause() =>
+        IsSimulating &&
+        _pauseGate != null &&
+        DisplayMode == DisplayMode.Visualize &&
+        SolutionMode == SolutionMode.Single;
+
+    private void TogglePause()
+    {
+        var gate = _pauseGate;
+        if (gate == null) return;
+
+        if (IsPaused)
+        {
+            gate.Set();      // resume: search continues from where it stopped
+            IsPaused = false;
+            IsSingleRunning = true;    // restart the indeterminate progress animation
+            // Re-establish the delay pacing before resuming: the engine keeps sleeping the fixed
+            // delay between placements, so the UI timer must poll at the matching cadence again.
+            SyncTimerInterval();
+            _visualizeTimer?.Start();  // resume rendering placements
+        }
+        else
+        {
+            gate.Reset();    // stop: search blocks, placed queens stay put
+            IsPaused = true;
+            IsSingleRunning = false;   // freeze the indeterminate progress animation
+            _visualizeTimer?.Stop();   // freeze the board immediately at the current frame
+        }
     }
 
     private Solution? _selectedSolution;

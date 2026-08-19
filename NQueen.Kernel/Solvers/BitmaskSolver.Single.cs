@@ -1,4 +1,4 @@
-﻿namespace NQueen.Kernel.Solvers;
+namespace NQueen.Kernel.Solvers;
 
 public partial class BitmaskSolver
 {
@@ -31,11 +31,11 @@ public partial class BitmaskSolver
                         return true;
                     }
                     return false;
-                }
+                },
+                WaitIfPaused: WaitIfPaused
             ));
             return;
         }
-
         // 1. Curated fast path (non-visual)
         if (NQueen.Domain.Utils.ExpectedSolutionData.SingleSolutions.TryGetValue(BoardSize, out var list) &&
             list.Count > 0)

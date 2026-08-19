@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorInfo
 {
@@ -166,6 +166,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
     {
         ResetAndValidateSimulationState(boardSizeText: value);
         AutoAdjustParallel();
+        OnPropertyChanged(nameof(PauseButtonVisibility));
     }
 
     partial void OnSolutionModeChanged(SolutionMode value)
@@ -206,6 +207,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
         OnPropertyChanged(nameof(SelectedStorageMode));
         ApplyStorageModesToSolver();
         OnPropertyChanged(nameof(CanChangeStorageMode));
+        OnPropertyChanged(nameof(PauseButtonVisibility));
     }
 
     partial void OnDisplayModeChanged(DisplayMode value)
@@ -215,6 +217,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
 
         bool visualize = value == DisplayMode.Visualize;
         IsVisualized = visualize;
+        OnPropertyChanged(nameof(CanEditDelaySlider));
 
         // Force materialize storage when visualizing so solutions are available
         if (visualize)
@@ -230,6 +233,8 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
         OnPropertyChanged(nameof(SelectedStorageMode));
         OnPropertyChanged(nameof(CanChangeStorageMode));
         ApplyStorageModesToSolver();
+
+        OnPropertyChanged(nameof(PauseButtonVisibility));
 
         // Enable solver events when visualizing and apply delay
         if (_solver is NQueen.Kernel.Solvers.BitmaskSolver b)

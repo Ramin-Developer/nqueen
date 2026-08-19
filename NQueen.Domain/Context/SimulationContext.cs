@@ -1,4 +1,4 @@
-﻿namespace NQueen.Domain.Context;
+namespace NQueen.Domain.Context;
 
 public record SimulationContext(
     int BoardSize,
@@ -7,4 +7,5 @@ public record SimulationContext(
     IProgress<ProgressInfo>? OnProgress = null,
     CancellationToken Cancellation = default,
     IProgress<SolutionFoundInfo>? OnSolutionFound = null,
-    ChannelWriter<QueenPlacedInfo>? OnQueenPlaced = null);
+    ChannelWriter<QueenPlacedInfo>? OnQueenPlaced = null,
+    ManualResetEventSlim? PauseGate = null);

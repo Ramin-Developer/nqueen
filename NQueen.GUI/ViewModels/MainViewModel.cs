@@ -1,4 +1,4 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
 public sealed partial class MainViewModel :
     ObservableObject, INotifyDataErrorInfo, IDisposable
@@ -29,6 +29,7 @@ public sealed partial class MainViewModel :
         SimulateCommand = new AsyncRelayCommand(SimulateAsync, CanSimulate);
         SaveCommand = new RelayCommand(Save, CanSave);
         CancelCommand = new RelayCommand(Cancel, CanCancel);
+        TogglePauseCommand = new RelayCommand(TogglePause, CanTogglePause);
 
         Initialize();
     }
@@ -49,6 +50,8 @@ public sealed partial class MainViewModel :
     public IRelayCommand SaveCommand { get; private set; }
 
     public IRelayCommand CancelCommand { get; private set; }
+
+    public IRelayCommand TogglePauseCommand { get; private set; }
 
     public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
@@ -110,6 +113,8 @@ public sealed partial class MainViewModel :
         if (disposing)
         {
             CancellationTokenSource?.Dispose();
+            _pauseGate?.Dispose();
+            _pauseGate = null;
             ObservableSolutions.Clear();
             ChessboardVm?.Squares.Clear();
 
@@ -162,6 +167,10 @@ public sealed partial class MainViewModel :
     private bool _disposed;
 
     private CancellationTokenSource CancellationTokenSource { get; set; }
+
+    // Signaled = running, reset = paused. Created per-run in SimulateAsync only for the
+    // Visualized Single (N <= 8) path; null for every other mode/size so nothing can block.
+    private ManualResetEventSlim? _pauseGate;
 
     private readonly ISolver _solver;
 
