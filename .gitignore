@@ -349,6 +349,15 @@ TSWLatexianTemp*
 *.slxc
 
 # -------------------------
+# Office / spreadsheet local files
+# -------------------------
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+~$*
+
+# -------------------------
 # Python
 # -------------------------
 __pycache__/
