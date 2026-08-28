@@ -16,6 +16,15 @@ All notable changes to this project are documented here.
   `xunit.runner.console` left at 3.0.0 (higher than the latest published stable 2.9.3).
   All remaining packages were already at their latest stable versions. Solution builds
   clean and all 141 tests pass on the upgraded packages.
+- **Migrated `dotnet test` to Microsoft.Testing.Platform (MTP) mode.** The `xunit.v3` 4.0.0
+  upgrade drops the VSTest bridge, and the .NET 10 SDK no longer supports the legacy VSTest
+  target — so CI's `dotnet test` failed with "Testing with VSTest target is no longer
+  supported." Added a root `global.json` opting into the MTP runner
+  (`"test": { "runner": "Microsoft.Testing.Platform" }`), switched CI coverage collection to
+  MTP-native `--coverage --coverage-output-format cobertura`, and added the
+  `Microsoft.Testing.Extensions.CodeCoverage` package to the runnable test projects. Marked
+  `NQueen.TestShared` with `IsTestingPlatformApplication=false` so the shared infrastructure
+  assembly is not treated as a (zero-test) test app. Full suite: 667/667 passing.
 
 ### Fixed
 - **Chessboard no longer distorts when changing board size, solution mode, or display mode.**
