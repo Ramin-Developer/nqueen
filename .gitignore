@@ -356,6 +356,8 @@ TSWLatexianTemp*
 *.xlsm
 *.xlsb
 ~$*
+# Keep the documentation spreadsheet tracked while other spreadsheets remain ignored.
+!Documentation/Elapsed Times.xlsm
 
 # -------------------------
 # Python

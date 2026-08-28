@@ -6,6 +6,12 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+- **Restored `Documentation/Elapsed Times.xlsm` to source control.** The spreadsheet is tracked
+  again (visible locally and on GitHub) via a targeted `.gitignore` negation, while the blanket
+  `*.xls*` ignore rules still exclude build artifacts and other spreadsheets. Future local edits
+  to this file should be ignored with `git update-index --skip-worktree`.
+
 ### Removed
 - **Removed redundant `coverlet.collector` / `coverlet.msbuild` packages.** Code coverage is
   now collected through Microsoft.Testing.Platform's native `--coverage` (backed by
