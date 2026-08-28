@@ -6,6 +6,12 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Removed
+- **Removed redundant `coverlet.collector` / `coverlet.msbuild` packages.** Code coverage is
+  now collected through Microsoft.Testing.Platform's native `--coverage` (backed by
+  `Microsoft.Testing.Extensions.CodeCoverage`), so the coverlet references and their central
+  package versions are no longer needed. Build and full test suite (667/667) remain green.
+
 ### Changed
 - **Updated NuGet packages to latest stable versions (central package management).**
   `Microsoft.Extensions.DependencyInjection` 10.0.9 → 10.0.11,
