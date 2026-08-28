@@ -11,6 +11,20 @@ All notable changes to this project are documented here.
   again (visible locally and on GitHub) via a targeted `.gitignore` negation, while the blanket
   `*.xls*` ignore rules still exclude build artifacts and other spreadsheets. Future local edits
   to this file should be ignored with `git update-index --skip-worktree`.
+- **Stop/Resume pause control for Visualized Single mode (N ≤ 8).** A new toggle button
+  in `SimulationPanel.xaml` lets the user pause the live queen-placement animation and
+  resume it exactly where it stopped; placed queens stay on the board while paused. The
+  button label toggles between "Stop" and "Resume" and is visible only for the
+  `Visualize` + `Single` mode within `SimulationSettings.MaxVisualizeSingleBoardSize`
+  (= 8); it is hidden for every other mode/size. Implemented cooperatively: an optional
+  `ManualResetEventSlim PauseGate` is threaded through `SimulationContext` →
+  `BitmaskSolver` → a new `WaitIfPaused` action on `BitmaskSearchEngine.Request`, invoked
+  once per `MainLoop` iteration **guarded by `s._Visualize`** so the count/parallel hot
+  paths are untouched (null gate + guard = zero cost). The gate is created per-run in
+  `MainViewModel.SimulateAsync`, released on `Cancel` (so a paused wait unblocks and
+  observes cancellation), and disposed at run end / on `Dispose`. Added
+  `MainViewModelPauseTests` (visibility matrix, label default/flip, command enablement,
+  and a live-run toggle asserting gate reset/set). Build clean; ViewModelTests 135/135.
 
 ### Removed
 - **Removed redundant `coverlet.collector` / `coverlet.msbuild` packages.** Code coverage is
@@ -74,22 +88,6 @@ All notable changes to this project are documented here.
   `Channel<QueenPlacedInfo>` and `DrainQueenPlacedChannel` consumes exactly one engine frame
   per timer tick, keeping the display in lock-step with the engine so evaluation resumes right
   after the last placement. The no-delay fast path keeps the conflating (latest-only) channel.
-
-### Added
-- **Stop/Resume pause control for Visualized Single mode (N ≤ 8).** A new toggle button
-  in `SimulationPanel.xaml` lets the user pause the live queen-placement animation and
-  resume it exactly where it stopped; placed queens stay on the board while paused. The
-  button label toggles between "Stop" and "Resume" and is visible only for the
-  `Visualize` + `Single` mode within `SimulationSettings.MaxVisualizeSingleBoardSize`
-  (= 8); it is hidden for every other mode/size. Implemented cooperatively: an optional
-  `ManualResetEventSlim PauseGate` is threaded through `SimulationContext` →
-  `BitmaskSolver` → a new `WaitIfPaused` action on `BitmaskSearchEngine.Request`, invoked
-  once per `MainLoop` iteration **guarded by `s._Visualize`** so the count/parallel hot
-  paths are untouched (null gate + guard = zero cost). The gate is created per-run in
-  `MainViewModel.SimulateAsync`, released on `Cancel` (so a paused wait unblocks and
-  observes cancellation), and disposed at run end / on `Dispose`. Added
-  `MainViewModelPauseTests` (visibility matrix, label default/flip, command enablement,
-  and a live-run toggle asserting gate reset/set). Build clean; ViewModelTests 135/135.
 
 ### Chore
 - **`.editorconfig` consolidation — deleted dead `.editconfig`, merged rules.**
