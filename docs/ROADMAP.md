@@ -21,13 +21,9 @@ in the same change that touches `CHANGELOG.md`.
 > PR #17 (concise progress-update instruction). Build/CI passed; latest full local test
 > validation was **667/667 passing** after PR #16.
 >
-> **Recommended next high-value task.** Do a focused documentation/operability refresh:
-> update the README / usage docs so Console and GUI behavior now match the shared
-> configurator, especially the non-interactive Console `All + Hide + N >= 15` automatic
-> half-board rule and the BenchmarkDotNet command for `FrontEndInvocationPathBenchmark`.
-> This is higher value than another kernel optimization right now because the code paths
-> have just been consolidated and benchmarked; user-facing docs should now describe the
-> canonical behavior accurately before starting new performance experiments.
+> **Recommended next high-value task.** Re-run the focused performance baselines on current
+> `main` only if a new concrete optimization candidate is chosen. The GUI/Console path
+> consolidation is complete and the user-facing usage docs now describe the canonical behavior.
 
 > **README legacy-rename fix complete** (PR #1, 2026-07-21). Replaced the stale
 > `SearchComparisonNet` README (left over from the pre-rename repository) with correct
