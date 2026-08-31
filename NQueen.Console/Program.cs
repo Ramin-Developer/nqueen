@@ -121,11 +121,11 @@ public class Program
         Console.WriteLine("  --size <N>                     Board size (default: 8)");
         Console.WriteLine("  --count-only                   Count solutions only (no materialization)");
         Console.WriteLine("  --materialize                  Materialize sample solutions (default if --count-only omitted)");
-        Console.WriteLine("  --halfboard                    Enable half-board restriction (All mode only, N>=15)");
+        Console.WriteLine("  --halfboard                    Legacy flag; All + Hide + N>=15 is automatic");
         Console.WriteLine("  --help                         Show this help");
         Console.WriteLine();
         Console.WriteLine("Examples:");
-        Console.WriteLine("  Count All solutions N=15 with half-board: dotnet run --project NQueen.Console -- --mode all --size 15 --count-only --halfboard");
+        Console.WriteLine("  Count All solutions N=15: dotnet run --project NQueen.Console -- --mode all --size 15 --count-only");
         Console.WriteLine("  Materialize 5 sample Unique solutions N=12: dotnet run --project NQueen.Console -- --mode unique --size 12");
     }
 

@@ -40,6 +40,11 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Refreshed README usage guidance for consolidated GUI/Console paths.** Documented that
+  comparable non-visual GUI and Console runs share `BitmaskSolverRunConfigurator`, added
+  non-interactive Console examples, updated benchmark guidance for
+  `FrontEndInvocationPathBenchmark`, aligned Console help text with automatic All-mode
+  half-board behavior, and refreshed the test count to 667.
 - **Consolidated GUI and Console solver setup.** Added a shared
   `BitmaskSolverRunConfigurator` so comparable GUI and Console Hide-mode runs use the same
   solver setup rules for parallelism, root split depth, pruning, storage/count-only mode, and

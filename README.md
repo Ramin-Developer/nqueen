@@ -44,9 +44,9 @@ Results are streamed in real time to both a WPF chessboard visualisation and a s
 | **Symmetry reduction** | Unique mode prunes reflections and rotations via a canonical prefix gate |
 | **Parallelism** | Chunk-of-1 dynamic partitioner over depth-2 work items; tuned for N ≥ 16 |
 | **WPF UI** | MVVM front end — animated queen placement, solution list, board-size selector, progress bar |
-| **Console runner** | Headless runner for scripted experiments |
-| **Benchmarks** | BenchmarkDotNet suite (`AllCountOnly`, `Unique`, `RecursiveVsIterative`, …) |
-| **Tests** | 651 passing tests across unit, view-model, and shared test infrastructure |
+| **Console runner** | Headless runner for scripted experiments; comparable hide-mode paths share the same solver configurator as the GUI |
+| **Benchmarks** | BenchmarkDotNet suite (`FrontEndInvocationPathBenchmark`, `UniqueFastHalfBoardEvenOddBenchmark`, …) |
+| **Tests** | 667 passing tests across unit, view-model, and shared test infrastructure |
 
 ---
 
@@ -109,7 +109,18 @@ dotnet test --configuration Release
 
 # Run the console runner
 dotnet run --project NQueen.Console --configuration Release
+
+# Non-interactive examples
+dotnet run --project NQueen.Console --configuration Release -- --mode unique --size 19 --count-only
+dotnet run --project NQueen.Console --configuration Release -- --mode all --size 15 --count-only
 ```
+
+For comparable non-visual runs, the GUI and Console both use the shared
+`BitmaskSolverRunConfigurator` in `NQueen.Kernel`. That keeps parallelism, split depth,
+pruning, count-only/materialize storage, and All-mode half-board rules aligned. The Console
+always runs with `DisplayMode.Hide`; GUI-only visualization paths remain separate by design.
+For `All + Hide + N >= 15`, half-board restriction is enabled automatically through the shared
+configuration.
 
 ---
 
@@ -118,6 +129,10 @@ dotnet run --project NQueen.Console --configuration Release
 ```bash
 cd NQueen.Benchmarking
 dotnet run -c Release
+
+# Focus the GUI-vs-Console path comparison
+dotnet run -c Release -- --filter "*FrontEndInvocationPathBenchmark*"
 ```
 
-Key benchmark classes: `AllCountOnlyParallelScalingBenchmark`, `AllCountOnlyRecursiveVsIterativeBenchmark`, `UniqueFastHalfBoardEvenOddBenchmark`.
+Key benchmark classes: `FrontEndInvocationPathBenchmark`, `UniqueFastHalfBoardEvenOddBenchmark`,
+`AllCountOnlyRecursiveVsIterativeBenchmark`.
