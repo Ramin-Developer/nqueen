@@ -60,3 +60,6 @@
 
 ### Performance Optimization
 - Engage profiler/measurement workflow only for explicit performance tasks.
+
+### General Guidelines
+- Keep responses extremely concise and provide only short summaries unless explicitly asking for detail.
