@@ -7,6 +7,13 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Benchmark for GUI-style vs Console-style solver invocation.** Added
+  `FrontEndInvocationPathBenchmark` to compare direct console-style `Solve()` with GUI-style
+  backend `GetSimResultsAsync()` inside the same BenchmarkDotNet process across comparable
+  Hide-mode paths (`Single`, `Unique` CountOnly/materialize, and `All` CountOnly/materialize).
+  Initial same-process Unique CountOnly results for N=17/18 show no meaningful invocation gap,
+  indicating the observed manual GUI-vs-console timing spread is likely process/runtime
+  scheduling or measurement noise rather than a different solver branch.
 - **Restored `Documentation/Elapsed Times.xlsm` to source control.** The spreadsheet is tracked
   again (visible locally and on GitHub) via a targeted `.gitignore` negation, while the blanket
   `*.xls*` ignore rules still exclude build artifacts and other spreadsheets. Future local edits
@@ -33,6 +40,11 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Consolidated GUI and Console solver setup.** Added a shared
+  `BitmaskSolverRunConfigurator` so comparable GUI and Console Hide-mode runs use the same
+  solver setup rules for parallelism, root split depth, pruning, storage/count-only mode, and
+  All-mode half-board restriction. The front-end invocation benchmark now uses this shared
+  configurator for both paths.
 - **Updated NuGet packages to latest stable versions (central package management).**
   `Microsoft.Extensions.DependencyInjection` 10.0.9 → 10.0.11,
   `Microsoft.Extensions.Hosting` 10.0.9 → 10.0.11,
