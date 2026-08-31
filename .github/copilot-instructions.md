@@ -44,6 +44,9 @@
 - `[MethodImpl(AggressiveInlining | AggressiveOptimization)]` on hot-path solver methods.
 - No magic strings for property names — use `nameof(...)`.
 
+### Progress Updates
+- Provide concise progress updates with only a summary at the end to conserve Copilot premium request usage near monthly limits.
+
 ### Changelog
 - Update `CHANGELOG.md` under `[Unreleased]` for every meaningful change before merging to `main`.
 
