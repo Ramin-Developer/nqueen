@@ -40,6 +40,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Cleaned up legacy Console `--halfboard` handling.** The flag remains accepted as a
+  no-op for compatibility, but the stale local state and warning path were removed because
+  All-mode Hide runs now derive half-board behavior from `BitmaskSolverRunConfigurator`.
 - **Refreshed README usage guidance for consolidated GUI/Console paths.** Documented that
   comparable non-visual GUI and Console runs share `BitmaskSolverRunConfigurator`, added
   non-interactive Console examples, updated benchmark guidance for
