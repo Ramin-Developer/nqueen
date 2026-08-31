@@ -1,4 +1,4 @@
-﻿namespace NQueen.ConsoleApp;
+namespace NQueen.ConsoleApp;
 
 public class Program
 {
@@ -88,19 +88,20 @@ public class Program
         using var solver = new BitmaskSolver(size, mode, DisplayMode.Hide, formatter, maxSolutionsInOutput: displayedCap)
         {
             EnableEvents = false,
-            UseCountOnlyAllMode = countOnly && mode == SolutionMode.All,
-            UseCountOnlyUniqueMode = countOnly && mode == SolutionMode.Unique,
-            EnableHalfBoardRestriction = halfBoard && mode == SolutionMode.All,
-            EnablePrefixMinimalityPruning = true,
-            EnablePartialReflectionPruning = true,
-            UseAdaptiveDepth = size >= 14,
         };
+        BitmaskSolverRunConfigurator.Configure(
+            solver,
+            size,
+            mode,
+            DisplayMode.Hide,
+            countOnly && mode == SolutionMode.All ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize,
+            countOnly && mode == SolutionMode.Unique ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize);
         var results = solver.Solve();
 
         Console.WriteLine("NQueen Solver (non-interactive)");
         Console.WriteLine($"  Mode            : {mode}");
         Console.WriteLine($"  Board Size      : {size}");
-        Console.WriteLine($"  Half-Board Flag : {(halfBoard && mode == SolutionMode.All ? "ON" : "OFF")}");
+        Console.WriteLine($"  Half-Board Flag : {(solver.EnableHalfBoardRestriction ? "ON" : "OFF")}");
         Console.WriteLine($"  Count-Only      : {countOnly}");
         Console.WriteLine($"  Solutions Count : {results.SolutionsCount:N0}");
         Console.WriteLine($"  Elapsed (sec)   : {results.ElapsedTimeInSec}");

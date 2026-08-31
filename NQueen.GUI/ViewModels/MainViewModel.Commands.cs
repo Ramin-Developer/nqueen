@@ -25,16 +25,16 @@ public sealed partial class MainViewModel
 
         if (_solver is Kernel.Solvers.BitmaskSolver bitmask)
         {
-            bitmask.UseParallel = UseParallel;
-            bitmask.ParallelRootSplitDepth = ParallelRootSplitDepth;
-            bitmask.AllStorageMode = SolutionMode == SolutionMode.All || SolutionMode == SolutionMode.Single ? SelectedStorageMode : bitmask.AllStorageMode;
-            bitmask.UniqueStorageMode = SolutionMode == SolutionMode.Unique ? SelectedStorageMode : bitmask.UniqueStorageMode;
-            bitmask.EnableHalfBoardRestriction = ComputeHalfBoardRestriction();
-            bitmask.EnablePrefixMinimalityPruning = true;
-            bitmask.EnablePartialReflectionPruning = true;
-            bitmask.UseAdaptiveDepth = boardSize >= 14;
-            bitmask.UseCountOnlyAllMode = bitmask.AllStorageMode == ResultStorageMode.CountOnly;
-            bitmask.UseCountOnlyUniqueMode = bitmask.UniqueStorageMode == ResultStorageMode.CountOnly;
+            Kernel.Solvers.BitmaskSolverRunConfigurator.Configure(
+                bitmask,
+                boardSize,
+                SolutionMode,
+                DisplayMode,
+                SolutionMode is SolutionMode.All or SolutionMode.Single ? SelectedStorageMode : bitmask.AllStorageMode,
+                SolutionMode == SolutionMode.Unique ? SelectedStorageMode : bitmask.UniqueStorageMode);
+
+            UseParallel = bitmask.UseParallel;
+            ParallelRootSplitDepth = bitmask.ParallelRootSplitDepth;
         }
 
         // Capture the token up front: Cancel() disposes and replaces the CTS, so reading

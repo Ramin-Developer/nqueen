@@ -1,4 +1,4 @@
-﻿namespace NQueen.ConsoleApp.Commands;
+namespace NQueen.ConsoleApp.Commands;
 
 /// <summary>
 /// Interactive menu for NQueen solver.
@@ -82,11 +82,14 @@ public class DispatchCommands
             using var solver = new BitmaskSolver(context.BoardSize, SolutionMode.Unique, context.DisplayMode, formatter, SimulationSettings.MaxDisplayedCount)
             {
                 EnableEvents = false,
-                UseCountOnlyUniqueMode = useCountOnly,
-                EnablePrefixMinimalityPruning = true,
-                EnablePartialReflectionPruning = true,
-                UseAdaptiveDepth = context.BoardSize >= 14,
             };
+            BitmaskSolverRunConfigurator.Configure(
+                solver,
+                context.BoardSize,
+                SolutionMode.Unique,
+                context.DisplayMode,
+                ResultStorageMode.Materialize,
+                useCountOnly ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize);
             results = solver.Solve();
         }
         else if (mode == SolutionMode.All)
@@ -94,12 +97,14 @@ public class DispatchCommands
             using var solver = new BitmaskSolver(context.BoardSize, SolutionMode.All, context.DisplayMode, formatter, SimulationSettings.MaxDisplayedCount)
             {
                 EnableEvents = false,
-                UseCountOnlyAllMode = useCountOnly,
-                EnablePrefixMinimalityPruning = true,
-                EnablePartialReflectionPruning = true,
-                UseAdaptiveDepth = context.BoardSize >= 14,
-                EnableHalfBoardRestriction = context.BoardSize >= 15,
             };
+            BitmaskSolverRunConfigurator.Configure(
+                solver,
+                context.BoardSize,
+                SolutionMode.All,
+                context.DisplayMode,
+                useCountOnly ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize,
+                ResultStorageMode.Materialize);
             results = solver.Solve();
         }
         else
@@ -107,10 +112,14 @@ public class DispatchCommands
             using var solver = new BitmaskSolver(context.BoardSize, mode, context.DisplayMode, formatter, SimulationSettings.MaxDisplayedCount)
             {
                 EnableEvents = false,
-                EnablePrefixMinimalityPruning = true,
-                EnablePartialReflectionPruning = true,
-                UseAdaptiveDepth = context.BoardSize >= 14,
             };
+            BitmaskSolverRunConfigurator.Configure(
+                solver,
+                context.BoardSize,
+                mode,
+                context.DisplayMode,
+                ResultStorageMode.Materialize,
+                ResultStorageMode.Materialize);
             results = solver.Solve();
         }
         var sb = new System.Text.StringBuilder();
