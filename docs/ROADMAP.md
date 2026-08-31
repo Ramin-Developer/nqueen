@@ -12,6 +12,23 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
+> **Current handoff (2026-08-31).** The repository is clean on `main` after the
+> GUI/Console path consolidation and docs preference updates. Recent shipped work:
+> PR #12 (NuGet/xUnit v4 + Microsoft.Testing.Platform migration), PR #13 (remove
+> redundant coverlet packages), PR #14 (restore tracked `Documentation/Elapsed Times.xlsm`
+> with local `skip-worktree` guidance), PR #15 (tidy `[Unreleased]` changelog sections),
+> PR #16 (shared `BitmaskSolverRunConfigurator` + front-end invocation benchmark), and
+> PR #17 (concise progress-update instruction). Build/CI passed; latest full local test
+> validation was **667/667 passing** after PR #16.
+>
+> **Recommended next high-value task.** Do a focused documentation/operability refresh:
+> update the README / usage docs so Console and GUI behavior now match the shared
+> configurator, especially the non-interactive Console `All + Hide + N >= 15` automatic
+> half-board rule and the BenchmarkDotNet command for `FrontEndInvocationPathBenchmark`.
+> This is higher value than another kernel optimization right now because the code paths
+> have just been consolidated and benchmarked; user-facing docs should now describe the
+> canonical behavior accurately before starting new performance experiments.
+
 > **README legacy-rename fix complete** (PR #1, 2026-07-21). Replaced the stale
 > `SearchComparisonNet` README (left over from the pre-rename repository) with correct
 > NQueen content: solver modes, feature table, solution layout, CI badge, and build/test
@@ -136,13 +153,29 @@ baseline before touching production code, per the team's MEASURE-first practice.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **`chore/editorconfig-consolidation`** — delete dead `.editconfig`, merge rules into `.editorconfig`. Branched off `ci/coverage-badge-ratchet`. |
+| Active branch | **none** — clean `main` after PR #17. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **651 / 651 passing** (full-solution discovery, 3 test sources). Grew from 535 via the coverage PRs #35–#38 (validation/GUI-converter, Kernel solver edge-cases, Console runner) plus the 15 new `SettingsAndContextTests` added in that series.
+| Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
 | Build status | 0 errors / 0 warnings |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+
+- **GUI/Console solver setup consolidation and benchmark** (PR #16,
+  `perf/benchmark-gui-console-unique-countonly`, 2026-08-31). Added shared
+  `BitmaskSolverRunConfigurator` in Kernel and wired GUI, Console interactive,
+  Console non-interactive, and `FrontEndInvocationPathBenchmark` through it for
+  comparable `DisplayMode.Hide` paths. Validated that same-process GUI-style vs
+  Console-style invocation has no meaningful gap across representative paths;
+  manual N=19 timing spread is likely process/runtime scheduling or measurement noise.
+- **Copilot progress-update preference** (PR #17, 2026-08-31). Added concise
+  progress-update guidance to `.github/copilot-instructions.md`.
+- **NuGet/xUnit/MTP maintenance and cleanup** (PRs #12–#13, 2026-08-28). Updated
+  central NuGet packages including xUnit v4, migrated tests to Microsoft.Testing.Platform,
+  and removed redundant coverlet packages after MTP-native coverage was enabled.
+- **Tracked documentation spreadsheet restored** (PR #14, 2026-08-28). Restored
+  `Documentation/Elapsed Times.xlsm` to source control while keeping future local edits
+  ignored via per-clone `git update-index --skip-worktree`.
 
 - **Stop/Resume pause for Visualized Single mode (N ≤ 8)** (`feat/visualize-single-pause`).
   New toggle button pauses/resumes the live queen-placement animation, freezing placed
