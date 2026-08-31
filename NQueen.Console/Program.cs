@@ -32,7 +32,6 @@ public class Program
         var mode = SolutionMode.All;
         int size = 8;
         bool countOnly = false;
-        bool halfBoard = false;
         int displayedCap = SimulationSettings.MaxDisplayedCount;
 
         // Simple linear parse
@@ -70,18 +69,8 @@ public class Program
                     displayedCap = SimulationSettings.MaxDisplayedCount;
                     break;
                 case "--halfboard":
-                    halfBoard = true;
                     break;
             }
-        }
-
-        // Formatter
-        if (halfBoard && mode != SolutionMode.All)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Warning: --halfboard is only supported for --mode all. Flag ignored for mode '{mode}'.");
-            Console.ResetColor();
-            halfBoard = false;
         }
 
         var formatter = new SolutionFormatter();
