@@ -3,8 +3,8 @@ namespace NQueen.ConsoleApp.Commands;
 public static class ConsoleNonInteractiveRunner
 {
     public static bool HasSolverArgs(string[] args) =>
-        args.Any(a => a.StartsWith("--mode", StringComparison.OrdinalIgnoreCase)
-                   || a.StartsWith("--size", StringComparison.OrdinalIgnoreCase)
+        args.Any(a => a.Equals("--mode", StringComparison.OrdinalIgnoreCase)
+                   || a.Equals("--size", StringComparison.OrdinalIgnoreCase)
                    || a.Equals("--count-only", StringComparison.OrdinalIgnoreCase)
                    || a.Equals("--materialize", StringComparison.OrdinalIgnoreCase)
                    || a.Equals("--halfboard", StringComparison.OrdinalIgnoreCase)

@@ -20,6 +20,12 @@ public class ConsoleNonInteractiveRunnerTests
     public void HasSolverArgs_ReturnsFalseForUnknownFlags() =>
         ConsoleNonInteractiveRunner.HasSolverArgs(["--unknown"]).ShouldBeFalse();
 
+    [Theory]
+    [InlineData("--model")]
+    [InlineData("--sizeLimit")]
+    public void HasSolverArgs_DoesNotTreatPrefixMatchesAsKnownFlags(string flag) =>
+        ConsoleNonInteractiveRunner.HasSolverArgs([flag]).ShouldBeFalse();
+
     [Fact]
     public void Run_Help_WritesUsageWithoutSolving()
     {
