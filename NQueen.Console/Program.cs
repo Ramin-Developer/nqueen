@@ -28,73 +28,35 @@ public class Program
 
     private static void RunNonInteractive(string[] args)
     {
-        // Defaults
-        var mode = SolutionMode.All;
-        int size = 8;
-        bool countOnly = false;
-        int displayedCap = SimulationSettings.MaxDisplayedCount;
-
-        // Simple linear parse
-        for (int i = 0; i < args.Length; i++)
+        var options = ConsoleRunOptions.Parse(args);
+        if (options.ShowHelp)
         {
-            var arg = args[i].Trim();
-            switch (arg.ToLowerInvariant())
-            {
-                case "--help":
-                case "-h":
-                    PrintHelp();
-                    return;
-                case "--mode":
-                    if (i + 1 < args.Length)
-                    {
-                        var val = args[++i].Trim().ToLowerInvariant();
-                        mode = val switch
-                        {
-                            "all" => SolutionMode.All,
-                            "unique" => SolutionMode.Unique,
-                            "single" => SolutionMode.Single,
-                            _ => mode
-                        };
-                    }
-                    break;
-                case "--size":
-                    if (i + 1 < args.Length && int.TryParse(args[++i], out var n)) size = n;
-                    break;
-                case "--count-only":
-                    countOnly = true;
-                    displayedCap = 0; // suppress materialization
-                    break;
-                case "--materialize":
-                    countOnly = false;
-                    displayedCap = SimulationSettings.MaxDisplayedCount;
-                    break;
-                case "--halfboard":
-                    break;
-            }
+            PrintHelp();
+            return;
         }
 
         var formatter = new SolutionFormatter();
-        using var solver = new BitmaskSolver(size, mode, DisplayMode.Hide, formatter, maxSolutionsInOutput: displayedCap)
+        using var solver = new BitmaskSolver(options.BoardSize, options.Mode, DisplayMode.Hide, formatter, maxSolutionsInOutput: options.DisplayedCap)
         {
             EnableEvents = false,
         };
         BitmaskSolverRunConfigurator.Configure(
             solver,
-            size,
-            mode,
+            options.BoardSize,
+            options.Mode,
             DisplayMode.Hide,
-            countOnly && mode == SolutionMode.All ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize,
-            countOnly && mode == SolutionMode.Unique ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize);
+            options.CountOnly && options.Mode == SolutionMode.All ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize,
+            options.CountOnly && options.Mode == SolutionMode.Unique ? ResultStorageMode.CountOnly : ResultStorageMode.Materialize);
         var results = solver.Solve();
 
         Console.WriteLine("NQueen Solver (non-interactive)");
-        Console.WriteLine($"  Mode            : {mode}");
-        Console.WriteLine($"  Board Size      : {size}");
+        Console.WriteLine($"  Mode            : {options.Mode}");
+        Console.WriteLine($"  Board Size      : {options.BoardSize}");
         Console.WriteLine($"  Half-Board Flag : {(solver.EnableHalfBoardRestriction ? "ON" : "OFF")}");
-        Console.WriteLine($"  Count-Only      : {countOnly}");
+        Console.WriteLine($"  Count-Only      : {options.CountOnly}");
         Console.WriteLine($"  Solutions Count : {results.SolutionsCount:N0}");
         Console.WriteLine($"  Elapsed (sec)   : {results.ElapsedTimeInSec}");
-        if (!countOnly && results.Solutions.Count > 0)
+        if (!options.CountOnly && results.Solutions.Count > 0)
         {
             Console.WriteLine($"  Displayed ({results.Solutions.Count}):");
             foreach (var sol in results.Solutions)
