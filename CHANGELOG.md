@@ -40,6 +40,8 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Trimmed roadmap handoff noise.** Condensed stale historical blocks from the top of
+  `docs/ROADMAP.md` so the next-session section stays focused on current state and next work.
 - **Cleaned up legacy Console `--halfboard` handling.** The flag remains accepted as a
   no-op for compatibility, but the stale local state and warning path were removed because
   All-mode Hide runs now derive half-board behavior from `BitmaskSolverRunConfigurator`.
