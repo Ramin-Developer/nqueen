@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Focused shared solver configurator tests.** Added `BitmaskSolverRunConfiguratorTests`
+  covering GUI/Console shared run-configuration rules for parallelism, split depth,
+  automatic All-mode half-board behavior, count-only flags, pruning defaults, and visualized runs.
 - **Benchmark for GUI-style vs Console-style solver invocation.** Added
   `FrontEndInvocationPathBenchmark` to compare direct console-style `Solve()` with GUI-style
   backend `GetSimResultsAsync()` inside the same BenchmarkDotNet process across comparable
