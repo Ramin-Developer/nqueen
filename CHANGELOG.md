@@ -40,6 +40,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Extracted Console CLI parsing.** Moved non-interactive Console argument parsing into
+  `ConsoleRunOptions` and added focused parser tests for defaults, mode/size/count-only,
+  help, materialize override, and the legacy `--halfboard` no-op.
 - **Trimmed roadmap handoff noise.** Condensed stale historical blocks from the top of
   `docs/ROADMAP.md` so the next-session section stays focused on current state and next work.
 - **Cleaned up legacy Console `--halfboard` handling.** The flag remains accepted as a
