@@ -18,13 +18,15 @@ in the same change that touches `CHANGELOG.md`.
 > redundant coverlet packages), PR #14 (restore tracked `Documentation/Elapsed Times.xlsm`
 > with local `skip-worktree` guidance), PR #15 (tidy `[Unreleased]` changelog sections),
 > PR #16 (shared `BitmaskSolverRunConfigurator` + front-end invocation benchmark),
-> PR #19 (README usage refresh), and PR #20 (Console half-board cleanup + concise
-> Copilot instruction). Build/CI passed; latest full local test validation was
-> **667/667 passing** after PR #16.
+> PR #19 (README usage refresh), PR #20 (Console half-board cleanup + concise
+> Copilot instruction), PR #23 (Console CLI parser extraction), and PR #24
+> (focused shared-configurator tests). Build/CI passed; latest focused validation
+> was **16/16 configurator tests passing** after PR #24; latest full local test
+> validation was **667/667 passing** after PR #16.
 >
-> **Recommended next high-value task.** Re-run the focused performance baselines on current
-> `main` only if a new concrete optimization candidate is chosen. The GUI/Console path
-> consolidation is complete and the user-facing usage docs now describe the canonical behavior.
+> **Recommended next high-value task.** Extract the remaining Console non-interactive
+> run/output flow from `Program.cs` into a small runner service/class, or pause code work
+> and run fresh performance baselines if choosing a concrete optimization candidate.
 
 Historical shipped work and closed performance investigations are summarized under
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -37,7 +39,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **none** — clean `main` after PR #20. |
+| Active branch | **none** — clean `main` after PR #24. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
