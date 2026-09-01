@@ -84,6 +84,9 @@ All notable changes to this project are documented here.
   assembly is not treated as a (zero-test) test app. Full suite: 667/667 passing.
 
 ### Fixed
+- **Console non-interactive flag detection no longer accepts prefix lookalikes.** Exact
+  `--mode` / `--size` matching prevents invalid flags such as `--model` or `--sizeLimit`
+  from bypassing the interactive menu.
 - **Chessboard no longer distorts when changing board size, solution mode, or display mode.**
   The `UniformGrid` in `ChessboardView.xaml` bound its `Columns`/`Rows` to
   `MainViewModel.BoardSize` (a computed property whose change is raised in only one code path),
