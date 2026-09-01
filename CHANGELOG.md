@@ -43,6 +43,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Extracted Console non-interactive runner.** Moved the remaining Console flag-detection,
+  help, solve, and output flow from `Program.cs` into `ConsoleNonInteractiveRunner` and
+  added focused runner tests.
 - **Extracted Console CLI parsing.** Moved non-interactive Console argument parsing into
   `ConsoleRunOptions` and added focused parser tests for defaults, mode/size/count-only,
   help, materialize override, and the legacy `--halfboard` no-op.
