@@ -47,6 +47,12 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Split larger Unique count-only work items at depth 3.** `CountUniqueFastHalfBoard`
+  now keeps depth-2 partitioning for N=16/17 and uses depth-3 work items for N>=18,
+  improving load balance for larger boards while preserving the same leaf set. BenchmarkDotNet
+  validation for `UniqueFastHalfBoardEvenOddBenchmark.Unique_CountOnly_HalfBoard` improved
+  N=18 from 9,488.9 ms to 9,125.0 ms (~3.8% faster), with N=16/N=17 neutral.
+  Unit tests: 560/560.
 - **Skipped redundant even-board reflection prefix checks in Unique count-only half-board mode.**
   `CountUniqueFastHalfBoard` now disables the later horizontal-reflection prefix gate for even
   board sizes after the top-half root partition has already made every first row strictly
