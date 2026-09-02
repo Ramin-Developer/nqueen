@@ -12,11 +12,12 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-08-31).** The repository is clean on `main` after PR #33
-> (`perf/unique-even-prune-gate`), which shipped the measured Unique count-only
-> even-board pruning improvement. The attempted `SymmetryHelper.IsIdentityCanonical`
-> switchless refactor and cancellation-polling reorder both regressed/no-improved and
-> were reverted. Recent shipped work:
+> **Current handoff (2026-08-31).** Active branch
+> `perf/unique-even-prune-gate-n20` extends PR #33's measured Unique count-only
+> even-board pruning improvement to N=20. Manual GUI validation on the same Windows 11 Pro
+> x64 desktop improved N=20 Unique CountOnly from 710.2 sec to 652.0 sec (~8.2%).
+> The attempted `SymmetryHelper.IsIdentityCanonical` switchless refactor and
+> cancellation-polling reorder both regressed/no-improved and were reverted. Recent shipped work:
 > PR #12 (NuGet/xUnit v4 + Microsoft.Testing.Platform migration), PR #13 (remove
 > redundant coverlet packages), PR #14 (restore tracked `Documentation/Elapsed Times.xlsm`
 > with local `skip-worktree` guidance), PR #15 (tidy `[Unreleased]` changelog sections),
@@ -28,10 +29,8 @@ in the same change that touches `CHANGELOG.md`.
 > passing** after PR #26; latest full local test validation was **667/667 passing**
 > after PR #16.
 >
-> **Recommended next high-value task.** Continue only with measured performance work:
-> either add/extend benchmark coverage for N=18 Unique CountOnly before claiming an
-> extrapolated even-board gain, or profile the next `CountCanonicalDFS` algorithmic
-> candidate. Do not edit production code without a before/after benchmark.
+> **Recommended next high-value task.** Finish the N=20 pruning extension branch: run a full
+> solution build, commit, push, and PR it. Do any further pruning experiments separately.
 
 Historical shipped work and closed performance investigations are summarized under
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -44,7 +43,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **none** — clean `main` after PR #33. |
+| Active branch | **perf/unique-even-prune-gate-n20** — measured N=20 Unique count-only pruning extension. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |

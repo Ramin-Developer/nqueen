@@ -49,6 +49,8 @@ All notable changes to this project are documented here.
   canonical against its mirror. BenchmarkDotNet validation for
   `UniqueFastHalfBoardEvenOddBenchmark.Unique_CountOnly_HalfBoard` improved N=16 from
   199.1 ms to 183.5 ms, while N=17 remained neutral at 1,453.5 ms to 1,453.6 ms.
+  Manual GUI validation on the same Windows 11 Pro x64 desktop improved N=20 Unique CountOnly
+  from 710.2 sec to 652.0 sec (~8.2%).
   Unit tests: 560/560.
 - **Enabled CPU trace collection for the canonical Unique baseline benchmark.** Added the
   Visual Studio CPU diagnoser to `UniqueFastHalfBoardEvenOddBenchmark` so profiler-driven
