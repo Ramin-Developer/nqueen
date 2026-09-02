@@ -104,9 +104,8 @@ public partial class BitmaskSolver
                 },
                 body: (item, _, local) =>
                 {
-                    // rows[2..] is restored to -1 by CountCanonicalDFS on every branch, so the
-                    // per-thread buffer stays clean for reuse across items; only the first two
-                    // columns need to be (re)seeded here.
+                    // CountCanonicalDFS overwrites each prefix slot before reading it, so only the
+                    // first two columns need to be (re)seeded here for each depth-2 item.
                     local.rows[0] = item.Row0;
                     local.rows[1] = item.Row1;
                     local.count += CountCanonicalDFS(
@@ -199,7 +198,6 @@ public partial class BitmaskSolver
             if (reflectionEnabled && col >= pruneDepthGate &&
                 SearchHelpers.ShouldPrunePrefixFull(rows, col, n, reflectionEnabled))
             {
-                rows[col] = -1;
                 continue;
             }
 
@@ -207,7 +205,6 @@ public partial class BitmaskSolver
                 col + 1, cols | bit, (d1 | bit) << 1, (d2 | bit) >> 1,
                 n, fullMask, pruneDepthGate, reflectionEnabled, rows, scratch);
 
-            rows[col] = -1;
         }
 
         return count;
