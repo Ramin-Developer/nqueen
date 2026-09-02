@@ -7,6 +7,10 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Direct N=18 coverage in the canonical Unique fast half-board benchmark.** Extended
+  `UniqueFastHalfBoardEvenOddBenchmark` to cover N=16, N=17, and N=18 so even-board
+  Unique CountOnly gains no longer rely on extrapolation from N=16 alone. Current measured
+  means: N=16 183.1 ms, N=17 1,449.8 ms, N=18 9,487.6 ms.
 - **Focused shared solver configurator tests.** Added `BitmaskSolverRunConfiguratorTests`
   covering GUI/Console shared run-configuration rules for parallelism, split depth,
   automatic All-mode half-board behavior, count-only flags, pruning defaults, and visualized runs.
