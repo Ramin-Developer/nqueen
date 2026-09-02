@@ -84,6 +84,9 @@ All notable changes to this project are documented here.
   assembly is not treated as a (zero-test) test app. Full suite: 667/667 passing.
 
 ### Fixed
+- **Single-mode solution notifications no longer duplicate.** Visualized and fallback
+  Single-mode callbacks now rely on `MaterializeSingle` for the `SolutionFound` event,
+  matching the materialized result one-to-one.
 - **Console non-interactive flag detection no longer accepts prefix lookalikes.** Exact
   `--mode` / `--size` matching prevents invalid flags such as `--model` or `--sizeLimit`
   from bypassing the interactive menu.

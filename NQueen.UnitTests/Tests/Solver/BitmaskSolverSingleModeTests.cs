@@ -137,11 +137,8 @@ using var solver = MakeSolver();
         result.Solutions.ShouldHaveSingleItem();
         queenPlaced.ShouldBeGreaterThan(0,
             "engine-backed Visualize path must push QueenPlaced for each placement");
-        // Note: the visualize-engine callback currently fires SolutionFound twice for Single mode
-        // (once via MaterializeSingle, once at the call site). The duplicate is a known production
-        // discrepancy tracked separately — assert ≥ 1 here to keep this coverage test green.
-        solutionFound.ShouldBeGreaterThanOrEqualTo(1,
-            "engine-backed Visualize path must push SolutionFound at least once for Single mode");
+        solutionFound.ShouldBe(1,
+            "engine-backed Visualize path must push SolutionFound once for Single mode");
     }
 
     // ── Cancellation: visualize path bails when the token is cancelled in flight ──
