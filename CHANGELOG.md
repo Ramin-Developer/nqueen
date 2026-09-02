@@ -43,6 +43,13 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Skipped redundant even-board reflection prefix checks in Unique count-only half-board mode.**
+  `CountUniqueFastHalfBoard` now disables the later horizontal-reflection prefix gate for even
+  board sizes after the top-half root partition has already made every first row strictly
+  canonical against its mirror. BenchmarkDotNet validation for
+  `UniqueFastHalfBoardEvenOddBenchmark.Unique_CountOnly_HalfBoard` improved N=16 from
+  199.1 ms to 183.5 ms, while N=17 remained neutral at 1,453.5 ms to 1,453.6 ms.
+  Unit tests: 560/560.
 - **Enabled CPU trace collection for the canonical Unique baseline benchmark.** Added the
   Visual Studio CPU diagnoser to `UniqueFastHalfBoardEvenOddBenchmark` so profiler-driven
   runs can produce hotspot traces instead of benchmark tables only.
