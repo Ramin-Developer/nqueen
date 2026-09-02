@@ -61,7 +61,7 @@ public partial class BitmaskSolver
         int pruneDepthGate = int.MaxValue;
         if (EnablePrefixMinimalityPruning || EnablePartialReflectionPruning)
         {
-            if (n >= 20) pruneDepthGate = 1;
+            if (n >= 20) pruneDepthGate = (n & 1) == 0 ? int.MaxValue : 1;
             else if (n >= SimulationSettings.PrefixPruneEarlyThresholdN) pruneDepthGate = 0;
             else if (n >= 16) pruneDepthGate = (n & 1) == 0 ? int.MaxValue : 2;
             else if (n >= SimulationSettings.LargeBoardSymmetryPruningThreshold) pruneDepthGate = 3;
@@ -173,7 +173,7 @@ public partial class BitmaskSolver
         int n, ulong fullMask, int pruneDepthGate, bool reflectionEnabled,
         int[] rows, int[] scratch)
     {
-        if ((col & 0xF) == 0 && IsCancellationRequested)
+        if ((col & 0x3F) == 0 && IsCancellationRequested)
             return 0UL;
 
         if (col == n)
