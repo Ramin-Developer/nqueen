@@ -20,17 +20,7 @@ public partial class BitmaskSolver
                 () => IsCancellationRequested,
                 RaiseProgress,
                 m => RaiseQueenPlaced(m, BoardSize),
-                rows =>
-                {
-                    if (!ValidateRows(rows)) return false;
-                    if (_solutions.Count == 0 && _largeBoardRawSolutions.Count == 0 && (!_capEnabled || _maxDisplayedCount > 0))
-                    {
-                        _solutionCount = 1;
-                        MaterializeSingle(rows);
-                        return true;
-                    }
-                    return false;
-                },
+                TryAcceptSingleSolution,
                 WaitIfPaused: WaitIfPaused
             ));
             return;
@@ -74,18 +64,19 @@ public partial class BitmaskSolver
             () => IsCancellationRequested,
             RaiseProgress,
             m => RaiseQueenPlaced(m, BoardSize),
-            rows =>
-            {
-                if (!ValidateRows(rows)) return false;
-                if (_solutions.Count == 0 && _largeBoardRawSolutions.Count == 0 && (!_capEnabled || _maxDisplayedCount > 0))
-                {
-                    _solutionCount = 1;
-                    MaterializeSingle(rows);
-                    return true;
-                }
-                return false;
-            }
+            TryAcceptSingleSolution
         ));
+    }
+
+    private bool TryAcceptSingleSolution(int[] rows)
+    {
+        if (!ValidateRows(rows)) return false;
+        if (_solutions.Count != 0 || _largeBoardRawSolutions.Count != 0) return false;
+        if (_capEnabled && _maxDisplayedCount <= 0) return false;
+
+        _solutionCount = 1;
+        MaterializeSingle(rows);
+        return true;
     }
 
     private void EmitSingleVisualization(int[] rows)
