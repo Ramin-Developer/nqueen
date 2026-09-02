@@ -20,10 +20,11 @@ in the same change that touches `CHANGELOG.md`.
 > PR #16 (shared `BitmaskSolverRunConfigurator` + front-end invocation benchmark),
 > PR #19 (README usage refresh), PR #20 (Console half-board cleanup + concise
 > Copilot instruction), PR #23 (Console CLI parser extraction), PR #24
-> (focused shared-configurator tests), and PR #26 (Console non-interactive runner
-> extraction). Build/CI passed; latest focused validation was **16/16 Console tests
-> passing** after PR #26; latest full local test validation was **667/667 passing**
-> after PR #16.
+> (focused shared-configurator tests), PR #26 (Console non-interactive runner
+> extraction), PR #28 (Console exact flag detection), and PR #30 (Single-mode
+> callback consolidation). Build/CI passed; latest focused validation was
+> **17/17 Single-mode tests passing** after PR #30; latest full local test validation
+> was **667/667 passing** after PR #16.
 >
 > **Recommended next high-value task.** Pause code cleanup and run fresh performance
 > baselines before choosing any new optimization candidate. If staying in readability
@@ -40,7 +41,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **none** — clean `main` after PR #26. |
+| Active branch | **none** — clean `main` after PR #30. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
