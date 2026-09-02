@@ -63,7 +63,7 @@ public partial class BitmaskSolver
         {
             if (n >= 20) pruneDepthGate = 1;
             else if (n >= SimulationSettings.PrefixPruneEarlyThresholdN) pruneDepthGate = 0;
-            else if (n >= 16) pruneDepthGate = 2;
+            else if (n >= 16) pruneDepthGate = (n & 1) == 0 ? int.MaxValue : 2;
             else if (n >= SimulationSettings.LargeBoardSymmetryPruningThreshold) pruneDepthGate = 3;
         }
 
