@@ -16,6 +16,8 @@ in the same change that touches `CHANGELOG.md`.
 > `perf/unique-even-prune-gate-n20` extends PR #33's measured Unique count-only
 > even-board pruning improvement to N=20. Manual GUI validation on the same Windows 11 Pro
 > x64 desktop improved N=20 Unique CountOnly from 710.2 sec to 652.0 sec (~8.2%).
+> BenchmarkDotNet validation after reducing DFS cancellation polling frequency improved
+> N=16 from 199.1 ms to 182.9 ms and N=17 from 1,453.5 ms to 1,444.3 ms.
 > The attempted `SymmetryHelper.IsIdentityCanonical` switchless refactor and
 > cancellation-polling reorder both regressed/no-improved and were reverted. Recent shipped work:
 > PR #12 (NuGet/xUnit v4 + Microsoft.Testing.Platform migration), PR #13 (remove

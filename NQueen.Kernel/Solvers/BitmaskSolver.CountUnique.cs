@@ -173,7 +173,7 @@ public partial class BitmaskSolver
         int n, ulong fullMask, int pruneDepthGate, bool reflectionEnabled,
         int[] rows, int[] scratch)
     {
-        if ((col & 0xF) == 0 && IsCancellationRequested)
+        if ((col & 0x3F) == 0 && IsCancellationRequested)
             return 0UL;
 
         if (col == n)
