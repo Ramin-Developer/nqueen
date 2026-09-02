@@ -12,11 +12,11 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-08-31).** Active branch `perf/unique-depth3-partition`
-> uses depth-3 work items for N>=18 in Unique count-only half-board mode. Latest measured
-> `UniqueFastHalfBoardEvenOddBenchmark` means improved N=18 from 9,488.9 ms to 9,125.0 ms
-> (~3.8% faster), with N=16/N=17 neutral. The N=20 GUI result from PR #34 remains
-> 710.2 sec to 652.0 sec (~8.2%) on the same Windows 11 Pro x64 desktop.
+> **Current handoff (2026-08-31).** The repository is clean on `main` after PR #38
+> (`perf/unique-depth3-partition`). Recent measured Unique CountOnly work improved
+> N=18 from 9,488.9 ms to 9,125.0 ms (~3.8%) in BenchmarkDotNet, with N=16/N=17
+> neutral. Manual same-machine GUI validation improved N=20 from 710.2 sec to
+> 572.0 sec total (~19.5%) after the even-board pruning and depth-3 partitioning PRs.
 > The attempted `SymmetryHelper.IsIdentityCanonical` switchless refactor and
 > cancellation-polling reorder both regressed/no-improved and were reverted. Recent shipped work:
 > PR #12 (NuGet/xUnit v4 + Microsoft.Testing.Platform migration), PR #13 (remove
@@ -30,8 +30,9 @@ in the same change that touches `CHANGELOG.md`.
 > passing** after PR #26; latest full local test validation was **667/667 passing**
 > after PR #16.
 >
-> **Recommended next high-value task.** Finish the depth-3 partition branch with full validation,
-> then PR it separately from future deeper partition/canonicality experiments.
+> **Recommended next high-value task.** Pause Unique CountOnly micro-optimization for now;
+> future work should start with a fresh benchmark/trace only if pursuing a larger algorithmic
+> redesign.
 
 Historical shipped work and closed performance investigations are summarized under
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -44,7 +45,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **perf/unique-depth3-partition** — measured Unique CountOnly depth-3 work partitioning for N>=18. |
+| Active branch | **none** — clean `main` after PR #38. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
