@@ -43,6 +43,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Consolidated Single-mode engine callback handling.** Extracted the duplicate
+  validate/materialize/stop logic in `BitmaskSolver.Single.cs` into a shared helper while
+  preserving the one-notification behavior from `MaterializeSingle`.
 - **Extracted Console non-interactive runner.** Moved the remaining Console flag-detection,
   help, solve, and output flow from `Program.cs` into `ConsoleNonInteractiveRunner` and
   added focused runner tests.
