@@ -43,6 +43,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Enabled CPU trace collection for the canonical Unique baseline benchmark.** Added the
+  Visual Studio CPU diagnoser to `UniqueFastHalfBoardEvenOddBenchmark` so profiler-driven
+  runs can produce hotspot traces instead of benchmark tables only.
 - **Consolidated Single-mode engine callback handling.** Extracted the duplicate
   validate/materialize/stop logic in `BitmaskSolver.Single.cs` into a shared helper while
   preserving the one-notification behavior from `MaterializeSingle`.

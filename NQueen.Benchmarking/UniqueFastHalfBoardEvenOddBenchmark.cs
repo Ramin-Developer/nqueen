@@ -1,5 +1,7 @@
 namespace NQueen.Benchmarking;
 
+using Microsoft.VSDiagnostics;
+
 /// <summary>
 /// Focused isolation of the Unique count-only fast half-board path at N=16 (even) and
 /// N=17 (odd). Mirrors <see cref="UniqueFastHalfBoardBenchmark"/>'s solver configuration
@@ -12,6 +14,7 @@ namespace NQueen.Benchmarking;
 /// reproducible but with wide confidence intervals.
 /// </summary>
 [SimpleJob(warmupCount: 3, iterationCount: 15)]
+[CPUUsageDiagnoser]
 public class UniqueFastHalfBoardEvenOddBenchmark
 {
     [Params(16, 17)]
