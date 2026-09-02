@@ -27,7 +27,6 @@ public partial class BitmaskSolver
                     {
                         _solutionCount = 1;
                         MaterializeSingle(rows);
-                        RaiseSolutionFound(rows, BoardSize);
                         return true;
                     }
                     return false;
@@ -82,7 +81,6 @@ public partial class BitmaskSolver
                 {
                     _solutionCount = 1;
                     MaterializeSingle(rows);
-                    RaiseSolutionFound(rows, BoardSize);
                     return true;
                 }
                 return false;
@@ -148,5 +146,4 @@ public partial class BitmaskSolver
 
         RaiseSolutionFound(rows, BoardSize);
     }
-
-    }
+}
