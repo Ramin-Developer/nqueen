@@ -47,6 +47,10 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Made BenchmarkDotNet an explicit benchmark project dependency.** Added a direct
+  `BenchmarkDotNet` package reference to `NQueen.Benchmarking` so Visual Studio and
+  restore resolve the centrally pinned version instead of relying on the profiler diagnoser's
+  older transitive dependency.
 - **Updated Microsoft.Testing.Extensions.CodeCoverage.** Bumped the central package version from
   18.10.0 to 18.11.0 and refreshed restore/build validation.
 - **Split larger Unique count-only work items at depth 3.** `CountUniqueFastHalfBoard`
