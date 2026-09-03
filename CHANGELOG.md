@@ -47,6 +47,8 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Updated Microsoft.Testing.Extensions.CodeCoverage.** Bumped the central package version from
+  18.10.0 to 18.11.0 and refreshed restore/build validation.
 - **Split larger Unique count-only work items at depth 3.** `CountUniqueFastHalfBoard`
   now keeps depth-2 partitioning for N=16/17 and uses depth-3 work items for N>=18,
   improving load balance for larger boards while preserving the same leaf set. BenchmarkDotNet
