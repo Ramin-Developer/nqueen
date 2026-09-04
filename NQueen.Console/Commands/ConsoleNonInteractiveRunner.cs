@@ -24,6 +24,11 @@ public static class ConsoleNonInteractiveRunner
             PrintHelp(output);
             return;
         }
+        if (!IsValidBoardSize(options.Mode, options.BoardSize))
+        {
+            output.WriteLine(GetInvalidBoardSizeMessage(options.Mode));
+            return;
+        }
 
         var formatter = new SolutionFormatter();
         using var solver = new BitmaskSolver(options.BoardSize, options.Mode, DisplayMode.Hide, formatter, maxSolutionsInOutput: options.DisplayedCap)
@@ -69,4 +74,18 @@ public static class ConsoleNonInteractiveRunner
         output.WriteLine("  Count All solutions N=15: dotnet run --project NQueen.Console -- --mode all --size 15 --count-only");
         output.WriteLine("  Materialize 5 sample Unique solutions N=12: dotnet run --project NQueen.Console -- --mode unique --size 12");
     }
+
+    private static bool IsValidBoardSize(SolutionMode mode, int boardSize) =>
+        boardSize >= BoardSettings.MinSize && boardSize <= GetMaxBoardSize(mode);
+
+    private static int GetMaxBoardSize(SolutionMode mode) => mode switch
+    {
+        SolutionMode.Single => BoardSettings.MaxSizeForSingle,
+        SolutionMode.Unique => BoardSettings.MaxSizeForUnique,
+        SolutionMode.All => BoardSettings.MaxSizeForAll,
+        _ => throw new ArgumentOutOfRangeException(nameof(mode))
+    };
+
+    private static string GetInvalidBoardSizeMessage(SolutionMode mode) =>
+        $"Invalid board size. Enter a value from {BoardSettings.MinSize} to {GetMaxBoardSize(mode)}.";
 }

@@ -1,4 +1,4 @@
-﻿namespace NQueen.Domain.Models;
+namespace NQueen.Domain.Models;
 
 public class Solution
 {
@@ -24,8 +24,8 @@ public class Solution
     // New packed constructor (rows packed 5 bits each into UInt128). Supports boards up to 25.
     public Solution(UInt128 packedRows, int boardSize, ISolutionFormatter formatter, int? id = null)
     {
-        if (boardSize <= 0 || boardSize > 25)
-            throw new ArgumentOutOfRangeException(nameof(boardSize), "Packed storage supports board sizes 1..25.");
+        if (boardSize <= 0 || boardSize > BoardSettings.MaxPackedSolutionStorageSize)
+            throw new ArgumentOutOfRangeException(nameof(boardSize), $"Packed storage supports board sizes 1..{BoardSettings.MaxPackedSolutionStorageSize}.");
         Id = id ?? Interlocked.Increment(ref _globalSequence);
         Name = $"Solution No. {Id:D2}";
         BoardSize = boardSize;

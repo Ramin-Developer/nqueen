@@ -47,6 +47,21 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Corrected large-board solution counts.** Updated `ExpectedSolutionCounts` and
+  `Documentation/Elapsed Times.xlsm` so N=20-23 use canonical Unique counts, N=22-23
+  use canonical All counts, and all N=18-23 All/Unique factors are below 8.00.
+- **Aligned Unique/All board-size limits with lookup data.** Added
+  `BoardSettings.MaxKnownSolutionCountSize` and raised Unique/All validation limits to
+  the full known-count range through N=29.
+- **Aligned Console board-size validation with mode limits.** ConsoleApp now rejects
+  Unique/All board sizes above the known-count range instead of attempting an unsupported
+  simulation.
+- **Kept packed solution storage limit explicit.** Added `MaxPackedSolutionStorageSize`
+  for N=25 sample-solution boundaries so tests no longer infer that limit from Unique/All
+  mode maxima.
+- **Kept high-board test coverage lookup-backed.** Updated opt-in high-board count tests
+  to cover only `LookupThresholdN` through `MaxKnownSolutionCountSize`; N=20 actual
+  enumeration remains a manual/performance validation case.
 - **Made BenchmarkDotNet an explicit benchmark project dependency.** Added a direct
   `BenchmarkDotNet` package reference to `NQueen.Benchmarking` so Visual Studio and
   restore resolve the centrally pinned version instead of relying on the profiler diagnoser's

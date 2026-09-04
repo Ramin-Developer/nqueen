@@ -1,4 +1,4 @@
-﻿namespace NQueen.Domain.Settings;
+namespace NQueen.Domain.Settings;
 
 public static class BoardSettings
 {
@@ -10,9 +10,13 @@ public static class BoardSettings
     // beyond that a multi-word bitset would be required.
     public const int MaxBitmaskBoardSize = 64;
 
+    public const int MaxPackedSolutionStorageSize = 25;
+
+    public const int MaxKnownSolutionCountSize = 29;
+
     public const int MaxSizeForSingle = 37;
-    public const int MaxSizeForUnique = 25;
-    public const int MaxSizeForAll = 25;
+    public const int MaxSizeForUnique = MaxKnownSolutionCountSize;
+    public const int MaxSizeForAll = MaxKnownSolutionCountSize;
 
     public const char WhiteQueenChar = '\u2655';
     public const string QueenImageResource =
