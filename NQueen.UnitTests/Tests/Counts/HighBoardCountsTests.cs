@@ -10,8 +10,12 @@ public class HighBoardCountsTests(SolverBackEndFixture fixture)
     private static readonly bool _fullCoverage =
         Environment.GetEnvironmentVariable(TestShared.TestSettings.EnvFullHighboardCoverage) == "true";
 
-    // Prefer lookup-path boards to avoid long enumerations; allow opt-in full coverage via env var
-    private static readonly int[] _fullBoardSet = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+    // Prefer lookup-path boards to avoid long enumerations; allow opt-in full lookup coverage via env var.
+    // N=20 remains an explicit manual/performance validation case because it is below LookupThresholdN.
+    private static readonly int[] _fullBoardSet =
+        [.. Enumerable.Range(
+            SimulationSettings.LookupThresholdN,
+            BoardSettings.MaxKnownSolutionCountSize - SimulationSettings.LookupThresholdN + 1)];
     private static readonly int[] _fastBoardSet = [SimulationSettings.LookupThresholdN];
 
     public static TheoryData<int> HighBoards =>

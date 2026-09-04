@@ -52,4 +52,16 @@ public class ConsoleNonInteractiveRunnerTests
         output.ShouldContain("Board Size      : 4");
         output.ShouldContain("Solutions Count : 1");
     }
+
+    [Fact]
+    public void Run_UniqueAboveKnownCountRange_WritesErrorWithoutSolving()
+    {
+        using var writer = new StringWriter();
+
+        ConsoleNonInteractiveRunner.Run(["--mode", "unique", "--size", (BoardSettings.MaxSizeForUnique + 1).ToString(), "--count-only"], writer);
+
+        var output = writer.ToString();
+        output.ShouldContain($"Invalid board size. Enter a value from {BoardSettings.MinSize} to {BoardSettings.MaxSizeForUnique}.");
+        output.ShouldNotContain("Solutions Count");
+    }
 }

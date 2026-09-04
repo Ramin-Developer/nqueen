@@ -1,4 +1,4 @@
-﻿namespace NQueen.TestShared.Data;
+namespace NQueen.TestShared.Data;
 
 public static class NQueenTestSets
 {
@@ -81,7 +81,7 @@ public static class NQueenTestSets
             { 11, SolutionMode.Single },
             { 12, SolutionMode.Single },
             { 13, SolutionMode.Single },
-            { BoardSettings.MaxSizeForUnique, SolutionMode.Single },
+            { BoardSettings.MaxPackedSolutionStorageSize, SolutionMode.Single },
             { BoardSettings.MaxSizeForSingle, SolutionMode.Single },
         };
 

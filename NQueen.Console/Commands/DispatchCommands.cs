@@ -28,7 +28,7 @@ public class DispatchCommands
             }
             while (state.ExitRequested == false)
             {
-                var boardSize = ShowBoardSizeMenu(state);
+                var boardSize = ShowBoardSizeMenu(state, mode.Value);
                 if (state.ExitRequested) break;
                 if (boardSize == -1) break;
                 var context = new SimulationContext(boardSize, mode.Value, DisplayMode.Hide);
@@ -51,13 +51,13 @@ public class DispatchCommands
                     }
                     if (input == "back" || input == "b")
                         break;
-                    if (int.TryParse(input, out int nextBoardSize) &&
-                        nextBoardSize >= 1 && nextBoardSize <= BoardSettings.MaxBitmaskBoardSize)
+                    if (TryValidateBoardSize(input, mode.Value, out int nextBoardSize))
                     {
                         var nextContext = new SimulationContext(nextBoardSize, mode.Value, DisplayMode.Hide);
                         ShowCombinedResults(services, nextContext, state, useCountOnly, mode.Value);
                         continue;
                     }
+                    Console.WriteLine(GetInvalidBoardSizeMessage(mode.Value));
                 }
                 break;
             }
@@ -181,30 +181,48 @@ public class DispatchCommands
         return modes[modeIndex - 1];
     }
 
-    private static int ShowBoardSizeMenu(MenuState state)
+    private static int ShowBoardSizeMenu(MenuState state, SolutionMode mode)
     {
         state.BlankInputCount = 0;
-        Console.Write($"Enter board size (1-{BoardSettings.MaxBitmaskBoardSize}, or 0 to go back): ");
-        var sizeInput = Console.ReadLine();
+        while (state.ExitRequested == false)
+        {
+            Console.Write($"Enter board size (1-{GetMaxBoardSize(mode)}, or 0 to go back): ");
+            var sizeInput = Console.ReadLine();
 
-        if (IsQuitInput(sizeInput, state))
-        {
-            state.ExitRequested = true;
-            return -1;
+            if (IsQuitInput(sizeInput, state))
+            {
+                state.ExitRequested = true;
+                return -1;
+            }
+            if (sizeInput == "0")
+            {
+                Console.WriteLine();
+                return -1;
+            }
+            if (TryValidateBoardSize(sizeInput, mode, out int boardSize))
+            {
+                return boardSize;
+            }
+            Console.WriteLine(GetInvalidBoardSizeMessage(mode));
         }
-        if (sizeInput == "0")
-        {
-            Console.WriteLine();
-            return -1;
-        }
-        if (int.TryParse(sizeInput, out int boardSize) == false ||
-            boardSize < 1 || boardSize > BoardSettings.MaxBitmaskBoardSize)
-        {
-            Console.WriteLine("Invalid board size. Try again.\n");
-            return -1;
-        }
-        return boardSize;
+        return -1;
     }
+
+    private static bool TryValidateBoardSize(string? input, SolutionMode mode, out int boardSize) =>
+        int.TryParse(input, out boardSize)
+        && boardSize >= BoardSettings.MinSize
+        && boardSize <= GetMaxBoardSize(mode);
+
+    private static int GetMaxBoardSize(SolutionMode mode) => mode switch
+    {
+        SolutionMode.Single => BoardSettings.MaxSizeForSingle,
+        SolutionMode.Unique => BoardSettings.MaxSizeForUnique,
+        SolutionMode.All => BoardSettings.MaxSizeForAll,
+        _ => throw new ArgumentOutOfRangeException(nameof(mode))
+    };
+
+    private static string GetInvalidBoardSizeMessage(SolutionMode mode) =>
+        $"Invalid board size. Enter a value from {BoardSettings.MinSize} to {GetMaxBoardSize(mode)}.\n";
 
     private static bool IsQuitInput(string? input, MenuState state)
     {
