@@ -49,6 +49,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Updated GitHub Actions to Node 24-compatible versions.** Bumped checkout,
+  setup-dotnet, and cache workflow actions from v4 to v5 to remove Node 20
+  deprecation warnings.
 - **Corrected large-board solution counts.** Updated `ExpectedSolutionCounts` and
   `Documentation/Elapsed Times.xlsm` so N=20-23 use canonical Unique counts, N=22-23
   use canonical All counts, and all N=18-23 All/Unique factors are below 8.00.
