@@ -47,6 +47,9 @@
 ### Progress Updates
 - Provide concise progress updates with only a summary at the end to conserve Copilot premium request usage near monthly limits.
 
+### Branch Management
+- Complete branch cleanup before starting or continuing new feature work.
+
 ### Changelog
 - Update `CHANGELOG.md` under `[Unreleased]` for every meaningful change before merging to `main`.
 
