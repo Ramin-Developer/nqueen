@@ -59,6 +59,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Fixed CountOnly progress completion.** Count-only All/Unique solver runs now keep terminal
+  progress reporting enabled so the GUI receives the final 100% update without adding hot-path
+  callbacks or materialization events.
 - **Made benchmark profiles non-interactive.** Named `NQueen.Benchmarking` profiles now pass a
   wildcard BenchmarkDotNet filter internally, so `unique`, `all`, and other local profiles run
   without prompting for benchmark selection.

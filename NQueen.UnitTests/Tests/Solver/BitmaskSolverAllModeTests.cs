@@ -130,6 +130,42 @@ public class BitmaskSolverAllModeTests
         result.Solutions.ShouldBeEmpty();
     }
 
+    [Fact]
+    public async Task AllMode_CountOnly_ReportsTerminalProgress()
+    {
+        using var solver = new BitmaskSolver(new SolutionFormatter())
+        {
+            EnableEvents = true,
+            UseCountOnlyAllMode = true,
+        };
+        var reported = new List<double>();
+        var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
+        var ctx = new SimulationContext(8, SolutionMode.All, DisplayMode.Hide, OnProgress: progress);
+
+        var result = await solver.GetSimResultsAsync(ctx);
+
+        result.SolutionsCount.ShouldBe(92UL);
+        result.Solutions.ShouldBeEmpty();
+        reported.ShouldContain(100.0, "completed count-only runs must publish terminal progress for the UI");
+    }
+
+    [Fact]
+    public async Task AllMode_CountOnly_DoesNotReportProgress_WhenEventsDisabled()
+    {
+        using var solver = new BitmaskSolver(new SolutionFormatter())
+        {
+            EnableEvents = false,
+            UseCountOnlyAllMode = true,
+        };
+        var reported = new List<double>();
+        var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
+        var ctx = new SimulationContext(8, SolutionMode.All, DisplayMode.Hide, OnProgress: progress);
+
+        await solver.GetSimResultsAsync(ctx);
+
+        reported.ShouldBeEmpty("explicitly disabled events must still suppress progress notifications");
+    }
+
     // -- DFS cap-stop semantics in CollectAllSampleSolutionsDFS ---------------
 
     [Fact]

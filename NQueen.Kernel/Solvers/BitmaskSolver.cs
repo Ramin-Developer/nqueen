@@ -137,8 +137,6 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
             bool uniqueCountOnly = UseCountOnlyUniqueMode || UniqueStorageMode == ResultStorageMode.CountOnly;
 
             bool origEnableEvents = EnableEvents;
-            if (uniqueCountOnly || allCountOnly)
-                EnableEvents = false;
 
             ResetForSolve();
             Solution.ResetSequence();
@@ -160,7 +158,9 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
             }
             sw.Stop();
 
-            // Restore event flag
+            // Restore event flag. Count-only paths intentionally keep progress enabled so the
+            // terminal 100% notification reaches the UI; they do not materialize solutions, so
+            // there is no per-solution event overhead to suppress.
             EnableEvents = origEnableEvents;
 
             var results = BuildResults(sw.Elapsed);

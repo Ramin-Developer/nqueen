@@ -92,4 +92,23 @@ public class BitmaskSolverCountUniqueTests
         result.SolutionsCount.ShouldBe(6UL);
         result.Solutions.ShouldBeEmpty();
     }
+
+    [Fact]
+    public async Task CountUniqueAdaptive_CountOnly_ReportsTerminalProgress()
+    {
+        using var solver = new BitmaskSolver(new SolutionFormatter())
+        {
+            EnableEvents = true,
+            UseCountOnlyUniqueMode = true,
+        };
+        var reported = new List<double>();
+        var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
+        var ctx = new SimulationContext(8, SolutionMode.Unique, DisplayMode.Hide, OnProgress: progress);
+
+        var result = await solver.GetSimResultsAsync(ctx);
+
+        result.SolutionsCount.ShouldBe(12UL);
+        result.Solutions.ShouldBeEmpty();
+        reported.ShouldContain(100.0, "completed count-only runs must publish terminal progress for the UI");
+    }
 }
