@@ -37,6 +37,22 @@ dotnet run -c Release --project NQueen.Benchmarking -- --filter *UniqueFastHalfB
 
 Set `BENCHMARK_MODE=1` to force BenchmarkDotNet assembly-switcher behavior even without `--` arguments.
 
+## Fresh local baseline
+
+Measured on 2026-10-01 with BenchmarkDotNet 0.15.8, Windows 11 10.0.26300.9550, Intel Core i7-14700K, .NET SDK 10.0.401, and .NET 10.0.12 runtime.
+
+| Profile | Benchmark | BoardSize | Mean | Error | StdDev |
+|---|---|---:|---:|---:|---:|
+| `unique` | Unique Count-Only Fast Half-Board | 16 | 192.7 ms | 1.37 ms | 1.28 ms |
+| `unique` | Unique Count-Only Fast Half-Board | 17 | 1,523.5 ms | 14.23 ms | 13.31 ms |
+| `unique` | Unique Count-Only Fast Half-Board | 18 | 9,383.3 ms | 102.16 ms | 95.56 ms |
+| `all` | All Parallel Count-Only Scaling | 16 | 141.9 ms | 0.84 ms | 0.74 ms |
+| `all` | All Parallel Count-Only Scaling | 18 | 7,297.5 ms | 89.97 ms | 84.16 ms |
+| `all` | Recursive Search | 16 | 150.6 ms | 1.04 ms | 0.93 ms |
+| `all` | Iterative Search (production) | 16 | 144.8 ms | 0.81 ms | 0.72 ms |
+| `all` | Recursive Search | 18 | 7,513.8 ms | 67.81 ms | 63.43 ms |
+| `all` | Iterative Search (production) | 18 | 7,252.1 ms | 87.37 ms | 81.73 ms |
+
 ## Manual validation context
 
 Manual GUI/console timings are useful context but should not replace BenchmarkDotNet baselines. For N=20 Unique CountOnly, verify the displayed count against `ExpectedSolutionCounts.GetUnique(20)` (`4,878,666,808`) before using a manual timing as evidence.
