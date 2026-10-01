@@ -7,6 +7,10 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Benchmarking usage guide.** Added `NQueen.Benchmarking/README.md` documenting the
+  canonical BenchmarkDotNet profiles, focused benchmark commands, switcher usage, and how to
+  treat manual N=20 Unique CountOnly timings as context that must be verified against the
+  canonical expected count before driving performance work.
 - **Elapsed-times workbook plots.** Updated `Documentation/Elapsed Times.xlsm` with
   workbook chart additions for the recorded N-Queens data.
 - **Direct N=18 coverage in the canonical Unique fast half-board benchmark.** Extended
@@ -52,6 +56,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Refreshed benchmark harness defaults.** `NQueen.Benchmarking` now supports named local
+  profiles (`canonical`, `unique`, `all`, `frontend`, `console`) and defaults to the current
+  canonical evidence set instead of the historical Console pruning comparison.
 - **Updated NuGet packages to latest compatible stable versions.** Bumped central versions for
   `Microsoft.Extensions.DependencyInjection` / `Microsoft.Extensions.Hosting` 10.0.11 → 10.0.12,
   `Microsoft.NET.Test.Sdk` 18.9.0 → 18.10.1,
