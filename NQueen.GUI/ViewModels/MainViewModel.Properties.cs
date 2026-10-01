@@ -78,6 +78,7 @@ public sealed partial class MainViewModel : ObservableObject
             if (changed)
             {
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(ResultLabel));
                 ApplyStorageModesToSolver();
             }
         }

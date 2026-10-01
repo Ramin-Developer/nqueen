@@ -59,6 +59,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Corrected CountOnly solution summary label.** The GUI now shows `Solutions` for
+  CountOnly All/Unique runs and reserves `Solutions (Max: 5)` for Materialize mode, where
+  the displayed sample list is capped.
 - **Fixed CountOnly progress completion.** Count-only All/Unique solver runs now keep terminal
   progress reporting enabled so the GUI receives the final 100% update without adding hot-path
   callbacks or materialization events.

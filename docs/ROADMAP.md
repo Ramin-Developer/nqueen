@@ -12,8 +12,8 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-10-01).** Active branch `fix/progress-completion-accuracy` fixes
-> CountOnly progress completion so high-N runs report terminal 100% without hot-path overhead.
+> **Current handoff (2026-10-01).** Active branch `fix/countonly-summary-label` corrects the
+> GUI CountOnly solution summary label after the merged terminal-progress fix.
 > Fresh BenchmarkDotNet baselines have been captured before any further solver-performance work. On the
 > local i7-14700K/.NET 10 environment, `unique` measured N=16 192.7 ms, N=17 1,523.5 ms,
 > and N=18 9,383.3 ms; `all` measured N=18 All parallel 7,297.5 ms and production iterative
@@ -36,15 +36,18 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `fix/progress-completion-accuracy` — terminal progress accuracy for CountOnly runs. |
+| Active branch | `fix/countonly-summary-label` — CountOnly solution summary label correction. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **705 / 705 passing** (Unit + ViewModel suites; latest validation on `fix/progress-completion-accuracy`). |
+| Test count | **709 / 709 passing** (Unit + ViewModel suites; latest validation on `fix/countonly-summary-label`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
-| Build status | 0 errors / 0 reported warnings (full solution build); full test suite 705/705 passing. |
+| Build status | 0 errors / 0 reported warnings (full solution build); full test suite 709/709 passing. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
-- **CountOnly progress completion** (`fix/progress-completion-accuracy`, in progress). Keeps
+- **CountOnly summary label** (`fix/countonly-summary-label`, in progress). Shows `Solutions`
+  for CountOnly All/Unique runs and reserves `Solutions (Max: 5)` for Materialize mode.
+
+- **CountOnly progress completion** (`fix/progress-completion-accuracy`, 2026-10-01). Keeps
   terminal 100% progress reporting active for All/Unique count-only runs while avoiding
   per-solution event overhead.
 

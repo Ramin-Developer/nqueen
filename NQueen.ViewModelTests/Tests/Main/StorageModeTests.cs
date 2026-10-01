@@ -42,6 +42,33 @@ public class StorageModeTests
     [Theory]
     [InlineData(SolutionMode.Unique)]
     [InlineData(SolutionMode.All)]
+    public void ResultLabel_ShouldOmitMaxDisplayed_WhenStorageModeIsCountOnly(
+        SolutionMode solutionMode)
+    {
+        var vm = TestHelpers.CreateMainViewModel(solutionMode: solutionMode);
+
+        vm.SelectedStorageMode.ShouldBe(ResultStorageMode.CountOnly);
+        vm.ResultLabel.ShouldBe("Solutions",
+            "CountOnly shows only the total count, not a capped materialized sample list.");
+    }
+
+    [Theory]
+    [InlineData(SolutionMode.Unique)]
+    [InlineData(SolutionMode.All)]
+    public void ResultLabel_ShouldIncludeMaxDisplayed_WhenStorageModeIsMaterialize(
+        SolutionMode solutionMode)
+    {
+        var vm = TestHelpers.CreateMainViewModel(solutionMode: solutionMode);
+
+        vm.SelectedStorageMode = ResultStorageMode.Materialize;
+
+        vm.ResultLabel.ShouldContain("Solutions");
+        vm.ResultLabel.ShouldContain(SimulationSettings.MaxDisplayedCount.ToString());
+    }
+
+    [Theory]
+    [InlineData(SolutionMode.Unique)]
+    [InlineData(SolutionMode.All)]
     public void CanChangeStorageMode_ShouldBeTrue_WhenSolutionModeIsUniqueOrAll(
         SolutionMode solutionMode)
     {
