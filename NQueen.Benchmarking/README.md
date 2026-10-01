@@ -43,18 +43,26 @@ Measured on 2026-10-01 with BenchmarkDotNet 0.15.8, Windows 11 10.0.26300.9550, 
 
 | Profile | Benchmark | BoardSize | Mean | Error | StdDev |
 |---|---|---:|---:|---:|---:|
-| `unique` | Unique Count-Only Fast Half-Board | 16 | 192.7 ms | 1.37 ms | 1.28 ms |
-| `unique` | Unique Count-Only Fast Half-Board | 17 | 1,523.5 ms | 14.23 ms | 13.31 ms |
-| `unique` | Unique Count-Only Fast Half-Board | 18 | 9,383.3 ms | 102.16 ms | 95.56 ms |
-| `all` | All Parallel Count-Only Scaling | 16 | 141.9 ms | 0.84 ms | 0.74 ms |
-| `all` | All Parallel Count-Only Scaling | 18 | 7,297.5 ms | 89.97 ms | 84.16 ms |
-| `all` | Recursive Search | 16 | 150.6 ms | 1.04 ms | 0.93 ms |
-| `all` | Iterative Search (production) | 16 | 144.8 ms | 0.81 ms | 0.72 ms |
-| `all` | Recursive Search | 18 | 7,513.8 ms | 67.81 ms | 63.43 ms |
-| `all` | Iterative Search (production) | 18 | 7,252.1 ms | 87.37 ms | 81.73 ms |
+| `unique` | Unique Count-Only Fast Half-Board | 16 | 183.3 ms | 0.86 ms | 0.80 ms |
+| `unique` | Unique Count-Only Fast Half-Board | 17 | 1,454.0 ms | 6.29 ms | 5.88 ms |
+| `unique` | Unique Count-Only Fast Half-Board | 18 | 9,093.3 ms | 56.54 ms | 52.88 ms |
+| `all` | All Parallel Count-Only Scaling | 16 | 139.6 ms | 0.43 ms | 0.36 ms |
+| `all` | All Parallel Count-Only Scaling | 18 | 7,056.0 ms | 29.72 ms | 26.35 ms |
+| `all` | Recursive Search | 16 | 145.7 ms | 0.72 ms | 0.67 ms |
+| `all` | Iterative Search (production) | 16 | 140.4 ms | 0.71 ms | 0.66 ms |
+| `all` | Recursive Search | 18 | 7,408.6 ms | 45.16 ms | 42.25 ms |
+| `all` | Iterative Search (production) | 18 | 7,126.4 ms | 23.87 ms | 21.16 ms |
 
 ## Manual validation context
 
-Manual GUI/console timings are useful context but should not replace BenchmarkDotNet baselines. For N=20 Unique CountOnly, verify the displayed count against `ExpectedSolutionCounts.GetUnique(20)` (`4,878,666,808`) before using a manual timing as evidence.
+Manual GUI/console timings are useful context but should not replace BenchmarkDotNet baselines. Keep N=20 Unique CountOnly available as a real simulation path; verify the displayed count against `ExpectedSolutionCounts.GetUnique(20)` (`4,878,666,808`) before using a manual timing as evidence.
 
 Recent user-reported manual observation to recheck on the same machine: N=20 Unique CountOnly, elapsed `641.5 s`, memory `190 MB`.
+
+Manual command-line validation path:
+
+```powershell
+dotnet run -c Release --project NQueen.Console -- --mode unique --size 20 --count-only
+```
+
+Only use the elapsed time as performance evidence if the simulation completes and the output count is `4,878,666,808`.

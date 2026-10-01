@@ -41,9 +41,12 @@ public sealed partial class MainViewModel :
             : _lastValidBoardSize;
 
     public string ResultLabel =>
-        SolutionMode != SolutionMode.Single && SelectedStorageMode == ResultStorageMode.CountOnly
-            ? "Solutions"
-            : SolutionFormatter.UpdateSolutionLabel(SolutionMode);
+        ShouldShowCappedSolutionLabel()
+            ? SolutionFormatter.UpdateSolutionLabel(SolutionMode)
+            : "Solutions";
+
+    private bool ShouldShowCappedSolutionLabel() =>
+        SolutionMode == SolutionMode.Single || SelectedStorageMode == ResultStorageMode.Materialize;
 
     public ChessboardViewModel ChessboardVm { get; set; }
 
