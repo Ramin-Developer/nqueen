@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **N=20 Unique CountOnly validation guard.** Added explicit test coverage for the canonical
+  N=20 unique count (`4,878,666,808`) and documented the manual console validation command,
+  while keeping N=20 as a real simulation path for performance evidence.
 - **Fresh BenchmarkDotNet solver baseline.** Recorded current local `unique` and `all`
   profile results for the i7-14700K/.NET 10 environment in `NQueen.Benchmarking/README.md`
   before starting any further solver-performance changes.
@@ -59,6 +62,11 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Simplified solution-summary label selection.** Extracted the CountOnly vs Materialize label
+  decision into a small ViewModel helper so the cap wording is tied directly to storage mode.
+- **Refreshed clean-machine benchmark baselines.** Updated benchmark documentation with the
+  rerun captured after closing competing applications: Unique N=18 `9,093.3 ms`, All parallel
+  N=18 `7,056.0 ms`, and All iterative N=18 `7,126.4 ms`.
 - **Corrected CountOnly solution summary label.** The GUI now shows `Solutions` for
   CountOnly All/Unique runs and reserves `Solutions (Max: 5)` for Materialize mode, where
   the displayed sample list is capped.
