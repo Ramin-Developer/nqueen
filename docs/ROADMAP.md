@@ -12,23 +12,14 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-08-31).** The repository is clean on `main` after PR #38
-> (`perf/unique-depth3-partition`). Recent measured Unique CountOnly work improved
-> N=18 from 9,488.9 ms to 9,125.0 ms (~3.8%) in BenchmarkDotNet, with N=16/N=17
-> neutral. Manual same-machine GUI validation improved N=20 from 710.2 sec to
-> 572.0 sec total (~19.5%) after the even-board pruning and depth-3 partitioning PRs.
-> The attempted `SymmetryHelper.IsIdentityCanonical` switchless refactor and
-> cancellation-polling reorder both regressed/no-improved and were reverted. Recent shipped work:
-> PR #12 (NuGet/xUnit v4 + Microsoft.Testing.Platform migration), PR #13 (remove
-> redundant coverlet packages), PR #14 (restore tracked `Documentation/Elapsed Times.xlsm`
-> with local `skip-worktree` guidance), PR #15 (tidy `[Unreleased]` changelog sections),
-> PR #16 (shared `BitmaskSolverRunConfigurator` + front-end invocation benchmark),
-> PR #19 (README usage refresh), PR #20 (Console half-board cleanup + concise
-> Copilot instruction), PR #23 (Console CLI parser extraction), PR #24
-> (focused shared-configurator tests), and PR #26 (Console non-interactive runner
-> extraction). Build/CI passed; latest focused validation was **16/16 Console tests
-> passing** after PR #26; latest full local test validation was **667/667 passing**
-> after PR #16.
+> **Current handoff (2026-10-01).** Active branch `upgrade-nuget-modernize` updates
+> centrally managed NuGet packages to the latest compatible stable versions selected by
+> assessment, removes the unused `xunit.runner.console` central package entry, and leaves
+> solver behavior unchanged. Local validation passed: restore, full solution build with no
+> reported warnings, and **702/702 tests passing**. Recent measured Unique CountOnly work
+> improved N=18 from 9,488.9 ms to 9,125.0 ms (~3.8%) in BenchmarkDotNet, with N=16/N=17
+> neutral. Manual same-machine GUI validation improved N=20 from 710.2 sec to 572.0 sec
+> total (~19.5%) after the even-board pruning and depth-3 partitioning PRs.
 >
 > **Recommended next high-value task.** Pause Unique CountOnly micro-optimization for now;
 > future work should start with a fresh benchmark/trace only if pursuing a larger algorithmic
@@ -45,13 +36,18 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | **none** — clean `main` after PR #38. |
+| Active branch | `upgrade-nuget-modernize` — NuGet package maintenance and safe cleanup. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **667 / 667 passing** (Unit + ViewModel suites; latest validation after GUI/Console path consolidation in PR #16). |
+| Test count | **702 / 702 passing** (Unit + ViewModel suites; latest validation on `upgrade-nuget-modernize`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
-| Build status | 0 errors / 0 warnings (`NQueen.Kernel` build); `NQueen.UnitTests` 560/560 passing. |
+| Build status | 0 errors / 0 reported warnings (full solution build); full test suite 702/702 passing. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+
+- **NuGet maintenance refresh** (`upgrade-nuget-modernize`, 2026-10-01). Updated central
+  package versions for Microsoft.Extensions, Microsoft.NET.Test.Sdk, Microsoft.Testing coverage,
+  Moq, and xUnit v3 assert/core packages; removed the unused `xunit.runner.console` central
+  version entry. Restore/build passed and the full local suite remains green at 702/702.
 
 - **GUI/Console solver setup consolidation and benchmark** (PR #16,
   `perf/benchmark-gui-console-unique-countonly`, 2026-08-31). Added shared

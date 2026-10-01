@@ -43,12 +43,23 @@ All notable changes to this project are documented here.
   and a live-run toggle asserting gate reset/set). Build clean; ViewModelTests 135/135.
 
 ### Removed
+- **Removed unused `xunit.runner.console` central package version.** The package is not
+  referenced by any project, so its orphaned `Directory.Packages.props` entry was removed
+  during NuGet maintenance cleanup.
 - **Removed redundant `coverlet.collector` / `coverlet.msbuild` packages.** Code coverage is
   now collected through Microsoft.Testing.Platform's native `--coverage` (backed by
   `Microsoft.Testing.Extensions.CodeCoverage`), so the coverlet references and their central
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Updated NuGet packages to latest compatible stable versions.** Bumped central versions for
+  `Microsoft.Extensions.DependencyInjection` / `Microsoft.Extensions.Hosting` 10.0.11 → 10.0.12,
+  `Microsoft.NET.Test.Sdk` 18.9.0 → 18.10.1,
+  `Microsoft.Testing.Extensions.CodeCoverage` 18.11.0 → 18.11.2,
+  `Moq` 4.20.72 → 4.21.0, and
+  `xunit.v3.core` / `xunit.v3.assert` 4.0.0 → 4.0.1. Quick package assessment found no
+  version divergence or source-breaking public API diffs; restore/build passed and the full
+  test suite remains green (702/702).
 - **Updated GitHub Actions to Node 24-compatible versions.** Bumped checkout,
   setup-dotnet, and cache workflow actions from v4 to v5 to remove Node 20
   deprecation warnings.
