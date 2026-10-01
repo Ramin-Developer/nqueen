@@ -53,6 +53,6 @@ internal class Program
         foreach (var benchmarkType in benchmarkTypes)
             Console.WriteLine($" - {benchmarkType.Name}");
 
-        BenchmarkSwitcher.FromTypes(benchmarkTypes).Run([]);
+        BenchmarkSwitcher.FromTypes(benchmarkTypes).Run(["--filter", "*"]);
     }
 }

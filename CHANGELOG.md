@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Fresh BenchmarkDotNet solver baseline.** Recorded current local `unique` and `all`
+  profile results for the i7-14700K/.NET 10 environment in `NQueen.Benchmarking/README.md`
+  before starting any further solver-performance changes.
 - **Benchmarking usage guide.** Added `NQueen.Benchmarking/README.md` documenting the
   canonical BenchmarkDotNet profiles, focused benchmark commands, switcher usage, and how to
   treat manual N=20 Unique CountOnly timings as context that must be verified against the
@@ -56,6 +59,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Made benchmark profiles non-interactive.** Named `NQueen.Benchmarking` profiles now pass a
+  wildcard BenchmarkDotNet filter internally, so `unique`, `all`, and other local profiles run
+  without prompting for benchmark selection.
 - **Refreshed benchmark harness defaults.** `NQueen.Benchmarking` now supports named local
   profiles (`canonical`, `unique`, `all`, `frontend`, `console`) and defaults to the current
   canonical evidence set instead of the historical Console pruning comparison.
