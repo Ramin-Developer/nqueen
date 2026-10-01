@@ -2,12 +2,12 @@ namespace NQueen.UnitTests.Tests.Domain;
 
 public class SolutionTests
 {
-    private static readonly ISolutionFormatter Formatter = new SolutionFormatter();
+    private static readonly ISolutionFormatter s_formatter = new SolutionFormatter();
 
     [Fact]
     public void ArrayConstructor_PopulatesCoreProperties()
     {
-        var solution = new Solution([1, 3, 0, 2], Formatter, id: 7);
+        var solution = new Solution([1, 3, 0, 2], s_formatter, id: 7);
 
         solution.Id.ShouldBe(7);
         solution.BoardSize.ShouldBe(4);
@@ -18,7 +18,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_Positions_MapColumnsAndRows()
     {
-        var solution = new Solution([2, 0, 3, 1], Formatter, id: 1);
+        var solution = new Solution([2, 0, 3, 1], s_formatter, id: 1);
 
         solution.Positions.Count.ShouldBe(4);
         solution.Positions[0].RowIndex.ShouldBe(2);
@@ -29,7 +29,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_NullArray_Throws()
     {
-        Action act = () => _ = new Solution(null!, Formatter, id: 1);
+        Action act = () => _ = new Solution(null!, s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -37,7 +37,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_EmptyArray_Throws()
     {
-        Action act = () => _ = new Solution([], Formatter, id: 1);
+        Action act = () => _ = new Solution([], s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -45,7 +45,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_NegativePosition_Throws()
     {
-        Action act = () => _ = new Solution([0, -1, 2], Formatter, id: 1);
+        Action act = () => _ = new Solution([0, -1, 2], s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -56,7 +56,7 @@ public class SolutionTests
         int[] rows = [1, 3, 0, 2];
         var packed = Pack(rows);
 
-        var solution = new Solution(packed, rows.Length, Formatter, id: 2);
+        var solution = new Solution(packed, rows.Length, s_formatter, id: 2);
 
         solution.BoardSize.ShouldBe(4);
         solution.QueenPositions.ShouldBe(rows);
@@ -66,7 +66,7 @@ public class SolutionTests
     public void PackedConstructor_Positions_RealizeOnAccess()
     {
         int[] rows = [0, 2, 4, 1, 3];
-        var solution = new Solution(Pack(rows), rows.Length, Formatter, id: 3);
+        var solution = new Solution(Pack(rows), rows.Length, s_formatter, id: 3);
 
         var materialized = solution.Positions.Select(p => p.RowIndex).ToList();
 
@@ -79,7 +79,7 @@ public class SolutionTests
     [InlineData(26)]
     public void PackedConstructor_BoardSizeOutOfRange_Throws(int boardSize)
     {
-        Action act = () => _ = new Solution(UInt128.Zero, boardSize, Formatter, id: 1);
+        Action act = () => _ = new Solution(UInt128.Zero, boardSize, s_formatter, id: 1);
 
         Should.Throw<ArgumentOutOfRangeException>(act);
     }
@@ -87,7 +87,7 @@ public class SolutionTests
     [Fact]
     public void Details_UsesFormatter_OneBasedByDefault()
     {
-        var solution = new Solution([0, 2, 1, 3], Formatter, id: 1);
+        var solution = new Solution([0, 2, 1, 3], s_formatter, id: 1);
 
         solution.Details.ShouldContain("(1,1)");
     }
@@ -95,7 +95,7 @@ public class SolutionTests
     [Fact]
     public void ToString_ReturnsName()
     {
-        var solution = new Solution([0, 1], Formatter, id: 42);
+        var solution = new Solution([0, 1], s_formatter, id: 42);
 
         solution.ToString().ShouldBe("Solution No. 42");
     }
@@ -105,8 +105,8 @@ public class SolutionTests
     {
         Solution.ResetSequence();
 
-        var first = new Solution([0, 1], Formatter);
-        var second = new Solution([0, 1], Formatter);
+        var first = new Solution([0, 1], s_formatter);
+        var second = new Solution([0, 1], s_formatter);
 
         first.Id.ShouldBe(1);
         second.Id.ShouldBe(2);

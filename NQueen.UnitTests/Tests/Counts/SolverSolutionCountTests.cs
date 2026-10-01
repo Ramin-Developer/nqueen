@@ -145,7 +145,7 @@ public class SolverSolutionCountTests(SolverBackEndFixture fixture)
             _ => throw new ArgumentOutOfRangeException(nameof(mode))
         };
 
-        int expectedMaterialized = (int)Math.Min(_maxDisplayedCount, expected);
+        int expectedMaterialized = (int)Math.Min(MaxDisplayedCount, expected);
         results.Solutions.ShouldNotBeNull();
         results.Solutions.Count.ShouldBe(expectedMaterialized, $"Materialize mode should produce min(cap, expected) solutions for {mode} N={n}.");
         results.SolutionsCount.ShouldBe(expected, $"Total solutions count for {mode} N={n} should match expected.");
@@ -181,5 +181,5 @@ public class SolverSolutionCountTests(SolverBackEndFixture fixture)
             s.BoardSize.ShouldBe(n);
     }
 
-    private const int _maxDisplayedCount = SimulationSettings.MaxDisplayedCount;
+    private const int MaxDisplayedCount = SimulationSettings.MaxDisplayedCount;
 }

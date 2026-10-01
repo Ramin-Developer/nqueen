@@ -62,6 +62,9 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Cleaned up private-field naming analyzer warnings.** Aligned `.editorconfig` naming rules
+  with the repository convention for constants, static fields, and instance fields, then renamed
+  the reported private members without changing runtime behavior.
 - **Simplified solution-summary label selection.** Extracted the CountOnly vs Materialize label
   decision into a small ViewModel helper so the cap wording is tied directly to storage mode.
 - **Refreshed clean-machine benchmark baselines.** Updated benchmark documentation with the

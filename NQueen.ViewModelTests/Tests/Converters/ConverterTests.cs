@@ -14,7 +14,7 @@ namespace NQueen.ViewModelTests.Tests.Converters;
 [Trait("Category", "Converters")]
 public class ConverterTests
 {
-    private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
+    private static readonly CultureInfo s_culture = CultureInfo.InvariantCulture;
 
     // ── DisplayModeToEnabledConverter ─────────────────────────────────────────
 
@@ -22,7 +22,7 @@ public class ConverterTests
     public void DisplayModeToEnabled_MatchingMode_ReturnsTrue()
     {
         var converter = new DisplayModeToEnabledConverter();
-        var result = converter.Convert(DisplayMode.Visualize, typeof(bool), "Visualize", Culture);
+        var result = converter.Convert(DisplayMode.Visualize, typeof(bool), "Visualize", s_culture);
         result.ShouldBe(true);
     }
 
@@ -30,7 +30,7 @@ public class ConverterTests
     public void DisplayModeToEnabled_NonMatchingMode_ReturnsFalse()
     {
         var converter = new DisplayModeToEnabledConverter();
-        var result = converter.Convert(DisplayMode.Hide, typeof(bool), "Visualize", Culture);
+        var result = converter.Convert(DisplayMode.Hide, typeof(bool), "Visualize", s_culture);
         result.ShouldBe(false);
     }
 
@@ -38,7 +38,7 @@ public class ConverterTests
     public void DisplayModeToEnabled_UnparsableParameter_ReturnsFalse()
     {
         var converter = new DisplayModeToEnabledConverter();
-        var result = converter.Convert(DisplayMode.Visualize, typeof(bool), "NotAMode", Culture);
+        var result = converter.Convert(DisplayMode.Visualize, typeof(bool), "NotAMode", s_culture);
         result.ShouldBe(false);
     }
 
@@ -46,7 +46,7 @@ public class ConverterTests
     public void DisplayModeToEnabled_NonDisplayModeValue_ReturnsFalse()
     {
         var converter = new DisplayModeToEnabledConverter();
-        var result = converter.Convert("not-a-mode", typeof(bool), "Visualize", Culture);
+        var result = converter.Convert("not-a-mode", typeof(bool), "Visualize", s_culture);
         result.ShouldBe(false);
     }
 
@@ -55,7 +55,7 @@ public class ConverterTests
     {
         var converter = new DisplayModeToEnabledConverter();
         Should.Throw<NotImplementedException>(() =>
-            converter.ConvertBack(true, typeof(DisplayMode), "Visualize", Culture));
+            converter.ConvertBack(true, typeof(DisplayMode), "Visualize", s_culture));
     }
 
     // ── NullImageConverter ────────────────────────────────────────────────────
@@ -64,7 +64,7 @@ public class ConverterTests
     public void NullImage_NullValue_ReturnsUnsetValue()
     {
         var converter = new NullImageConverter();
-        converter.Convert(null!, typeof(object), null!, Culture)
+        converter.Convert(null!, typeof(object), null!, s_culture)
             .ShouldBe(DependencyProperty.UnsetValue);
     }
 
@@ -74,7 +74,7 @@ public class ConverterTests
     public void NullImage_BlankString_ReturnsUnsetValue(string input)
     {
         var converter = new NullImageConverter();
-        converter.Convert(input, typeof(object), null!, Culture)
+        converter.Convert(input, typeof(object), null!, s_culture)
             .ShouldBe(DependencyProperty.UnsetValue);
     }
 
@@ -83,14 +83,14 @@ public class ConverterTests
     {
         var converter = new NullImageConverter();
         const string path = "some/image.png";
-        converter.Convert(path, typeof(object), null!, Culture).ShouldBe(path);
+        converter.Convert(path, typeof(object), null!, s_culture).ShouldBe(path);
     }
 
     [Fact]
     public void NullImage_ConvertBack_ReturnsBindingDoNothing()
     {
         var converter = new NullImageConverter();
-        converter.ConvertBack("x", typeof(object), null!, Culture)
+        converter.ConvertBack("x", typeof(object), null!, s_culture)
             .ShouldBe(Binding.DoNothing);
     }
 
@@ -100,7 +100,7 @@ public class ConverterTests
     public void StringNotEmpty_NonBlank_ReturnsVisible()
     {
         var converter = new StringNotEmptyToVisibilityConverter();
-        converter.Convert("hello", typeof(Visibility), null!, Culture)
+        converter.Convert("hello", typeof(Visibility), null!, s_culture)
             .ShouldBe(Visibility.Visible);
     }
 
@@ -111,7 +111,7 @@ public class ConverterTests
     public void StringNotEmpty_BlankOrNull_ReturnsCollapsed(string? input)
     {
         var converter = new StringNotEmptyToVisibilityConverter();
-        converter.Convert(input!, typeof(Visibility), null!, Culture)
+        converter.Convert(input!, typeof(Visibility), null!, s_culture)
             .ShouldBe(Visibility.Collapsed);
     }
 
@@ -120,6 +120,6 @@ public class ConverterTests
     {
         var converter = new StringNotEmptyToVisibilityConverter();
         Should.Throw<NotImplementedException>(() =>
-            converter.ConvertBack(Visibility.Visible, typeof(string), null!, Culture));
+            converter.ConvertBack(Visibility.Visible, typeof(string), null!, s_culture));
     }
 }
