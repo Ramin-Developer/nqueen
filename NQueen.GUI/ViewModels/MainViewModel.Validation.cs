@@ -231,6 +231,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
             _uniqueStorageMode = SimulationSettings.DefaultUniqueStorageMode;
         }
         OnPropertyChanged(nameof(SelectedStorageMode));
+        OnPropertyChanged(nameof(ResultLabel));
         OnPropertyChanged(nameof(CanChangeStorageMode));
         ApplyStorageModesToSolver();
 
