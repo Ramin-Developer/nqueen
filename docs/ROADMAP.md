@@ -529,6 +529,10 @@ branches. One branch (`test/gui-coverage`), one PR.
 Out of scope: pixel/visual tests and FlaUI/WinAppDriver automation (flaky on CI).
 `App.xaml.cs` startup may stay excluded via `[ExcludeFromCodeCoverage]` if it only wires the host.
 
+Follow-up (after GUI track): cover the `BitmaskParallelEngine.RunUnique` N>=18
+`IdentityPrefixMinimal` prune path (currently untested, 80.6 %) with a `Slow`-tagged test or
+by lowering `PrefixPruneThresholdN` via an internal test hook.
+
 ---
 
 ## Backlog — Kernel Performance
