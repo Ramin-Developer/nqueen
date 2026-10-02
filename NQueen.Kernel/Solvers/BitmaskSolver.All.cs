@@ -2,89 +2,17 @@ namespace NQueen.Kernel.Solvers;
 
 public partial class BitmaskSolver
 {
-    private void RunAllUnified()
-    {
-        int N = BoardSize;
-
-        _solutions.Clear();
-        _eventsSuppressedAfterCap = false;
-        _solutionCount = 0;
-
-        // Non-visualization path: CountOnly fast path or capped materialization
-        ulong total = 0;
-        int materializedCount = 0;
-
-        // Enforce a hard cap in non-visual materialization, independent of _capEnabled
-        int effectiveCap = UseCountOnlyAllMode ? 0 : SimulationSettings.MaxDisplayedCount;
-
-        BitmaskSearchEngine.Run(new BitmaskSearchEngine.Request(
-            BoardSize: N,
-            RestrictFirstCol: false,
-            EnhancedSymmetry: false,
-            AggressiveSymmetry: false,
-            CountOnly: UseCountOnlyAllMode,
-            DisplayMode: DisplayMode.Hide,
-            DelayInMillisec: 0,
-            IsCanceled: () => IsCancellationRequested,
-            ReportProgress: RaiseProgress,
-            OnQueenPlaced: _ => { /* no-op in non-visual path */ },
-            OnSolution: rowsFound =>
-            {
-                if (!ValidateRows(rowsFound)) return false;
-                total++;
-
-                if (!UseCountOnlyAllMode && materializedCount < Math.Max(1, effectiveCap))
-                {
-                    if (rowsFound.Length <= 25)
-                    {
-                        // All mode shows every variant, so store the ACTUAL board (raw packing).
-                        // Canonicalising here would collapse distinct boards onto one key and make
-                        // the displayed/clicked samples render identical placements.
-                        var packed = SymmetryHelper.PackRows(rowsFound);
-                        _solutions.Add((packed, rowsFound.Length));
-                    }
-                    else
-                    {
-                        var copy = new int[rowsFound.Length];
-                        Array.Copy(rowsFound, copy, rowsFound.Length);
-                        _largeBoardRawSolutions.Add(copy);
-                    }
-
-                    materializedCount++;
-
-                    RaiseSolutionFound(rowsFound, N);
-
-                    if (materializedCount >= effectiveCap)
-                    {
-                        // Do NOT stop the engine; keep counting, but suppress further materialization/events
-                        _eventsSuppressedAfterCap = true;
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-        ));
-
-        _solutionCount = total;
-        RaiseProgress(100.0);
-    }
-
     // Wrapper used by HandleModeCommon to select parallel mode and split depth.
     private void EnumerateAllAdaptive(bool countOnly)
     {
         if (countOnly)
         {
-            // N >= 8: symmetry-class counter (All = 2*C2 + 4*C4 + 8*C8); smaller boards keep
-            // the half-board bitboard counter.
-            _solutionCount = BoardSize >= SimulationSettings.UniqueCountOnlyParallelThresholdN
-                ? CountAllSymmetryClass(BoardSize)
-                : (ulong)BitboardNQueenSolver.CountSolutions(BoardSize, parallel: true);
+            _solutionCount = CountAllFast(BoardSize);
             RaiseProgress(100.0);
             return;
         }
 
-        // For large N, RunAllUnified visits every one of the ~39B solutions sequentially with
+        // A full sequential enumeration visits every one of the ~39B solutions (N=20) with
         // no half-board symmetry reduction (e.g. 1343s for N=20). The two-phase approach:
         //   1. Early-exit DFS to collect the display sample (near-instant).
         //   2. BitboardNQueenSolver.CountSolutions with half-board symmetry (~19.5B nodes
@@ -92,26 +20,29 @@ public partial class BitmaskSolver
         //      in parallel.
         // Remove the UseParallel guard so both parallel and sequential configurations
         // benefit; UseParallel is passed through to CountSolutions inside.
-        if (BoardSize >= SimulationSettings.ParallelAllMaterializeAutoEnableThresholdN)
-        {
-            CollectAllSamplesAndCountParallel();
-            return;
-        }
-
-        RunAllUnified();
+        // Applies to every N: the full sequential enumeration was ~20-60x slower than the
+        // fast counter at N=12/13.
+        CollectAllSamplesAndCountParallel();
     }
+
+    // N >= 8: symmetry-class counter (All = 2*C2 + 4*C4 + 8*C8); smaller boards keep
+    // the half-board bitboard counter.
+    private ulong CountAllFast(int n) =>
+        n >= SimulationSettings.UniqueCountOnlyParallelThresholdN
+            ? CountAllSymmetryClass(n)
+            : (ulong)BitboardNQueenSolver.CountSolutions(n, parallel: true);
 
     // Phase 1: collect up to cap solutions via an early-exit DFS (completes in milliseconds).
     // Phase 2: count all solutions with the parallel half-board bitboard counter.
     private void CollectAllSamplesAndCountParallel()
     {
         int N = BoardSize;
-        // Mirror RunAllUnified's effectiveCap: always collect at least one sample regardless of
+        // Always collect at least one sample regardless of
         // _capEnabled (uncapped test solvers still need solutions in the result).
         int cap = Math.Max(1, SimulationSettings.MaxDisplayedCount);
         CollectAllSampleSolutionsDFS(N, cap);
 
-        _solutionCount = CountAllSymmetryClass(N);
+        _solutionCount = CountAllFast(N);
         RaiseProgress(100.0);
     }
 
