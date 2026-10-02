@@ -17,12 +17,12 @@ public partial class BitmaskSolver
         {
             if (n >= SimulationSettings.UniqueCountOnlyParallelThresholdN)
             {
-                // N = 16..20: half-board parallel DFS.
+                // N = 8..20: half-board parallel DFS.
                 return CountUniqueFastHalfBoard(n);
             }
             else
             {
-                // N < 16: parallel canonical enumeration via BitmaskParallelEngine.
+                // N < 8: parallel canonical enumeration via BitmaskParallelEngine.
                 ulong total = 0;
                 BitmaskParallelEngine.RunUnique(new BitmaskParallelEngine.UniqueRequest
                 {
@@ -44,7 +44,7 @@ public partial class BitmaskSolver
     }
 
     // Fast unique count-only path: parallel half-board DFS with symmetry pruning.
-    // Reliable for N >= UniqueCountOnlyParallelThresholdN (16).
+    // Reliable for N >= UniqueCountOnlyParallelThresholdN (8).
     private ulong CountUniqueFastHalfBoard(int n)
     {
         if (n <= 0) return 0UL;
