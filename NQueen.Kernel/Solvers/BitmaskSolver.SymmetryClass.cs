@@ -48,7 +48,7 @@ public partial class BitmaskSolver
         return (c2, c4, c8);
     }
 
-    // Splits
+    // Splits each root (corner bound1 / non-corner bound1) two rows deeper so the parallel loop
     // gets ~N^2 balanced items instead of ~N coarse ones. Row-level pruning for the split row is
     // applied by SymmetryClassCounter.Run exactly as the sequential algorithm would.
     private static SymmetryClassItem[] BuildSymmetryClassItems(int n)
@@ -67,7 +67,7 @@ public partial class BitmaskSolver
             {
                 ulong b = bitmap & (ulong)-(long)bitmap;
                 bitmap ^= b;
-                list.Add(new SymmetryClassItem(Corner: true, b1, b1, b));
+                AddThirdRowItems(list, mask, true, b1, b1, b, (left | b) << 1, down | b, (right | b) >> 1);
             }
         }
 
@@ -82,14 +82,29 @@ public partial class BitmaskSolver
             {
                 ulong b = bitmap & (ulong)-(long)bitmap;
                 bitmap ^= b;
-                list.Add(new SymmetryClassItem(Corner: false, b1, b2, b));
+                AddThirdRowItems(list, mask, false, b1, b2, b, (left | b) << 1, down | b, (right | b) >> 1);
             }
         }
 
         return [.. list];
     }
 
-    private readonly record struct SymmetryClassItem(bool Corner, int Bound1, int Bound2, ulong SecondBit);
+    // Emits one item per non-attacked square of the next row; row-level symmetry filters are
+    // applied in SymmetryClassCounter.Run, which skips items they would have pruned.
+    private static void AddThirdRowItems(
+        List<SymmetryClassItem> list, ulong mask, bool corner, int b1, int b2, ulong second,
+        ulong left, ulong down, ulong right)
+    {
+        ulong bitmap = mask & ~(left | down | right);
+        while (bitmap != 0)
+        {
+            ulong b = bitmap & (ulong)-(long)bitmap;
+            bitmap ^= b;
+            list.Add(new SymmetryClassItem(corner, b1, b2, second, b));
+        }
+    }
+
+    private readonly record struct SymmetryClassItem(bool Corner, int Bound1, int Bound2, ulong SecondBit, ulong ThirdBit);
 
     private sealed class SymmetryClassCounter(int n)
     {
@@ -117,7 +132,13 @@ public partial class BitmaskSolver
                 _board[1] = bit;
                 ulong left = (2UL | bit) << 1, down = 1UL | bit, right = bit >> 1;
                 _board[2] = b;
-                Backtrack1(3, (left | b) << 1, down | b, (right | b) >> 1);
+                left = (left | b) << 1;
+                down |= b;
+                right = (right | b) >> 1;
+                ulong third = item.ThirdBit;
+                if (3 < _bound1 && third == 2UL) return;
+                _board[3] = third;
+                Backtrack1(4, (left | third) << 1, down | third, (right | third) >> 1);
                 return;
             }
 
@@ -135,19 +156,45 @@ public partial class BitmaskSolver
             ulong rootBit = 1UL << _bound1;
             _board[0] = rootBit;
             _board[1] = b;
-            Backtrack2(2, ((rootBit << 1) | b) << 1, rootBit | b, ((rootBit >> 1) | b) >> 1);
+            ulong l2 = ((rootBit << 1) | b) << 1, d2 = rootBit | b, r2 = ((rootBit >> 1) | b) >> 1;
+            ulong row2 = _mask & ~(l2 | d2 | r2);
+            if (2 < _bound1)
+            {
+                row2 &= ~_sideMask;
+            }
+            else if (2 == _bound2)
+            {
+                if ((d2 & _sideMask) == 0) return;
+                if ((d2 & _sideMask) != _sideMask) row2 &= _sideMask;
+            }
+            ulong t3 = item.ThirdBit;
+            if ((row2 & t3) == 0) return;
+            _board[2] = t3;
+            Backtrack2(3, (l2 | t3) << 1, d2 | t3, (r2 | t3) >> 1);
         }
 
+        // Corner roots never consult the board (every leaf is class-8), so no row writes here.
         private void Backtrack1(int y, ulong left, ulong down, ulong right)
         {
             if (y == 5 && _owner!.IsCancellationRequested) return;
-            ulong bitmap = _mask & ~(left | down | right);
-            if (y == _sizeE)
+            ulong mask = _mask;
+            ulong bitmap = mask & ~(left | down | right);
+            if (y >= _sizeE - 1)
             {
-                if (bitmap != 0)
+                if (y == _sizeE)
                 {
-                    _board[y] = bitmap;
-                    Count8++;
+                    if (bitmap != 0) Count8++;
+                    return;
+                }
+
+                // Penultimate row: count completions directly instead of recursing to the leaf.
+                if (y < _bound1) bitmap &= ~2UL;
+                while (bitmap != 0)
+                {
+                    ulong bit = bitmap & (ulong)-(long)bitmap;
+                    bitmap ^= bit;
+                    if ((mask & ~(((left | bit) << 1) | down | bit | ((right | bit) >> 1))) != 0)
+                        Count8++;
                 }
                 return;
             }
@@ -157,7 +204,6 @@ public partial class BitmaskSolver
             {
                 ulong bit = bitmap & (ulong)-(long)bitmap;
                 bitmap ^= bit;
-                _board[y] = bit;
                 Backtrack1(y + 1, (left | bit) << 1, down | bit, (right | bit) >> 1);
             }
         }
