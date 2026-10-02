@@ -6,7 +6,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
-- **Roadmap handoff** (`docs/materialize-handoff`): closed the Visualize/Materialize sample-collection item and the solver-mode parity track in `docs/ROADMAP.md`.
+- **Roadmap and docs refresh** (`docs/materialize-handoff`): rewrote the `docs/ROADMAP.md` handoff section (solver-mode parity complete, next track from backlog), refreshed the Current State table, and replaced stale "in progress" entries with PRs #52–#57.
+
+- **Roadmap handoff**
 
 - **All Materialize small-N fix** (`perf/materialize-sample-collection`): All Materialize for N<14 now uses the two-phase sample + fast-count path instead of a full sequential enumeration (N=12 5.6 -> 0.4 ms, N=13 30 -> 1.1 ms); removed dead `RunAllUnified`.
 

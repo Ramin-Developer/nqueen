@@ -12,34 +12,22 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-10-02).** Unique CountOnly is already the most recently optimized
-> path: a short same-session BenchmarkDotNet comparison improved Unique N=16
-> `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18 `8,866.6 → 8,507.7 ms`;
-> manual N=20 Unique CountOnly improved from about `575 s` to about `556 s`. Keep N=20
-> Unique CountOnly as a real simulation path and verify any displayed count against the canonical
-> N=20 Unique count before using it as perf evidence.
+is **complete** (through PR #58):
+> Console and GUI route every mode through `BitmaskSolverRunConfigurator` → `BitmaskSolver`;
+> Unique and All counts use the shared symmetry-class (Takaken) counter (N=17/18 ≈ `426 / 3,050 ms`,
+> 2.3–3.1x faster than before); All/Unique Materialize use a two-phase early-exit sample + fast
+> counter for every N; Single (Hide) returns a validated board for N=1..37 in ≤5 ms; Visualize is
+> intentionally delay-bound (N≤10). Remaining kernel ideas (iterative DFS, SIMD) are expected to
+> give <10%.
 >
-> **Recommended next high-value task.** Shift the performance pass to solver-mode parity: bring
-> `Single` and `All`, plus the `Materialize` paths, up to the same evidence-driven standard as
-> Unique CountOnly. Start by confirming Console and GUI both route comparable modes through the
-> shared Kernel (`BitmaskSolverRunConfigurator` → `BitmaskSolver`) before profiling or changing
-> mode-specific hot paths.
+> **Keep in mind.** N=20 Unique CountOnly stays a real simulation path; verify displayed counts
+> against the canonical value (`4,878,666,808`) before using a run as perf evidence.
+>
+> **Next task.** Pick the next track from the backlogs below (Code Quality / CI & Tooling are
+> the cheapest; Kernel Performance needs disassembly-level evidence per the profile-first rule).
 
-> **Solver-mode parity progress (2026-10-02, `perf/solver-mode-parity`).** Console and GUI both
-> route every mode through `BitmaskSolverRunConfigurator` → `BitmaskSolver.Solve` (GUI wraps it in
-> `GetSimResultsAsync` with event sinks; Hide-mode cost parity is covered by
-> `FrontEndInvocationPathBenchmark`). The `parity` benchmark profile fixed the All odd-N sequential
-> tail (N=15 `87 -> 24 ms`); `perf/unique-small-n-parity` fixed the Unique N<16 anomalies (CountOnly
-> N=15 `123 -> 30 ms`, allocations `242 MB -> 25 KB`; Materialize N=14 `96 ms -> 10 us`). Next item:
-> Unique odd-N tail check (2026-10-02): no anomaly. `CountUniqueFastHalfBoard` already includes the middle row in its parallel work items; CountOnly scaling N=16/17/18 = `205 / 1,376 / 8,540 ms` (6.7x, 6.2x, tracking solution-count growth). Open observation: Unique N=16 (~175-205 ms) is slower than All N=16 (~140 ms) despite half the leaves; resolved by the symmetry-class (Takaken) counter: N=17/18 now `447 / 3,245 ms` (3.1x / 2.6x faster). All mode now derives its count from the same classes (All = 2*C2 + 4*C4 + 8*C8); after counter tuning, Unique/All N=17/18 are `~426 / ~3,050 ms`. Remaining ideas (iterative DFS, SIMD) are expected to give <10%; next track should be chosen from the backlog.
-
-Visualize uses the shared search engine with delay/cancel.
-
-Unique Materialize already matched CountOnly. Visualize is intentionally delay-bound (N<=10). Solver-mode parity track complete; next track should be chosen from the backlog.
-
-Historical shipped work
-**Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
-current state, next task, and only the warnings needed for the next session.
+Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
+Keep this top section short: current state, next task, and only the warnings needed for the next session.
 
 ---
 
@@ -48,21 +36,24 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `main` — solver-mode parity pass complete (All odd-N tail, Unique N<16, odd-N check). |
+| Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
-| Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `chore/benchmark-docs-n20-validation`). |
+| Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `perf/symmetry-class-tuning`, PR #55). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
-| Build status | 0 errors / 0 reported warnings (full solution build); Counts subset 84/84 passing after Unique DFS optimization; IDE1006 private-field naming check has no findings after cleanup merge. |
+| Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
-- **Unique CountOnly DFS optimization** (`perf/solver-optimization-pass`, in progress). Splits
-  the hot Unique CountOnly DFS into no-reflection and incremental-reflection paths, improving the
-  short local N=16/17/18 benchmark comparison while preserving exact count-test coverage.
-
-- **Private-field naming analyzer cleanup** (`chore/warning-cleanup`, in progress). Aligns
-  `.editorconfig` naming rules with constants/static/instance field conventions and removes
-  reported IDE1006 private-member naming findings.
+- **Materialize sample collection** (PR #57, 2026-10-03). All Materialize N<14 now two-phase
+  (N=12 `5.6 -> 0.4 ms`, N=13 `30 -> 1.1 ms`); samples validated distinct + legal for N=4..18.
+- **Single mode audit** (PR #56, 2026-10-03). Docs-only; no change needed.
+- **Symmetry-class counter tuning + All routing** (PRs #52, #55, 2026-10-02). Unique/All counts
+  via shared Takaken counter; N=17/18 ≈ `426 / 3,050 ms`.
+- **Code-style cleanup** (PR #54, 2026-10-02). Collection expressions, primary ctors, CA1829.
+- **Unique CountOnly DFS optimization** (`perf/solver-optimization-pass`). Superseded by the
+  symmetry-class counter above.
+- **Private-field naming analyzer cleanup** (`chore/warning-cleanup`). Aligned `.editorconfig`
+  naming rules and removed IDE1006 findings.
 
 - **Benchmark docs / N=20 validation follow-up** (`chore/benchmark-docs-n20-validation`, 2026-10-01). Refreshes benchmark baseline docs with the cleaner low-load rerun and clarifies N=20 Unique CountOnly validation.
 
