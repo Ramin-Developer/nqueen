@@ -84,3 +84,22 @@ Manual N=20 Unique CountOnly validation on the same branch also improved from ap
 the focused BenchmarkDotNet comparison above.
 
 Treat these as focused PR evidence; keep the full `unique` profile available for final release-grade confirmation.
+
+## Console vs GUI invocation parity (2026-10-03, `perf/console-gui-parity`)
+
+`frontend` profile, N = 8/12/14/16, all mode x storage scenarios, ShortRun + MemoryDiagnoser.
+Both front ends use `BitmaskSolverRunConfigurator` -> `BitmaskSolver.Solve`; GUI-style adds
+`GetSimResultsAsync` (Task.Run) plus progress/solution sinks.
+
+| N | Scenario | Console (direct Solve) | GUI-style (async + sinks) |
+|---|---|---|---|
+| 8 | Single / Unique Mat / All Mat | 0.17 / 1.6 / 8.1 us | 3.0 / 6.1 / 14.7 us |
+| 12 | Unique CountOnly / All CountOnly | 201 / 183 us | 205 / 194 us |
+| 14 | All Mat / All CountOnly | 1.78 / 1.76 ms | 1.81 / 1.84 ms |
+| 16 | Unique Mat / Unique CountOnly | 61.0 / 60.2 ms | 60.7 / 60.6 ms |
+| 16 | All Mat / All CountOnly | 60.4 / 61.3 ms | 61.3 / 61.2 ms |
+
+Findings: identical kernel path and allocations (Alloc Ratio 1.00-1.01, e.g. ~205 KB at N=16).
+GUI-style adds a fixed ~3-13 us (thread-pool hop + sinks), visible only for sub-millisecond runs
+(Single, N<=8) and within noise (<=5%) from N=12. App-reported memory (`Process.WorkingSet64`,
+rounded to 10 MB) differs by host process (WPF vs console), not by solver path.
