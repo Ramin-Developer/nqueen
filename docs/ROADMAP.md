@@ -35,6 +35,8 @@ in the same change that touches `CHANGELOG.md`.
 
 > **Single mode audit (2026-10-03, `chore/single-mode-audit`).** No change needed: Hide mode returns a validated board for every N=1..37 (N=2/3 correctly none) in <=5 ms through curated lookup (small N) or constructive placement (N>=15); Visualize uses the shared search engine with delay/cancel. Next: Visualize/Materialize sample collection.
 
+> **Materialize sample collection (2026-10-03, `perf/materialize-sample-collection`).** All/Unique samples validated distinct + legal for N=4..18. All Materialize N<14 ran a full sequential enumeration; now always two-phase (early-exit samples + fast counter): N=12 `5.6 -> 0.4 ms`, N=13 `30 -> 1.1 ms`. Unique Materialize already matched CountOnly. Visualize is intentionally delay-bound (N<=10).
+
 Historical shipped work
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
 current state, next task, and only the warnings needed for the next session.
