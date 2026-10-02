@@ -51,12 +51,9 @@ public class SolutionFormatter : ISolutionFormatter
         return lines;
     }
 
-    private static string FormatPosition(Position p, IndexingType indexingType)
-    {
-        return indexingType == IndexingType.ZeroBased
+    private static string FormatPosition(Position p, IndexingType indexingType) => indexingType == IndexingType.ZeroBased
             ? $"({p.ColumnIndex},{p.RowIndex})"
             : $"({p.ColumnIndex + 1},{p.RowIndex + 1})";
-    }
 
     private const int MaxDisplayedCount = SimulationSettings.MaxDisplayedCount;
 }

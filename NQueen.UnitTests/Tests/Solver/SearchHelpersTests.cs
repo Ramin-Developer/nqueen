@@ -51,7 +51,7 @@ public class SearchHelpersTests
         var (key, rows) = SearchHelpers.PackIdentityKeyAndRows(canon, scratch, canon.Length);
         var expected = SymmetryHelper.PackRows(rows);
         key.ShouldBe(expected);
-        rows.Count().ShouldBe(canon.Length);
+        rows.Length.ShouldBe(canon.Length);
     }
 
     [Fact]
@@ -137,10 +137,7 @@ public class SearchHelpersTests
     [InlineData(new[] { 2, -1, -1, -1, -1, -1, -1, -1 }, 0, 8, true, false)]
     // Negative (unfixed) row value → never prune.
     [InlineData(new[] { -1, -1, -1, -1 }, 0, 4, true, false)]
-    public void ShouldPrunePrefixFull_ReturnsExpected(int[] rows, int depth, int n, bool reflectionEnabled, bool expected)
-    {
-        SearchHelpers.ShouldPrunePrefixFull(rows, depth, n, reflectionEnabled).ShouldBe(expected);
-    }
+    public void ShouldPrunePrefixFull_ReturnsExpected(int[] rows, int depth, int n, bool reflectionEnabled, bool expected) => SearchHelpers.ShouldPrunePrefixFull(rows, depth, n, reflectionEnabled).ShouldBe(expected);
 
     [Fact]
     public void ShouldPrunePrefixFull_DoesNotApplyUnsoundRotate180MinimalityPrune()

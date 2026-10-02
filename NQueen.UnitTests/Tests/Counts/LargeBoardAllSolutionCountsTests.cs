@@ -11,7 +11,7 @@ public class LargeBoardAllSolutionCountsTests(SolverBackEndFixture fixture)
     // Permanently reduce dataset to avoid long-running enumerations in unit tests
     public static TheoryData<int> LargeBoardsEnumerated =>
     [
-        .. (s_enableFullAllEnum ? new[] { 15, 16, 17 } : new[] { 15 })
+        .. (s_enableFullAllEnum ? new[] { 15, 16, 17 } : [15])
     ];
 
     // Verify All-mode counts (count-only) match expected lookup table values for enumerated large boards.

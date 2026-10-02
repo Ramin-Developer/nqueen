@@ -1,4 +1,4 @@
-﻿namespace NQueen.Domain.Utils;
+namespace NQueen.Domain.Utils;
 
 public static partial class SymmetryHelper
 {
@@ -35,11 +35,11 @@ public static partial class SymmetryHelper
         ArgumentNullException.ThrowIfNull(uniqueKeys);
         ArgumentNullException.ThrowIfNull(scratch);
         key = 0;
-        canonicalCopy = Array.Empty<int>();
+        canonicalCopy = [];
         var canonSpan = GetCanonicalForm(solution, scratch, null);
         key = PackCanonical(canonSpan, canonSpan.Length);
         if (!uniqueKeys.Add(key)) return false;
-        canonicalCopy = canonSpan.Length <= 32 ? canonSpan.ToArray() : Array.Empty<int>();
+        canonicalCopy = canonSpan.Length <= 32 ? [.. canonSpan] : [];
         return true;
     }
 
@@ -49,7 +49,7 @@ public static partial class SymmetryHelper
     {
         ArgumentNullException.ThrowIfNull(solution);
         int n = solution.Length;
-        if (n == 0) return Array.Empty<int>();
+        if (n == 0) return [];
         Span<int> min = n <= 32 ? stackalloc int[n] : new int[n];
         Span<int> temp = n <= 32 ? stackalloc int[n] : new int[n];
         for (int c = 0; c < n; c++) min[c] = solution[c];
@@ -90,7 +90,7 @@ public static partial class SymmetryHelper
         ArgumentNullException.ThrowIfNull(solution);
         ArgumentNullException.ThrowIfNull(scratch);
         int n = solution.Length;
-        if (n == 0) return Array.Empty<int>();
+        if (n == 0) return [];
         int required = n * 8;
         if (scratch.Length < required) scratch = new int[required];
         for (int c = 0; c < n; c++)
@@ -132,7 +132,7 @@ public static partial class SymmetryHelper
         return PackCanonical(canonical, canonArr.Length);
     }
 
-    public static int MaxRowExclusiveForColumn(int boardSize, int column, int[] queenRows) => column == 0 ? (boardSize + 1) / 2 : boardSize;
+    public static int MaxRowExclusiveForColumn(int boardSize, int column) => column == 0 ? (boardSize + 1) / 2 : boardSize;
 
     public static int GetScratchBufferSize(int boardSize) => boardSize * 8;
 
@@ -173,11 +173,11 @@ public static partial class SymmetryHelper
         ArgumentNullException.ThrowIfNull(uniqueKeys);
         ArgumentNullException.ThrowIfNull(scratch);
         key = 0;
-        canonicalCopy = Array.Empty<int>();
+        canonicalCopy = [];
         var canonArr = GetCanonicalForm(solution, scratch, null);
         key = PackCanonical(canonArr, canonArr.Length);
         if (!uniqueKeys.TryAdd(key, 0)) return false;
-        canonicalCopy = canonArr.Length <= 32 ? canonArr.ToArray() : Array.Empty<int>();
+        canonicalCopy = canonArr.Length <= 32 ? [.. canonArr] : [];
         return true;
     }
 
@@ -215,18 +215,17 @@ public static partial class SymmetryHelper
             for (int c = 0; c < n; c++)
             {
                 int idRow = solution[c];
-                int rowT;
-                switch (t)
+                int rowT = t switch
                 {
-                    case 1: rowT = nMinus1 - scratch[c]; break;                // rotate90
-                    case 2: rowT = nMinus1 - solution[nMinus1 - c]; break;     // rotate180
-                    case 3: rowT = scratch[nMinus1 - c]; break;                // rotate270
-                    case 4: rowT = solution[nMinus1 - c]; break;               // reflect vertical
-                    case 5: rowT = nMinus1 - solution[c]; break;              // reflect horizontal
-                    case 6: rowT = scratch[c]; break;                          // reflect main diagonal
-                    case 7: rowT = nMinus1 - scratch[nMinus1 - c]; break;     // reflect anti-diagonal
-                    default: rowT = idRow; break;
-                }
+                    1 => nMinus1 - scratch[c],               // rotate90
+                    2 => nMinus1 - solution[nMinus1 - c],    // rotate180
+                    3 => scratch[nMinus1 - c],               // rotate270
+                    4 => solution[nMinus1 - c],              // reflect vertical
+                    5 => nMinus1 - solution[c],              // reflect horizontal
+                    6 => scratch[c],                         // reflect main diagonal
+                    7 => nMinus1 - scratch[nMinus1 - c],     // reflect anti-diagonal
+                    _ => idRow,
+                };
                 if (rowT == idRow) continue; // keep comparing
                 if (rowT < idRow) return false; // found smaller transform
                 // rowT > idRow => transform greater; stop checking remaining columns for this transform.

@@ -78,11 +78,11 @@ public class Solution
     private readonly ISolutionFormatter _formatter;
     private string? _details;
 
-    private sealed class PackedPositionList : IReadOnlyList<Position>
+    private sealed class PackedPositionList(Solution owner) : IReadOnlyList<Position>
     {
         private int[]? _rows;
-        private readonly Solution _owner;
-        public PackedPositionList(Solution owner) => _owner = owner;
+        private readonly Solution _owner = owner;
+
         public void Realize(int[] rows) => _rows = rows;
         public Position this[int index]
         {

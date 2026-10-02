@@ -38,10 +38,7 @@ public class DomainUtilityTests
     [InlineData(new[] { 1, 2, 3 }, new[] { 1, 2, 3 }, true)]   // equal content
     [InlineData(new[] { 1, 2, 3 }, new[] { 1, 2, 4 }, false)]  // different content
     [InlineData(new[] { 1, 2 }, new[] { 1, 2, 3 }, false)]     // different length
-    public void IntArrayStructuralComparer_Equals_MatchesContent(int[] left, int[] right, bool expected)
-    {
-        IntArrayStructuralComparer.Instance.Equals(left, right).ShouldBe(expected);
-    }
+    public void IntArrayStructuralComparer_Equals_MatchesContent(int[] left, int[] right, bool expected) => IntArrayStructuralComparer.Instance.Equals(left, right).ShouldBe(expected);
 
     [Fact]
     public void IntArrayStructuralComparer_NullInputs_ReturnsFalse()
@@ -79,10 +76,7 @@ public class DomainUtilityTests
     }
 
     [Fact]
-    public void MemoryIntArrayComparer_GetHashCode_EmptyArray_ReturnsZero()
-    {
-        MemoryIntArrayComparer.Instance.GetHashCode(Memory<int>.Empty).ShouldBe(0);
-    }
+    public void MemoryIntArrayComparer_GetHashCode_EmptyArray_ReturnsZero() => MemoryIntArrayComparer.Instance.GetHashCode(Memory<int>.Empty).ShouldBe(0);
 
     // ── ErrorMessages ────────────────────────────────────────────────────────
 
@@ -121,20 +115,14 @@ public class DomainUtilityTests
     [InlineData(8, 92UL)]
     [InlineData(0, 0UL)]    // out of range → zero
     [InlineData(999, 0UL)]  // out of range → zero
-    public void ExpectedSolutionCounts_GetAllFast_ReturnsKnownValues(int n, ulong expected)
-    {
-        ExpectedSolutionCounts.GetAllFast(n).ShouldBe(expected);
-    }
+    public void ExpectedSolutionCounts_GetAllFast_ReturnsKnownValues(int n, ulong expected) => ExpectedSolutionCounts.GetAllFast(n).ShouldBe(expected);
 
     [Theory]
     [InlineData(1, 1UL)]
     [InlineData(5, 2UL)]
     [InlineData(7, 6UL)]
     [InlineData(8, 12UL)]
-    public void ExpectedSolutionCounts_GetUniqueFast_ReturnsKnownValues(int n, ulong expected)
-    {
-        ExpectedSolutionCounts.GetUniqueFast(n).ShouldBe(expected);
-    }
+    public void ExpectedSolutionCounts_GetUniqueFast_ReturnsKnownValues(int n, ulong expected) => ExpectedSolutionCounts.GetUniqueFast(n).ShouldBe(expected);
 
     [Fact]
     public void ExpectedSolutionCounts_TryGetAll_KnownSize_ReturnsTrue()
@@ -151,16 +139,10 @@ public class DomainUtilityTests
     }
 
     [Fact]
-    public void ExpectedSolutionCounts_AllSolutions_DictionaryNotEmpty()
-    {
-        ExpectedSolutionCounts.AllSolutions.ShouldNotBeEmpty();
-    }
+    public void ExpectedSolutionCounts_AllSolutions_DictionaryNotEmpty() => ExpectedSolutionCounts.AllSolutions.ShouldNotBeEmpty();
 
     [Fact]
-    public void ExpectedSolutionCounts_UniqueSolutions_DictionaryNotEmpty()
-    {
-        ExpectedSolutionCounts.UniqueSolutions.ShouldNotBeEmpty();
-    }
+    public void ExpectedSolutionCounts_UniqueSolutions_DictionaryNotEmpty() => ExpectedSolutionCounts.UniqueSolutions.ShouldNotBeEmpty();
 
     // ── DefaultSolutionFormatter (merged into SolutionFormatter) ─────────────
 
@@ -200,16 +182,10 @@ public class DomainUtilityTests
     }
 
     [Fact]
-    public void SolutionFormatter_UpdateSolutionLabel_Single_ReturnsSolution()
-    {
-        SolutionFormatter.UpdateSolutionLabel(SolutionMode.Single).ShouldBe("Solution");
-    }
+    public void SolutionFormatter_UpdateSolutionLabel_Single_ReturnsSolution() => SolutionFormatter.UpdateSolutionLabel(SolutionMode.Single).ShouldBe("Solution");
 
     [Fact]
-    public void SolutionFormatter_UpdateSolutionLabel_Unique_ContainsMaxDisplayed()
-    {
-        SolutionFormatter.UpdateSolutionLabel(SolutionMode.Unique).ShouldContain("Solutions");
-    }
+    public void SolutionFormatter_UpdateSolutionLabel_Unique_ContainsMaxDisplayed() => SolutionFormatter.UpdateSolutionLabel(SolutionMode.Unique).ShouldContain("Solutions");
 
     // ── MenuState ────────────────────────────────────────────────────────────
 

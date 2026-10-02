@@ -25,10 +25,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
         RefreshCommandStates();
     }
 
-    private int GetVisualizeMaxForCurrentMode()
-    {
-        return SolutionMode == SolutionMode.Single ? 8 : 10;
-    }
+    private int GetVisualizeMaxForCurrentMode() => SolutionMode == SolutionMode.Single ? 8 : 10;
 
     private void ValidateProperty(string propertyName)
     {

@@ -109,7 +109,7 @@ public class BitmaskSolverAllModeTests
         result.Solutions.Count.ShouldBeLessThanOrEqualTo(SimulationSettings.MaxDisplayedCount);
         foreach (var s in result.Solutions)
         {
-            s.QueenPositions.Count().ShouldBe(14);
+            s.QueenPositions.Length.ShouldBe(14);
             AssertValidPlacement(s.QueenPositions);
         }
     }
@@ -291,7 +291,7 @@ public class BitmaskSolverAllModeTests
         var result = await solver.GetSimResultsAsync(ctx);
 
         result.SolutionsCount.ShouldBe(4UL);
-        result.Solutions.Count().ShouldBe(4,
+        result.Solutions.Count.ShouldBe(4,
             "enableCap=false must surface every materialised solution for small N");
         foreach (var s in result.Solutions)
             AssertValidPlacement(s.QueenPositions);

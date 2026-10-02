@@ -1,5 +1,4 @@
-﻿global using Shouldly;
-global using Microsoft.Extensions.DependencyInjection;
+﻿global using Microsoft.Extensions.DependencyInjection;
 global using Moq;
 global using NQueen.Domain.Context;
 global using NQueen.Domain.Enums;
@@ -18,6 +17,7 @@ global using NQueen.TestShared.Data;
 global using NQueen.TestShared.Infrastructure;
 global using NQueen.ViewModelTests.Helpers;
 global using NQueen.ViewModelTests.Setup;
+global using Shouldly;
 global using System.Reflection;
 global using System.Windows;
 global using System.Windows.Threading;

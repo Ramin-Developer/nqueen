@@ -1,7 +1,7 @@
+using NQueen.GUI.Converters;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using NQueen.GUI.Converters;
 
 namespace NQueen.ViewModelTests.Tests.Converters;
 

@@ -149,11 +149,8 @@ public class HighBoardCountsTests(SolverBackEndFixture fixture)
 
     [Fact]
     [Trait("Behavior", "HighBoard")]
-    public void UniqueMode_N20_CanonicalCount_IsDocumentedManualValidationTarget()
-    {
-        ExpectedSolutionCounts.GetUnique(20).ShouldBe(4_878_666_808UL,
+    public void UniqueMode_N20_CanonicalCount_IsDocumentedManualValidationTarget() => ExpectedSolutionCounts.GetUnique(20).ShouldBe(4_878_666_808UL,
             "manual N=20 Unique CountOnly timing must be accepted only when the displayed count matches this canonical value");
-    }
 
     // Heavy full enumeration test (disabled unless explicitly enabled)
     [Fact]

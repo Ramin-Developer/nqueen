@@ -158,7 +158,7 @@ public static class BitboardNQueenSolver
                 items.Add((cols0 | bit1, (d1_0 | bit1) << 1, (d2_0 | bit1) >> 1));
             }
         }
-        return items.ToArray();
+        return [.. items];
     }
 
     // Allocation-free iterative DFS using bit masks. Production hot path.

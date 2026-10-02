@@ -32,8 +32,8 @@ public class SymmetryPrunedUniqueCounterTests
         var collected = new System.Collections.Concurrent.ConcurrentBag<int[]>();
         var count = SymmetryPrunedUniqueCounter.Count(6, cap: 1, onMaterialized: rows => collected.Add(rows));
         count.ShouldBe(1UL);
-        collected.Count().ShouldBe(1);
-        collected.First().Count().ShouldBe(6);
+        collected.Count.ShouldBe(1);
+        collected.First().Length.ShouldBe(6);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class SymmetryPrunedUniqueCounterTests
         List<int[]> collected = [];
         var count = SymmetryPrunedUniqueCounter.Count(5, cap: 10, onMaterialized: rows => collected.Add(rows));
         count.ShouldBe(2UL);
-        collected.Count().ShouldBe(2);
+        collected.Count.ShouldBe(2);
     }
 
     // ── Pruning flags ────────────────────────────────────────────────────────
@@ -75,7 +75,7 @@ public class SymmetryPrunedUniqueCounterTests
         solutions.ShouldNotBeEmpty();
         foreach (var sol in solutions)
         {
-            sol.Count().ShouldBe(6);
+            sol.Length.ShouldBe(6);
             sol.Distinct().Count().ShouldBe(6, "no two queens in the same row");
         }
     }

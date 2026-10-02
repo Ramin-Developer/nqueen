@@ -9,10 +9,7 @@ public class SymmetryHelperExtendedTests
     [Theory]
     [InlineData(1, 0, 0b1111UL)]   // board size one → mask unchanged
     [InlineData(5, 2, 0b11111UL)]  // column >= 2 → mask unchanged
-    public void ApplyAdvancedSymmetryPruning_ReturnsMaskUnchanged(int boardSize, int col, ulong mask)
-    {
-        SymmetryHelper.ApplyAdvancedSymmetryPruning(boardSize, col, new int[boardSize], mask).ShouldBe(mask);
-    }
+    public void ApplyAdvancedSymmetryPruning_ReturnsMaskUnchanged(int boardSize, int col, ulong mask) => SymmetryHelper.ApplyAdvancedSymmetryPruning(boardSize, col, new int[boardSize], mask).ShouldBe(mask);
 
     [Theory]
     [InlineData(8, 0xFFUL, 0b00001111UL)]  // even board N=8: maxRow=4, bits 0..3
@@ -87,7 +84,7 @@ public class SymmetryHelperExtendedTests
         bool added = SymmetryHelper.AddIfUniquePacked([0, 2, 4, 1, 3], keys, scratch, out var key, out var copy);
         added.ShouldBeTrue();
         key.ShouldNotBe(UInt128.Zero);
-        copy.Count().ShouldBe(5);
+        copy.Length.ShouldBe(5);
     }
 
     [Fact]
@@ -100,7 +97,7 @@ public class SymmetryHelperExtendedTests
             [0, 2, 4, 1, 3], keys, scratch, buf, out var key, out var copy);
         added.ShouldBeTrue();
         key.ShouldNotBe(UInt128.Zero);
-        copy.Count().ShouldBe(5);
+        copy.Length.ShouldBe(5);
     }
 
     // ── GetCanonicalForm (single-argument overload) ──────────────────────────
@@ -158,7 +155,7 @@ public class SymmetryHelperExtendedTests
     [InlineData(8, 1, 8)]
     [InlineData(5, 0, 3)]
     public void MaxRowExclusiveForColumn_ReturnsExpected(int boardSize, int col, int expected) =>
-        SymmetryHelper.MaxRowExclusiveForColumn(boardSize, col, new int[boardSize]).ShouldBe(expected);
+        SymmetryHelper.MaxRowExclusiveForColumn(boardSize, col).ShouldBe(expected);
 
     [Theory]
     [InlineData(4,  32)]

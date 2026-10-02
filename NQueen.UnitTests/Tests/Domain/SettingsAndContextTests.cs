@@ -55,10 +55,7 @@ public class SettingsAndContextTests
     }
 
     [Fact]
-    public void SimulationSettings_DelayInvariant_MinBelowDefault()
-    {
-        SimulationSettings.MinDelayInMilliseconds.ShouldBeLessThan(SimulationSettings.DefaultDelayInMilliseconds);
-    }
+    public void SimulationSettings_DelayInvariant_MinBelowDefault() => SimulationSettings.MinDelayInMilliseconds.ShouldBeLessThan(SimulationSettings.DefaultDelayInMilliseconds);
 
     [Fact]
     public void SimulationSettings_ThresholdsArePositive()

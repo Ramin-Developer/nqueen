@@ -18,9 +18,7 @@ public static class UnitTestServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddTestServices(this IServiceCollection services)
-    {
+    public static IServiceCollection AddTestServices(this IServiceCollection services) =>
         // (Intentionally left blank; place per-test overrides/mocks here if needed)
-        return services;
-    }
+        services;
 }
