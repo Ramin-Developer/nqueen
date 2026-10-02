@@ -103,3 +103,16 @@ Findings: identical kernel path and allocations (Alloc Ratio 1.00-1.01, e.g. ~20
 GUI-style adds a fixed ~3-13 us (thread-pool hop + sinks), visible only for sub-millisecond runs
 (Single, N<=8) and within noise (<=5%) from N=12. App-reported memory (`Process.WorkingSet64`,
 rounded to 10 MB) differs by host process (WPF vs console), not by solver path.
+
+End-to-end check (real `MainViewModel.SimulateCommand` vs real `NQueen.ConsoleApp --mode --size`, Release, Hide):
+
+| N | Unique CountOnly (Console / GUI) | All CountOnly | All Materialize |
+|---|---|---|---|
+| 16 | 0.3 / 0.1 s | 0.2 / 0.1 s | 0.2 / 0.1 s |
+| 17 | 0.7 / 0.7 s | 0.7 / 0.4 s | 0.6 / 0.4 s |
+| 18 | 3.3 / 3.0 s | 3.3 / 3.0 s | 3.5 / 3.0 s |
+
+Counts identical. Console numbers are a cold single run per process (includes JIT/tiering);
+GUI numbers are the second run in a warm process, which explains the small GUI advantage.
+GUI-reported memory (`WorkingSet64`) was a flat 80 MB in the headless host for every case;
+the console non-interactive runner does not print memory.
