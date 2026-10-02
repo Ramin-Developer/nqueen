@@ -12,7 +12,7 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-is **complete** (through PR #58):
+> **Current handoff (2026-10-03).** The solver-mode parity track is **complete** (through PR #58):
 > Console and GUI route every mode through `BitmaskSolverRunConfigurator` → `BitmaskSolver`;
 > Unique and All counts use the shared symmetry-class (Takaken) counter (N=17/18 ≈ `426 / 3,050 ms`,
 > 2.3–3.1x faster than before); All/Unique Materialize use a two-phase early-exit sample + fast
