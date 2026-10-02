@@ -39,7 +39,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `perf/symmetry-class-tuning`, PR #55). |
-| Code coverage | **81.1 % line / 67.7 % branch** (Unit + ViewModel, non-Slow, Release; 2026-10-02, `test/coverage-refresh`). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 87.4 / 75.3, GUI 71.6 / 59.2 (XAML views untested), ConsoleApp 40.2 / 37.0. Weakest classes: `BitmaskSearchEngine` 58.6 %, `BitmaskParallelEngine` 73.1 %, Console `DispatchCommands`/`Program` 0 %. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
+| Code coverage | **88.0 % line / 76.0 % branch** (Unit + ViewModel, non-Slow, Release; 2026-10-02, `test/coverage-gaps`). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 93.5 / 83.1, ConsoleApp 96.4 / 84.4, GUI 71.7 / 59.4 (XAML views untested). Remaining gaps: `BitmaskParallelEngine` 80.6 % (N>=18 prefix-prune path), GUI views/`App`/dialog service. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
