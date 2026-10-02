@@ -2,7 +2,7 @@ namespace NQueen.UnitTests.Tests.Solver;
 
 /// <summary>
 /// Coverage-focused tests for <c>BitmaskSolver.CountUnique.cs</c>.
-/// Drives the private <c>CountUniqueAdaptive</c> / <c>CountUniqueFastHalfBoard</c>
+/// Drives the private <c>CountUniqueAdaptive</c> / <c>CountUniqueSymmetryClass</c>
 /// methods through the public <see cref="ISolverBackEnd.GetSimResultsAsync"/> API
 /// using <see cref="SolutionMode.Unique"/> + count-only storage so no solutions
 /// are materialised. Uses small board sizes (N ≤ 9) for the parallel-canonical
@@ -61,7 +61,7 @@ public class BitmaskSolverCountUniqueTests
     [Theory]
     [InlineData(6,  false)]  // parallel-canonical branch, flags initially false
     [InlineData(6,  true)]   // parallel-canonical branch, flags initially true
-    [InlineData(16, false)]  // half-board branch (CountUniqueFastHalfBoard), flags initially false
+    [InlineData(16, false)]  // half-board branch (CountUniqueSymmetryClass), flags initially false
     public async Task CountUniqueAdaptive_PreservesPruningFlags(int n, bool initialFlags)
     {
         using var solver = MakeSolver();

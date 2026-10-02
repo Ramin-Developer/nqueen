@@ -9,7 +9,7 @@ namespace NQueen.UnitTests.Tests.Solver;
 ///   <item>Small-N branch (N &lt; <see cref="SimulationSettings.LargeBoardSymmetryPruningThreshold"/>): <see cref="BitmaskSearchEngine.Run"/> with <c>RestrictFirstCol: true</c> and <c>IsIdentityCanonical</c> filter.</item>
 ///   <item>Empty / zero-solution N (N = 2, 3) — small-N branch returns 0.</item>
 ///   <item>Mid-N branch (N = <see cref="SimulationSettings.LargeBoardSymmetryPruningThreshold"/> = 15): <c>SymmetryPrunedUniqueCounter.Count</c> with the <c>onMaterialized</c> callback.</item>
-///   <item>Large-N two-phase branch (N &gt;= <see cref="SimulationSettings.UniqueCountOnlyParallelThresholdN"/> = 16): <c>CollectUniqueSamplesDFS</c> for samples + <c>CountUniqueFastHalfBoard</c> for the count.</item>
+///   <item>Large-N two-phase branch (N &gt;= <see cref="SimulationSettings.UniqueCountOnlyParallelThresholdN"/> = 16): <c>CollectUniqueSamplesDFS</c> for samples + <c>CountUniqueSymmetryClass</c> for the count.</item>
 ///   <item><see cref="EnumerateUniqueVisualizeAdaptive"/> visualize path: emits <c>QueenPlaced</c> and <c>SolutionFound</c>; in-flight cancellation honoured.</item>
 ///   <item>Solver-state reset across consecutive runs.</item>
 ///   <item><c>enableCap: false</c> constructor surfaces every canonical solution (uncapped).</item>
@@ -114,9 +114,9 @@ public class BitmaskSolverUniqueTests
     {
         // BoardSize >= UniqueCountOnlyParallelThresholdN (16), so ExecuteUniqueModeUnified runs:
         //   Phase 1: CollectUniqueSamplesDFS — sequential DFS that stops at cap canonical samples.
-        //   Phase 2: CountUniqueFastHalfBoard — exact half-board count.
+        //   Phase 2: CountUniqueSymmetryClass — exact half-board count.
         //
-        // Phase 2 (CountUniqueFastHalfBoard) must return the exact unique count. The half-board
+        // Phase 2 (CountUniqueSymmetryClass) must return the exact unique count. The half-board
         // root partition plus reflection-only prefix pruning is verified against the OEIS A002562
         // value here; an earlier variant also applied an unsound rotate-180 "minimality" prefix
         // prune that under-reported (692 857) until it was removed.
