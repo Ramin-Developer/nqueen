@@ -5,7 +5,7 @@ using Microsoft.VSDiagnostics;
 /// <summary>
 /// Focused isolation of the Unique count-only fast half-board path at N=16/N=18 (even) and
 /// N=17 (odd). Mirrors <see cref="UniqueFastHalfBoardBenchmark"/>'s solver configuration
-/// but pins board sizes to 16, 17, and 18 so the run exercises <c>CountUniqueFastHalfBoard</c>
+/// but pins board sizes to 16, 17, and 18 so the run exercises <c>CountUniqueSymmetryClass</c>
 /// -> <c>CountCanonicalDFS</c> (the Item 2 gating hot loop) without the N=15 case that
 /// routes through a different path. Covering both parities exercises the even path and the
 /// odd-center first-row handling (<c>IsOddCenterFirstRow</c>). Uses a full job (3 warmups,

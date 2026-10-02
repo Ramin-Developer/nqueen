@@ -17,10 +17,10 @@ public partial class BitmaskSolver
         {
             // Two-phase approach (mirrors CollectAllSamplesAndCountParallel in All mode):
             //   Phase 1 - collect up to cap canonical samples via an early-exit DFS (milliseconds).
-            //   Phase 2 - count using CountUniqueFastHalfBoard, the same half-board algorithm
+            //   Phase 2 - count using CountUniqueSymmetryClass, the same algorithm
             //             used by the CountOnly path.
             CollectUniqueSamplesDFS(boardSize, Math.Max(1, cap), packedSample, ref materialized);
-            _solutionCount = CountUniqueFastHalfBoard(boardSize);
+            _solutionCount = CountUniqueSymmetryClass(boardSize);
         }
         else if (_capEnabled)
         {

@@ -5,7 +5,7 @@ namespace NQueen.Benchmarking;
 /// </summary>
 public class UniqueModeVariantsBenchmark
 {
-    // Extended range to cover the full CountUniqueFastHalfBoard region (N=16..20).
+    // Extended range to cover the full CountUniqueSymmetryClass region (N=16..20).
     [Params(16, 17, 18, 19, 20)]
     public int BoardSize { get; set; }
 
