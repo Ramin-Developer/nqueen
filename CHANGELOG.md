@@ -7,6 +7,9 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
+- **Local artifact cleanup script.** Added `clean-local-artifacts.bat` for targeted repo-root
+  cleanup of project `bin`/`obj` folders, root `.vs`, and `TestResults` without relying on a broad
+  `git clean -fdX` pass that can stall on Visual Studio-locked files.
 - **N=20 Unique CountOnly validation guard.** Added explicit test coverage for the canonical
   N=20 unique count (`4,878,666,808`) and documented the manual console validation command,
   while keeping N=20 as a real simulation path for performance evidence.
