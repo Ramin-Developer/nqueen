@@ -7,7 +7,10 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 ### Added
-- **Local artifact cleanup script.** Added `clean-local-artifacts.bat` for targeted repo-root
+- **Solver-mode parity benchmark.** Added `ModeParityBenchmark` (`parity` profile) measuring
+  Single, All, and Unique in CountOnly/Materialize at N=14/15/16 through the shared
+  `BitmaskSolverRunConfigurator` path used by both Console and GUI.
+- **Local artifact cleanup script.**
   cleanup of project `bin`/`obj` folders, root `.vs`, and `TestResults` without relying on a broad
   `git clean -fdX` pass that can stall on Visual Studio-locked files.
 - **N=20 Unique CountOnly validation guard.** Added explicit test coverage for the canonical
@@ -65,7 +68,11 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
-- **Registered the next solver performance track.** Updated the roadmap to move the next
+- **All-mode odd-N parallel tail removed.** `BitboardNQueenSolver.CountSolutions` (N >= 14,
+  parallel) now schedules the odd-N middle-row subtree as weighted depth-2 work items instead
+  of running it sequentially after the parallel phase. All N=15 (CountOnly and Materialize)
+  improved `87.1 -> 23.9 ms`; N=14/16 unchanged within noise; 710/710 tests pass.
+- **Registered the next solver performance track.**
   investigation from more Unique CountOnly micro-optimization to solver-mode parity across
   `Single`, `All`, and `Materialize`, including a first check that Console and GUI use the shared
   Kernel configuration path for comparable modes.

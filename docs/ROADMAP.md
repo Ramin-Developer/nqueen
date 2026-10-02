@@ -25,7 +25,17 @@ in the same change that touches `CHANGELOG.md`.
 > shared Kernel (`BitmaskSolverRunConfigurator` → `BitmaskSolver`) before profiling or changing
 > mode-specific hot paths.
 
-Historical shipped work and closed performance investigations are summarized under
+> **Solver-mode parity progress (2026-10-02, `perf/solver-mode-parity`).** Console and GUI both
+> route every mode through `BitmaskSolverRunConfigurator` → `BitmaskSolver.Solve` (GUI wraps it in
+> `GetSimResultsAsync` with event sinks; Hide-mode cost parity is covered by
+> `FrontEndInvocationPathBenchmark`). The `parity` benchmark profile fixed the All odd-N sequential
+> tail (N=15 `87 → 24 ms`). Remaining evidence-backed anomalies, next in order:
+> 1. Unique Materialize N=14 `~95 ms` vs Unique CountOnly `~15 ms` (and slower than N=15 Materialize).
+> 2. Unique CountOnly N=14/15 allocates `32 MB` / `242 MB` and N=15 CountOnly (`~120 ms`) is slower
+>    than N=15 Materialize (`~86 ms`); the N<16 `BitmaskParallelEngine` canonical path is suspect.
+> 3. Unique odd-N tails (check `CountUniqueAdaptive` for the same sequential-middle pattern).
+
+Historical shipped work
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
 current state, next task, and only the warnings needed for the next session.
 
@@ -36,7 +46,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `docs/solver-mode-parity-plan` — registering and preparing the broader solver-mode parity performance pass. |
+| Active branch | `perf/solver-mode-parity` � solver-mode parity evidence pass (All odd-N tail fixed; Unique N<16 anomalies next). |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `chore/benchmark-docs-n20-validation`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |

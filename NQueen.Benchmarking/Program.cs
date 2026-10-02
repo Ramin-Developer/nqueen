@@ -18,6 +18,7 @@ internal class Program
         ["unique"] = [typeof(UniqueFastHalfBoardEvenOddBenchmark)],
         ["all"] = [typeof(AllCountOnlyParallelScalingBenchmark), typeof(AllCountOnlyRecursiveVsIterativeBenchmark)],
         ["frontend"] = [typeof(FrontEndInvocationPathBenchmark)],
+        ["parity"] = [typeof(ModeParityBenchmark)],
         ["console"] = [typeof(ConsolePruningImpactAllBenchmark), typeof(ConsolePruningImpactUniqueBenchmark)]
     };
 
