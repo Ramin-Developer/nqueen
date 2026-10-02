@@ -31,4 +31,5 @@ if exist "TestResults" (
 )
 
 echo Cleanup complete.
+echo %cmdcmdline% | find /i "/c" >nul && pause
 endlocal
