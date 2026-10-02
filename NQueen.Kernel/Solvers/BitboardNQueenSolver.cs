@@ -20,43 +20,24 @@ public static class BitboardNQueenSolver
         int half = n / 2;
         long count = 0;
 
+        if (parallel && n >= 14)
+            return CountDepth2Parallel(n, mask, half, Search);
+
         if (parallel && half > 1)
         {
             long total = 0;
 
-            if (n >= 14)
-            {
-                // For N >= 14, generate depth-2 work items (one item per valid (col-0, col-1)
-                // queen pair with col-0 row restricted to the first half). For N=20 this yields
-                // ~180 items instead of 10, giving far better core saturation and load-balancing.
-                var items = BuildDepth2WorkItems(n, mask, half);
-                // Wrap the array in a chunk-of-1 partitioner so Parallel.ForEach dispatches
-                // one item at a time per worker instead of statically range-partitioning the
-                // array up front. Work-item cost varies by orders of magnitude (centre-row
-                // first queens produce vastly more subtree work than edge-row ones), so the
-                // default static partitioning leaves stragglers and idle cores at the tail.
-                var partitioner = Partitioner.Create(items, EnumerablePartitionerOptions.NoBuffering);
-                Parallel.ForEach(
-                    partitioner,
-                    new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
-                    () => 0L,
-                    (item, _, local) => local + Search(n, mask, 2, item.Cols, item.D1, item.D2),
-                    local => Interlocked.Add(ref total, local));
-            }
-            else
-            {
-                Parallel.For<long>(
-                    fromInclusive: 0,
-                    toExclusive: half,
-                    localInit: static () => 0L,
-                    body: (i, state, local) =>
-                    {
-                        ulong lsb = 1UL << i;
-                        local += Search(n, mask, 1, lsb, lsb << 1, lsb >> 1);
-                        return local;
-                    },
-                    localFinally: local => Interlocked.Add(ref total, local));
-            }
+            Parallel.For<long>(
+                fromInclusive: 0,
+                toExclusive: half,
+                localInit: static () => 0L,
+                body: (i, state, local) =>
+                {
+                    ulong lsb = 1UL << i;
+                    local += Search(n, mask, 1, lsb, lsb << 1, lsb >> 1);
+                    return local;
+                },
+                localFinally: local => Interlocked.Add(ref total, local));
 
             count += total * 2;
         }
@@ -92,35 +73,24 @@ public static class BitboardNQueenSolver
         int half = n / 2;
         long count = 0;
 
+        if (parallel && n >= 14)
+            return CountDepth2Parallel(n, mask, half, SearchRecursive);
+
         if (parallel && half > 1)
         {
             long total = 0;
 
-            if (n >= 14)
-            {
-                var items = BuildDepth2WorkItems(n, mask, half);
-                var partitioner = Partitioner.Create(items, EnumerablePartitionerOptions.NoBuffering);
-                Parallel.ForEach(
-                    partitioner,
-                    new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
-                    () => 0L,
-                    (item, _, local) => local + SearchRecursive(n, mask, 2, item.Cols, item.D1, item.D2),
-                    local => Interlocked.Add(ref total, local));
-            }
-            else
-            {
-                Parallel.For<long>(
-                    fromInclusive: 0,
-                    toExclusive: half,
-                    localInit: static () => 0L,
-                    body: (i, state, local) =>
-                    {
-                        ulong lsb = 1UL << i;
-                        local += SearchRecursive(n, mask, 1, lsb, lsb << 1, lsb >> 1);
-                        return local;
-                    },
-                    localFinally: local => Interlocked.Add(ref total, local));
-            }
+            Parallel.For<long>(
+                fromInclusive: 0,
+                toExclusive: half,
+                localInit: static () => 0L,
+                body: (i, state, local) =>
+                {
+                    ulong lsb = 1UL << i;
+                    local += SearchRecursive(n, mask, 1, lsb, lsb << 1, lsb >> 1);
+                    return local;
+                },
+                localFinally: local => Interlocked.Add(ref total, local));
 
             count += total * 2;
         }
@@ -144,12 +114,39 @@ public static class BitboardNQueenSolver
         return count;
     }
 
+    // Odd N: the middle-row subtree (counted once, not mirrored) is included as weighted work
+    // items so it runs in parallel instead of as a sequential tail after the parallel phase.
+    private static long CountDepth2Parallel(
+        int n, ulong mask, int half, Func<int, ulong, int, ulong, ulong, ulong, long> search)
+    {
+        var mirrored = BuildDepth2WorkItems(n, mask, half);
+        var middle = (n & 1) == 1 ? BuildDepth2WorkItems(n, mask, half, half + 1) : [];
+        var items = new (ulong Cols, ulong D1, ulong D2, long Weight)[mirrored.Length + middle.Length];
+        for (int i = 0; i < mirrored.Length; i++)
+            items[i] = (mirrored[i].Cols, mirrored[i].D1, mirrored[i].D2, 2);
+        for (int i = 0; i < middle.Length; i++)
+            items[mirrored.Length + i] = (middle[i].Cols, middle[i].D1, middle[i].D2, 1);
+
+        long total = 0;
+        var partitioner = Partitioner.Create(items, EnumerablePartitionerOptions.NoBuffering);
+        Parallel.ForEach(
+            partitioner,
+            new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+            () => 0L,
+            (item, _, local) => local + item.Weight * search(n, mask, 2, item.Cols, item.D1, item.D2),
+            local => Interlocked.Add(ref total, local));
+        return total;
+    }
+
     // Enumerates all valid placements of the first two queens, restricting the first queen
     // to rows [0, half) for half-board symmetry. Returns bitmask state ready for column 2.
     private static (ulong Cols, ulong D1, ulong D2)[] BuildDepth2WorkItems(int n, ulong mask, int half)
+        => BuildDepth2WorkItems(n, mask, 0, half);
+
+    private static (ulong Cols, ulong D1, ulong D2)[] BuildDepth2WorkItems(int n, ulong mask, int fromRow, int toRow)
     {
-        var items = new List<(ulong Cols, ulong D1, ulong D2)>(half * (n - 2));
-        for (int row0 = 0; row0 < half; row0++)
+        var items = new List<(ulong Cols, ulong D1, ulong D2)>((toRow - fromRow) * (n - 2));
+        for (int row0 = fromRow; row0 < toRow; row0++)
         {
             ulong bit0 = 1UL << row0;
             ulong cols0 = bit0, d1_0 = bit0 << 1, d2_0 = bit0 >> 1;
