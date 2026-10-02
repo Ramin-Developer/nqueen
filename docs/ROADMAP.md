@@ -15,10 +15,10 @@ in the same change that touches `CHANGELOG.md`.
 > **Current handoff (2026-10-02).** Active branch `perf/solver-optimization-pass`
 > optimizes the Unique CountOnly half-board DFS. A short same-session BenchmarkDotNet comparison
 > improved Unique N=16 `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18
-> `8,866.6 → 8,507.7 ms` and includes the previous private-field naming analyzer cleanup.
-> Keep N=20 Unique CountOnly as a real simulation path; a manual observation to recheck is
-> 641.5 sec and ~190 MB. Verify any displayed count against the canonical N=20 Unique count
-> before using it as perf evidence.
+> `8,866.6 → 8,507.7 ms`; manual N=20 Unique CountOnly improved from about `575 s` to about
+> `556 s`. The branch also includes the previous private-field naming analyzer cleanup. Keep N=20
+> Unique CountOnly as a real simulation path and verify any displayed count against the canonical
+> N=20 Unique count before using it as perf evidence.
 >
 > **Recommended next high-value task.** Run a full `unique` profile if release-grade confidence is
 > needed, then move to the next larger algorithmic investigation rather than piling on speculative

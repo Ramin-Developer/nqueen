@@ -66,7 +66,8 @@ All notable changes to this project are documented here.
   no-reflection path for even boards and an incremental horizontal-reflection prefix path for
   pruning-enabled odd boards. Short BenchmarkDotNet comparison on the local i7-14700K improved
   N=16 `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18 `8,866.6 → 8,507.7 ms`;
-  count tests remain green.
+  a manual N=20 Unique CountOnly validation improved from about `575 s` to about `556 s`.
+  Count tests remain green.
 - **Cleaned up private-field naming analyzer warnings.** Aligned `.editorconfig` naming rules
   with the repository convention for constants, static fields, and instance fields, then renamed
   the reported private members without changing runtime behavior.

@@ -79,4 +79,8 @@ the same-session baseline:
 | 17 | 1,457.2 ms | 1,351.4 ms | -7.3% |
 | 18 | 8,866.6 ms | 8,507.7 ms | -4.0% |
 
+Manual N=20 Unique CountOnly validation on the same branch also improved from approximately
+`575 s` to approximately `556 s`. Treat that as manual simulation evidence, not a replacement for
+the focused BenchmarkDotNet comparison above.
+
 Treat these as focused PR evidence; keep the full `unique` profile available for final release-grade confirmation.
