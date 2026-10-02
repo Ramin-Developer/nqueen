@@ -51,7 +51,7 @@ public class SearchHelpersTests
         var (key, rows) = SearchHelpers.PackIdentityKeyAndRows(canon, scratch, canon.Length);
         var expected = SymmetryHelper.PackRows(rows);
         key.ShouldBe(expected);
-        rows.Count().ShouldBe(canon.Length);
+        rows.Length.ShouldBe(canon.Length);
     }
 
     [Fact]

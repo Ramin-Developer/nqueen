@@ -84,7 +84,7 @@ public class SymmetryHelperExtendedTests
         bool added = SymmetryHelper.AddIfUniquePacked([0, 2, 4, 1, 3], keys, scratch, out var key, out var copy);
         added.ShouldBeTrue();
         key.ShouldNotBe(UInt128.Zero);
-        copy.Count().ShouldBe(5);
+        copy.Length.ShouldBe(5);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class SymmetryHelperExtendedTests
             [0, 2, 4, 1, 3], keys, scratch, buf, out var key, out var copy);
         added.ShouldBeTrue();
         key.ShouldNotBe(UInt128.Zero);
-        copy.Count().ShouldBe(5);
+        copy.Length.ShouldBe(5);
     }
 
     // ── GetCanonicalForm (single-argument overload) ──────────────────────────

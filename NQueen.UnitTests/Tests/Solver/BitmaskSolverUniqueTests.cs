@@ -102,7 +102,7 @@ public class BitmaskSolverUniqueTests
         result.Solutions.Count.ShouldBeLessThanOrEqualTo(SimulationSettings.MaxDisplayedCount);
         foreach (var s in result.Solutions)
         {
-            s.QueenPositions.Count().ShouldBe(15);
+            s.QueenPositions.Length.ShouldBe(15);
             AssertValidPlacement(s.QueenPositions);
         }
     }
@@ -131,7 +131,7 @@ public class BitmaskSolverUniqueTests
         result.Solutions.Count.ShouldBeLessThanOrEqualTo(SimulationSettings.MaxDisplayedCount);
         foreach (var s in result.Solutions)
         {
-            s.QueenPositions.Count().ShouldBe(16);
+            s.QueenPositions.Length.ShouldBe(16);
             AssertValidPlacement(s.QueenPositions);
         }
     }
@@ -248,7 +248,7 @@ public class BitmaskSolverUniqueTests
         var result = await solver.GetSimResultsAsync(ctx);
 
         result.SolutionsCount.ShouldBe(12UL);
-        result.Solutions.Count().ShouldBe(12,
+        result.Solutions.Count.ShouldBe(12,
             "enableCap=false must surface every canonical solution for N=8");
         foreach (var s in result.Solutions)
             AssertValidPlacement(s.QueenPositions);

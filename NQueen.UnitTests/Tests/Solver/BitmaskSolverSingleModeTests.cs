@@ -183,7 +183,7 @@ using var solver = MakeSolver();
 
         result.Solutions.ShouldHaveSingleItem();
         var rows = result.Solutions[0].QueenPositions;
-        rows.Count().ShouldBe(4);
+        rows.Length.ShouldBe(4);
         AssertValidPlacement(rows);
     }
 
@@ -201,12 +201,12 @@ using var solver = MakeSolver();
 
         first.SolutionsCount.ShouldBe(1UL);
         first.Solutions.ShouldHaveSingleItem();
-        first.Solutions[0].QueenPositions.Count().ShouldBe(4);
+        first.Solutions[0].QueenPositions.Length.ShouldBe(4);
 
         second.SolutionsCount.ShouldBe(1UL,
             "second run must not accumulate the previous run's state");
         second.Solutions.ShouldHaveSingleItem();
-        second.Solutions[0].QueenPositions.Count().ShouldBe(8);
+        second.Solutions[0].QueenPositions.Length.ShouldBe(8);
     }
 
     // ── Cap disabled: still emits one solution ──────────────────────────────
