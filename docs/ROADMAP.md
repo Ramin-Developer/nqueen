@@ -24,7 +24,8 @@ in the same change that touches `CHANGELOG.md`.
 > against the canonical value (`4,878,666,808`) before using a run as perf evidence.
 >
 > **Next task.** Execute **Next Track — GUI Coverage** (planned below; branch `test/gui-coverage`).
-> After that, pick from the backlogs (Kernel Performance needs disassembly-level evidence).
+> After that, pick from the backlogs; new kernel perf work (iterative DFS / SIMD) is deferred as
+> low value (<10 %) and needs disassembly-level evidence first.
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
@@ -615,11 +616,15 @@ effort × expected impact.
 
 ### Investigations
 
-- **Solver-mode parity performance pass** — Unique CountOnly is considered optimized enough for
-  now; next work should bring `Single`, `All`, and `Materialize` paths to the same evidence-driven
-  standard. First verify that Console and GUI invoke comparable modes through the same Kernel
-  configuration path (`BitmaskSolverRunConfigurator` into `BitmaskSolver`) and identify any
-  remaining mode/path-specific divergence before profiling targeted hot paths.
+- ~~**Solver-mode parity performance pass**~~ _Complete (PRs #52–#60): Console and GUI share
+  `BitmaskSolverRunConfigurator` -> `BitmaskSolver`; Single/All/Unique/Materialize brought to
+  the same evidence-driven standard._
+- **New kernel performance work (deferred, low value).** Remaining ideas — a fully iterative
+  DFS for the remaining recursive paths and SIMD/vectorized bitboard steps — are expected to
+  give **< 10 %**. Per the profile-first rule (six consecutive negative findings above), each
+  candidate needs **disassembly or µarch evidence of a dynamic cost difference** before any
+  implementation. Only pick up after the GUI coverage track, and only with a fresh
+  BenchmarkDotNet baseline + `DOTNET_JitDisasm` capture of the target method.
 - ~~**Unique CountOnly vs Materialize gap** at N = 17–19 — historical data shows a
   ~5–6× difference. Two-phase split in `EnumerateUniqueVisualizeAdaptive` closed
   part of the gap but there is likely more to find.~~ _Closed 2026-06-17 on
