@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Console vs GUI parity check** (`perf/console-gui-parity`): confirmed Console and GUI share `BitmaskSolverRunConfigurator` -> `BitmaskSolver.Solve`; extended `FrontEndInvocationPathBenchmark` to N=8/12/14/16. Time and allocations match (Alloc Ratio 1.00-1.01); GUI-style async + sinks add a fixed ~3-13 us, negligible from N=12. Results in `NQueen.Benchmarking/README.md`.
+
 - **Roadmap and docs refresh** (`docs/materialize-handoff`): rewrote the `docs/ROADMAP.md` handoff section (solver-mode parity complete, next track from backlog), refreshed the Current State table, and replaced stale "in progress" entries with PRs #52–#57.
 
 - **Roadmap handoff** (`docs/materialize-handoff`): closed the Visualize/Materialize sample-collection item and the solver-mode parity track in `docs/ROADMAP.md`.

@@ -13,7 +13,7 @@ namespace NQueen.Benchmarking;
 [IterationCount(5)]
 public class FrontEndInvocationPathBenchmark
 {
-    [Params(12, 13)]
+    [Params(8, 12, 14, 16)]
     public int BoardSize { get; set; }
 
     [Params(

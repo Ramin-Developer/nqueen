@@ -44,6 +44,8 @@ Keep this top section short: current state, next task, and only the warnings nee
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
+- **Console vs GUI parity check** (`perf/console-gui-parity`, 2026-10-03). Same kernel path;
+  time/allocations match at N=8..16; GUI adds a fixed ~3-13 us async/sink overhead.
 - **Materialize sample collection** (PR #57, 2026-10-03). All Materialize N<14 now two-phase
   (N=12 `5.6 -> 0.4 ms`, N=13 `30 -> 1.1 ms`); samples validated distinct + legal for N=4..18.
 - **Single mode audit** (PR #56, 2026-10-03). Docs-only; no change needed.
