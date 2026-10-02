@@ -23,8 +23,8 @@ in the same change that touches `CHANGELOG.md`.
 > **Keep in mind.** N=20 Unique CountOnly stays a real simulation path; verify displayed counts
 > against the canonical value (`4,878,666,808`) before using a run as perf evidence.
 >
-> **Next task.** Pick the next track from the backlogs below (Code Quality / CI & Tooling are
-> the cheapest; Kernel Performance needs disassembly-level evidence per the profile-first rule).
+> **Next task.** Execute **Next Track — GUI Coverage** (planned below; branch `test/gui-coverage`).
+> After that, pick from the backlogs (Kernel Performance needs disassembly-level evidence).
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
@@ -500,7 +500,38 @@ their methods may be inlined or merged into other compilation units during instr
 The dedicated test classes exist and execute successfully (14 and 7 tests respectively).
 
 Every `BitmaskSolver.*.cs` partial now has a dedicated test class — the track is
-complete. Coverage refreshed 2026-10-02: Kernel 87.4 % line / 75.3 % branch (overall 81.1 % / 67.7 %; see Current State).
+complete. Coverage refreshed 2026-10-02: Kernel 93.5 % line / 83.1 % branch (overall 88.0 % / 76.0 %; see Current State).
+
+---
+
+## Next Track — GUI Coverage (planned)
+
+Goal: lift `NQueen.GUI` from 71.7 % line / 59.4 % branch to >= 85 % / 75 % without
+UI-automation flakiness. Uncovered today: `App.xaml.cs`, `MainWindow.xaml.cs` (115 lines),
+six thin `*.xaml.cs` views, `WpfDispatcher`, `SaveFileDialogService`,
+`GuiServiceCollectionExtensions`, plus `MainViewModel` (78.6 %) / `SquareViewModel` (76.9 %)
+branches. One branch (`test/gui-coverage`), one PR.
+
+1. **DI registration tests** — `GuiServiceCollectionExtensions`: resolve every registered
+   service/ViewModel from a built provider (pure, no WPF thread).
+2. **STA view smoke tests** — xUnit STA helper that instantiates each view/`MainWindow`
+   with its DataContext (no `Show()`), asserting `InitializeComponent` and bindings load.
+3. **`WpfDispatcher` tests** — run on an STA thread with a `Dispatcher`; verify
+   `Invoke`/`BeginInvoke` marshal and execute.
+4. **`SaveFileDialogService` seam** — extract the `SaveFileDialog` call behind a small
+   factory so the service is testable without showing a dialog; test accept/cancel paths.
+5. **`MainWindow.xaml.cs` logic** — move non-trivial code-behind into the ViewModel or a
+   helper where possible; test remaining handlers through the STA harness.
+6. **ViewModel branch gaps** — target the uncovered `MainViewModel`/`SquareViewModel`
+   branches reported by `reportgenerator` (error paths, mode/size edge cases).
+7. **Measure and record** — rerun coverage, update the Current State row and `CHANGELOG.md`.
+
+Out of scope: pixel/visual tests and FlaUI/WinAppDriver automation (flaky on CI).
+`App.xaml.cs` startup may stay excluded via `[ExcludeFromCodeCoverage]` if it only wires the host.
+
+Follow-up (after GUI track): cover the `BitmaskParallelEngine.RunUnique` N>=18
+`IdentityPrefixMinimal` prune path (currently untested, 80.6 %) with a `Slow`-tagged test or
+by lowering `PrefixPruneThresholdN` via an internal test hook.
 
 ---
 
