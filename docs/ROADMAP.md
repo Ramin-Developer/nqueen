@@ -12,18 +12,16 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-10-01).** Active branch `chore/benchmark-docs-n20-validation`
-> refreshes benchmark documentation and tightens N=20 Unique CountOnly validation notes.
-> Fresh BenchmarkDotNet baselines have been captured before any further solver-performance work. On the
-> local i7-14700K/.NET 10 environment, a rerun with other applications closed measured `unique`
-> N=16 183.3 ms, N=17 1,454.0 ms, and N=18 9,093.3 ms; `all` measured N=18 All parallel
-> 7,056.0 ms and production iterative 7,126.4 ms. Keep N=20 Unique CountOnly as a real
-> simulation path; a manual observation to recheck is 641.5 sec and ~190 MB. Verify any
-> displayed count against the canonical N=20 Unique count before using it as perf evidence.
+> **Current handoff (2026-10-02).** Active branch `perf/solver-optimization-pass`
+> optimizes the Unique CountOnly half-board DFS. A short same-session BenchmarkDotNet comparison
+> improved Unique N=16 `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18
+> `8,866.6 → 8,507.7 ms`. Keep N=20 Unique CountOnly as a real simulation path; a manual
+> observation to recheck is 641.5 sec and ~190 MB. Verify any displayed count against the
+> canonical N=20 Unique count before using it as perf evidence.
 >
-> **Recommended next high-value task.** Pause Unique CountOnly micro-optimization for now;
-> future work should start with a fresh benchmark/trace only if pursuing a larger algorithmic
-> redesign.
+> **Recommended next high-value task.** Run a full `unique` profile if release-grade confidence is
+> needed, then move to the next larger algorithmic investigation rather than piling on speculative
+> micro-optimizations.
 
 Historical shipped work and closed performance investigations are summarized under
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -36,15 +34,19 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `chore/benchmark-docs-n20-validation` — benchmark docs and N=20 validation follow-up. |
+| Active branch | `perf/solver-optimization-pass` — Unique CountOnly half-board DFS optimization. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `chore/benchmark-docs-n20-validation`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
-| Build status | 0 errors / 0 reported warnings (full solution build); full test suite 710/710 passing. |
+| Build status | 0 errors / 0 reported warnings (full solution build); Counts subset 84/84 passing after Unique DFS optimization. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
-- **Benchmark docs / N=20 validation follow-up** (`chore/benchmark-docs-n20-validation`, in progress). Refreshes benchmark baseline docs with the cleaner low-load rerun and clarifies N=20 Unique CountOnly validation.
+- **Unique CountOnly DFS optimization** (`perf/solver-optimization-pass`, in progress). Splits
+  the hot Unique CountOnly DFS into no-reflection and incremental-reflection paths, improving the
+  short local N=16/17/18 benchmark comparison while preserving exact count-test coverage.
+
+- **Benchmark docs / N=20 validation follow-up** (`chore/benchmark-docs-n20-validation`, 2026-10-01). Refreshes benchmark baseline docs with the cleaner low-load rerun and clarifies N=20 Unique CountOnly validation.
 
 - **CountOnly summary label** (`fix/countonly-summary-label`, 2026-10-01). Shows `Solutions`
   for CountOnly All/Unique runs and reserves `Solutions (Max: 5)` for Materialize mode.

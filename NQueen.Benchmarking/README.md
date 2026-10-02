@@ -66,3 +66,17 @@ dotnet run -c Release --project NQueen.Console -- --mode unique --size 20 --coun
 ```
 
 Only use the elapsed time as performance evidence if the simulation completes and the output count is `4,878,666,808`.
+
+## Optimization comparison notes
+
+On `perf/solver-optimization-pass`, a short local comparison (`--warmupCount 1 --iterationCount 3`) of
+`UniqueFastHalfBoardEvenOddBenchmark` measured the incremental-reflection/no-reflection DFS split against
+the same-session baseline:
+
+| BoardSize | Baseline mean | Optimized mean | Delta |
+|---:|---:|---:|---:|
+| 16 | 186.2 ms | 177.9 ms | -4.5% |
+| 17 | 1,457.2 ms | 1,351.4 ms | -7.3% |
+| 18 | 8,866.6 ms | 8,507.7 ms | -4.0% |
+
+Treat these as focused PR evidence; keep the full `unique` profile available for final release-grade confirmation.

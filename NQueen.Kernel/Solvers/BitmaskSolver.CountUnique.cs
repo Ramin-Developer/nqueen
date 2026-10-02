@@ -72,9 +72,9 @@ public partial class BitmaskSolver
 
         // Capture the pruning flag as a local so a concurrent Configure() on the global
         // statics cannot corrupt in-flight pruning decisions for this invocation. Only the
-        // reflection prune is sound for canonical counting (see ShouldPrunePrefixFull); the
-        // minimality flag deliberately plays no part here.
-        bool reflectionEnabled = EnablePartialReflectionPruning;
+        // reflection prune is sound for canonical counting; the minimality flag deliberately
+        // plays no part here.
+        bool reflectionEnabled = EnablePartialReflectionPruning && pruneDepthGate != int.MaxValue;
 
         EnsureMinThreads();
         try
@@ -84,7 +84,7 @@ public partial class BitmaskSolver
             // pair with col-0 restricted to the top half; larger boards split one level deeper.
             // This yields fine-grained items at N=20, giving better core saturation while
             // visiting an identical leaf set, so the canonical count is provably unchanged.
-            var items = BuildUniqueWorkItems(n, fullMask, firstRowLimitExclusive);
+            var items = BuildUniqueWorkItems(n, fullMask, firstRowLimitExclusive, pruneDepthGate, reflectionEnabled);
             var po = new ParallelOptions { MaxDegreeOfParallelism = cores };
 
             // Chunk-of-1 dynamic partitioner: hands each depth-2 work item to the next idle
@@ -111,10 +111,14 @@ public partial class BitmaskSolver
                     local.rows[1] = item.Row1;
                     if (item.Row2 >= 0)
                         local.rows[2] = item.Row2;
-                    local.count += CountCanonicalDFS(
-                        item.StartCol, item.Cols, item.D1, item.D2,
-                        n, fullMask, pruneDepthGate, reflectionEnabled,
-                        local.rows, local.scratch);
+                    local.count += reflectionEnabled
+                        ? CountCanonicalDFS(
+                            item.StartCol, item.Cols, item.D1, item.D2,
+                            n, fullMask, pruneDepthGate, item.ReflectionState,
+                            local.rows, local.scratch)
+                        : CountCanonicalDFSNoReflection(
+                            item.StartCol, item.Cols, item.D1, item.D2,
+                            n, fullMask, local.rows, local.scratch);
                     return local;
                 },
                 localFinally: local =>
@@ -142,12 +146,13 @@ public partial class BitmaskSolver
     // serves (N = 16..20) it is a no-op (an in-the-top-half first row is already strictly below
     // its mirror, so ShouldPrunePrefixFull breaks at i = 0), and even if it fired it could only
     // remove non-canonical branches, never changing the leaf count that IsIdentityCanonical sees.
-    private static (int Row0, int Row1, int Row2, int StartCol, ulong Cols, ulong D1, ulong D2)[] BuildUniqueWorkItems(
-        int n, ulong fullMask, int firstRowLimitExclusive)
+    private static UniqueWorkItem[] BuildUniqueWorkItems(
+        int n, ulong fullMask, int firstRowLimitExclusive, int pruneDepthGate, bool reflectionEnabled)
     {
-        var items = new List<(int, int, int, int, ulong, ulong, ulong)>(firstRowLimitExclusive * (n - 1));
+        var items = new List<UniqueWorkItem>(firstRowLimitExclusive * (n - 1));
         for (int row0 = 0; row0 < firstRowLimitExclusive; row0++)
         {
+            int reflectionState0 = AdvanceReflectionState(0, row0, n, reflectionEnabled);
             ulong bit0 = 1UL << row0;
             ulong cols0 = bit0, d1_0 = bit0 << 1, d2_0 = bit0 >> 1;
             ulong avail1 = ~(cols0 | d1_0 | d2_0) & fullMask;
@@ -156,12 +161,13 @@ public partial class BitmaskSolver
                 ulong bit1 = avail1 & (ulong)-(long)avail1;
                 avail1 ^= bit1;
                 int row1 = BitOperations.TrailingZeroCount(bit1);
+                int reflectionState1 = AdvanceReflectionState(reflectionState0, row1, n, reflectionEnabled);
                 ulong cols1 = cols0 | bit1;
                 ulong d1_1 = (d1_0 | bit1) << 1;
                 ulong d2_1 = (d2_0 | bit1) >> 1;
                 if (n < 18)
                 {
-                    items.Add((row0, row1, -1, 2, cols1, d1_1, d2_1));
+                    items.Add(new UniqueWorkItem(row0, row1, -1, 2, cols1, d1_1, d2_1, reflectionState1));
                     continue;
                 }
 
@@ -171,12 +177,32 @@ public partial class BitmaskSolver
                     ulong bit2 = avail2 & (ulong)-(long)avail2;
                     avail2 ^= bit2;
                     int row2 = BitOperations.TrailingZeroCount(bit2);
-                    items.Add((row0, row1, row2, 3, cols1 | bit2, (d1_1 | bit2) << 1, (d2_1 | bit2) >> 1));
+                    int reflectionState2 = AdvanceReflectionState(reflectionState1, row2, n, reflectionEnabled);
+                    if (ShouldPruneReflectionState(reflectionState2, seededDepth: 2, pruneDepthGate))
+                        continue;
+
+                    items.Add(new UniqueWorkItem(row0, row1, row2, 3, cols1 | bit2, (d1_1 | bit2) << 1, (d2_1 | bit2) >> 1, reflectionState2));
                 }
             }
         }
         return items.ToArray();
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int AdvanceReflectionState(int reflectionState, int row, int n, bool reflectionEnabled)
+    {
+        if (!reflectionEnabled || reflectionState != 0)
+            return reflectionState;
+
+        int reflected = n - 1 - row;
+        if (row > reflected) return 1;
+        if (row < reflected) return -1;
+        return 0;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool ShouldPruneReflectionState(int reflectionState, int seededDepth, int pruneDepthGate) =>
+        reflectionState > 0 && seededDepth >= pruneDepthGate;
 
     // Count-returning canonical DFS from a given column. Extracted from the former closure so it
     // can be driven by depth-2 work items in parallel (summation is commutative, so per-item
@@ -188,7 +214,7 @@ public partial class BitmaskSolver
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private ulong CountCanonicalDFS(
         int col, ulong cols, ulong d1, ulong d2,
-        int n, ulong fullMask, int pruneDepthGate, bool reflectionEnabled,
+        int n, ulong fullMask, int pruneDepthGate, int reflectionState,
         int[] rows, int[] scratch)
     {
         if ((col & 0x3F) == 0 && IsCancellationRequested)
@@ -208,14 +234,12 @@ public partial class BitmaskSolver
             int r = BitOperations.TrailingZeroCount(bit);
 
             rows[col] = r;
+            int nextReflectionState = AdvanceReflectionState(reflectionState, r, n, reflectionEnabled: true);
 
-            // Item 2 gating: short-circuit on reflectionEnabled before the depth-gate test so the
-            // ShouldPrunePrefixFull call is skipped entirely when reflection pruning is off (it is
-            // the only sound prefix prune here, and the helper returns false immediately in that
-            // case anyway). reflectionEnabled is a loop-invariant local, making this branch cheap
-            // and the gate self-documenting.
-            if (reflectionEnabled && col >= pruneDepthGate &&
-                SearchHelpers.ShouldPrunePrefixFull(rows, col, n, reflectionEnabled))
+            // Carry the horizontal-reflection prefix comparison incrementally instead of
+            // rescanning rows[0..col] at every gated node. Leaf IsIdentityCanonical remains the
+            // final exact canonicality check across all eight symmetries.
+            if (ShouldPruneReflectionState(nextReflectionState, col, pruneDepthGate))
             {
                 rows[col] = -1;
                 continue;
@@ -223,11 +247,53 @@ public partial class BitmaskSolver
 
             count += CountCanonicalDFS(
                 col + 1, cols | bit, (d1 | bit) << 1, (d2 | bit) >> 1,
-                n, fullMask, pruneDepthGate, reflectionEnabled, rows, scratch);
+                n, fullMask, pruneDepthGate, nextReflectionState, rows, scratch);
 
             rows[col] = -1;
         }
 
         return count;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    private ulong CountCanonicalDFSNoReflection(
+        int col, ulong cols, ulong d1, ulong d2,
+        int n, ulong fullMask,
+        int[] rows, int[] scratch)
+    {
+        if ((col & 0x3F) == 0 && IsCancellationRequested)
+            return 0UL;
+
+        if (col == n)
+            return SymmetryHelper.IsIdentityCanonical(rows, scratch)
+                ? 1UL
+                : 0UL;
+
+        ulong count = 0UL;
+        ulong avail = ~(cols | d1 | d2) & fullMask;
+        while (avail != 0)
+        {
+            ulong bit = avail & (ulong)-(long)avail;
+            avail ^= bit;
+            rows[col] = BitOperations.TrailingZeroCount(bit);
+
+            count += CountCanonicalDFSNoReflection(
+                col + 1, cols | bit, (d1 | bit) << 1, (d2 | bit) >> 1,
+                n, fullMask, rows, scratch);
+
+            rows[col] = -1;
+        }
+
+        return count;
+    }
+
+    private readonly record struct UniqueWorkItem(
+        int Row0,
+        int Row1,
+        int Row2,
+        int StartCol,
+        ulong Cols,
+        ulong D1,
+        ulong D2,
+        int ReflectionState);
 }
