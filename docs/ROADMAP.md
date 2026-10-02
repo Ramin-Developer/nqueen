@@ -31,7 +31,7 @@ in the same change that touches `CHANGELOG.md`.
 > `FrontEndInvocationPathBenchmark`). The `parity` benchmark profile fixed the All odd-N sequential
 > tail (N=15 `87 -> 24 ms`); `perf/unique-small-n-parity` fixed the Unique N<16 anomalies (CountOnly
 > N=15 `123 -> 30 ms`, allocations `242 MB -> 25 KB`; Materialize N=14 `96 ms -> 10 us`). Next item:
-> 1. Unique odd-N tails: verify `CountUniqueFastHalfBoard` at N=17/19 for a sequential-middle pattern.
+> Unique odd-N tail check (2026-10-02): no anomaly. `CountUniqueFastHalfBoard` already includes the middle row in its parallel work items; CountOnly scaling N=16/17/18 = `205 / 1,376 / 8,540 ms` (6.7x, 6.2x, tracking solution-count growth). Open observation: Unique N=16 (~175-205 ms) is slower than All N=16 (~140 ms) despite half the leaves; canonical-check cost is the likely lever if a further Unique pass is wanted.
 
 Historical shipped work
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -44,7 +44,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `perf/unique-small-n-parity` — Unique N<16 parity (half-board counter for N>=8, early-exit Materialize samples). |
+| Active branch | `main` — solver-mode parity pass complete (All odd-N tail, Unique N<16, odd-N check). |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `chore/benchmark-docs-n20-validation`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
