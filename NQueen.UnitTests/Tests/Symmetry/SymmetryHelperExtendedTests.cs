@@ -155,7 +155,7 @@ public class SymmetryHelperExtendedTests
     [InlineData(8, 1, 8)]
     [InlineData(5, 0, 3)]
     public void MaxRowExclusiveForColumn_ReturnsExpected(int boardSize, int col, int expected) =>
-        SymmetryHelper.MaxRowExclusiveForColumn(boardSize, col, new int[boardSize]).ShouldBe(expected);
+        SymmetryHelper.MaxRowExclusiveForColumn(boardSize, col).ShouldBe(expected);
 
     [Theory]
     [InlineData(4,  32)]

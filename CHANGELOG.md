@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to this project are documented here.
 
@@ -69,7 +69,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - **Unique N<16 parity.** Lowered `UniqueCountOnlyParallelThresholdN` 16 -> 8 so N=8..15 use the
-- **Code-style cleanup:** applied collection expressions (IDE0028/0300/0305), primary constructors (IDE0290), and expression-bodied methods (IDE0022) across 27 files; `clean-local-artifacts.bat` now runs `dotnet format style` for these diagnostics. Measured All N=16..20 Release (user hardware): CountOnly `0.2/0.4/3.3/24.4/201.2 s`, Materialize `0.1/0.5/3.3/24.7/203.7 s`.
+- **Code-style cleanup:** applied collection expressions (IDE0028/0300/0305), primary constructors (IDE0290), expression-bodied methods (IDE0022), unused parameters (IDE0060) and switch expressions (IDE0066) across 30 files; `clean-local-artifacts.bat` now runs `dotnet format style` for these diagnostics. Measured All N=16..20 Release (user hardware): CountOnly `0.2/0.4/3.3/24.4/201.2 s`, Materialize `0.1/0.5/3.3/24.7/203.7 s`.
 - **Unique CountOnly/Materialize count (N=8..20) now uses a symmetry-class (Takaken) counter** (`BitmaskSolver.SymmetryClass.cs`): corner roots count as class-8 directly, non-corner roots prune non-canonical branches with boundary masks, and only surviving leaves get a short rotation check (C2/C4/C8). Replaces the half-board leaf-canonical DFS (removed). Measured CountOnly: N=17 `1,371 -> 447 ms` (3.1x), N=18 `8,517 -> 3,245 ms` (2.6x); exact counts N=8..18 verified, 710/710 tests pass.
   half-board parallel counter (Unique CountOnly N=14 `15.6 -> 4.6 ms`, N=15 `122.7 -> 30.2 ms`,
   allocations `32 MB / 242 MB -> ~25 KB`). Unique Materialize now uses the two-phase

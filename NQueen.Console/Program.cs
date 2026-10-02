@@ -13,7 +13,7 @@ public class Program
 
         using var serviceProvider = ConfigureServices();
         var app = serviceProvider.GetRequiredService<App>();
-        await app.Run(args); // interactive menu
+        await app.Run(); // interactive menu
     }
 
     private static ServiceProvider ConfigureServices()
