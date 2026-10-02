@@ -69,6 +69,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 - **Unique N<16 parity.** Lowered `UniqueCountOnlyParallelThresholdN` 16 -> 8 so N=8..15 use the
+- **All CountOnly (N>=8) and All Materialize count phase (N>=14) now use the symmetry-class counter** (All = 2*C2 + 4*C4 + 8*C8), sharing `CountSymmetryClasses` with Unique. Measured: N=17 `1,083 -> 473 ms`, N=18 `7,150 -> 3,348 ms` (~2.2x) for both storage modes; exact counts N=4..18 verified, 710/710 tests pass.
 - **Unique CountOnly/Materialize count (N=8..20) now uses a symmetry-class (Takaken) counter** (`BitmaskSolver.SymmetryClass.cs`): corner roots count as class-8 directly, non-corner roots prune non-canonical branches with boundary masks, and only surviving leaves get a short rotation check (C2/C4/C8). Replaces the half-board leaf-canonical DFS (removed). Measured CountOnly: N=17 `1,371 -> 447 ms` (3.1x), N=18 `8,517 -> 3,245 ms` (2.6x); exact counts N=8..18 verified, 710/710 tests pass.
   half-board parallel counter (Unique CountOnly N=14 `15.6 -> 4.6 ms`, N=15 `122.7 -> 30.2 ms`,
   allocations `32 MB / 242 MB -> ~25 KB`). Unique Materialize now uses the two-phase

@@ -31,7 +31,7 @@ in the same change that touches `CHANGELOG.md`.
 > `FrontEndInvocationPathBenchmark`). The `parity` benchmark profile fixed the All odd-N sequential
 > tail (N=15 `87 -> 24 ms`); `perf/unique-small-n-parity` fixed the Unique N<16 anomalies (CountOnly
 > N=15 `123 -> 30 ms`, allocations `242 MB -> 25 KB`; Materialize N=14 `96 ms -> 10 us`). Next item:
-> Unique odd-N tail check (2026-10-02): no anomaly. `CountUniqueFastHalfBoard` already includes the middle row in its parallel work items; CountOnly scaling N=16/17/18 = `205 / 1,376 / 8,540 ms` (6.7x, 6.2x, tracking solution-count growth). Open observation: Unique N=16 (~175-205 ms) is slower than All N=16 (~140 ms) despite half the leaves; resolved by the symmetry-class (Takaken) counter: N=17/18 now `447 / 3,245 ms` (3.1x / 2.6x faster). Next candidate: derive All CountOnly from the same classes (All = 2*C2 + 4*C4 + 8*C8).
+> Unique odd-N tail check (2026-10-02): no anomaly. `CountUniqueFastHalfBoard` already includes the middle row in its parallel work items; CountOnly scaling N=16/17/18 = `205 / 1,376 / 8,540 ms` (6.7x, 6.2x, tracking solution-count growth). Open observation: Unique N=16 (~175-205 ms) is slower than All N=16 (~140 ms) despite half the leaves; resolved by the symmetry-class (Takaken) counter: N=17/18 now `447 / 3,245 ms` (3.1x / 2.6x faster). All mode now derives its count from the same classes (All = 2*C2 + 4*C4 + 8*C8): N=17/18 `473 / 3,348 ms` (~2.2x).
 
 Historical shipped work
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
