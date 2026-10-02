@@ -12,17 +12,18 @@ in the same change that touches `CHANGELOG.md`.
 
 ## Next session — start here
 
-> **Current handoff (2026-10-02).** Active branch `perf/solver-optimization-pass`
-> optimizes the Unique CountOnly half-board DFS. A short same-session BenchmarkDotNet comparison
-> improved Unique N=16 `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18
-> `8,866.6 → 8,507.7 ms`; manual N=20 Unique CountOnly improved from about `575 s` to about
-> `556 s`. The branch also includes the previous private-field naming analyzer cleanup. Keep N=20
+> **Current handoff (2026-10-02).** Unique CountOnly is already the most recently optimized
+> path: a short same-session BenchmarkDotNet comparison improved Unique N=16
+> `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18 `8,866.6 → 8,507.7 ms`;
+> manual N=20 Unique CountOnly improved from about `575 s` to about `556 s`. Keep N=20
 > Unique CountOnly as a real simulation path and verify any displayed count against the canonical
 > N=20 Unique count before using it as perf evidence.
 >
-> **Recommended next high-value task.** Run a full `unique` profile if release-grade confidence is
-> needed, then move to the next larger algorithmic investigation rather than piling on speculative
-> micro-optimizations.
+> **Recommended next high-value task.** Shift the performance pass to solver-mode parity: bring
+> `Single` and `All`, plus the `Materialize` paths, up to the same evidence-driven standard as
+> Unique CountOnly. Start by confirming Console and GUI both route comparable modes through the
+> shared Kernel (`BitmaskSolverRunConfigurator` → `BitmaskSolver`) before profiling or changing
+> mode-specific hot paths.
 
 Historical shipped work and closed performance investigations are summarized under
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
@@ -35,7 +36,7 @@ current state, next task, and only the warnings needed for the next session.
 | Item | Value |
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
-| Active branch | `perf/solver-optimization-pass` — Unique CountOnly half-board DFS optimization. |
+| Active branch | `docs/solver-mode-parity-plan` — registering and preparing the broader solver-mode parity performance pass. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `chore/benchmark-docs-n20-validation`). |
 | Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
@@ -578,6 +579,11 @@ effort × expected impact.
 
 ### Investigations
 
+- **Solver-mode parity performance pass** — Unique CountOnly is considered optimized enough for
+  now; next work should bring `Single`, `All`, and `Materialize` paths to the same evidence-driven
+  standard. First verify that Console and GUI invoke comparable modes through the same Kernel
+  configuration path (`BitmaskSolverRunConfigurator` into `BitmaskSolver`) and identify any
+  remaining mode/path-specific divergence before profiling targeted hot paths.
 - ~~**Unique CountOnly vs Materialize gap** at N = 17–19 — historical data shows a
   ~5–6× difference. Two-phase split in `EnumerateUniqueVisualizeAdaptive` closed
   part of the gap but there is likely more to find.~~ _Closed 2026-06-17 on

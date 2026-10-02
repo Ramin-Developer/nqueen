@@ -62,6 +62,10 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Registered the next solver performance track.** Updated the roadmap to move the next
+  investigation from more Unique CountOnly micro-optimization to solver-mode parity across
+  `Single`, `All`, and `Materialize`, including a first check that Console and GUI use the shared
+  Kernel configuration path for comparable modes.
 - **Optimized Unique CountOnly half-board DFS pruning.** Split the hot count-only DFS into a
   no-reflection path for even boards and an incremental horizontal-reflection prefix path for
   pruning-enabled odd boards. Short BenchmarkDotNet comparison on the local i7-14700K improved
