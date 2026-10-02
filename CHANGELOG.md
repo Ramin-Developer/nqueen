@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Roadmap handoff** (`docs/materialize-handoff`): closed the Visualize/Materialize sample-collection item and the solver-mode parity track in `docs/ROADMAP.md`.
+
 - **All Materialize small-N fix** (`perf/materialize-sample-collection`): All Materialize for N<14 now uses the two-phase sample + fast-count path instead of a full sequential enumeration (N=12 5.6 -> 0.4 ms, N=13 30 -> 1.1 ms); removed dead `RunAllUnified`.
 
 - **Single mode audit** (`chore/single-mode-audit`): verified valid single solutions for N=1..37 in <=5 ms (Hide mode); no code change required.

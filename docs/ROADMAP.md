@@ -33,9 +33,9 @@ in the same change that touches `CHANGELOG.md`.
 > N=15 `123 -> 30 ms`, allocations `242 MB -> 25 KB`; Materialize N=14 `96 ms -> 10 us`). Next item:
 > Unique odd-N tail check (2026-10-02): no anomaly. `CountUniqueFastHalfBoard` already includes the middle row in its parallel work items; CountOnly scaling N=16/17/18 = `205 / 1,376 / 8,540 ms` (6.7x, 6.2x, tracking solution-count growth). Open observation: Unique N=16 (~175-205 ms) is slower than All N=16 (~140 ms) despite half the leaves; resolved by the symmetry-class (Takaken) counter: N=17/18 now `447 / 3,245 ms` (3.1x / 2.6x faster). All mode now derives its count from the same classes (All = 2*C2 + 4*C4 + 8*C8); after counter tuning, Unique/All N=17/18 are `~426 / ~3,050 ms`. Remaining ideas (iterative DFS, SIMD) are expected to give <10%; next track should be chosen from the backlog.
 
-> **Single mode audit (2026-10-03, `chore/single-mode-audit`).** No change needed: Hide mode returns a validated board for every N=1..37 (N=2/3 correctly none) in <=5 ms through curated lookup (small N) or constructive placement (N>=15); Visualize uses the shared search engine with delay/cancel. Next: Visualize/Materialize sample collection.
+Visualize uses the shared search engine with delay/cancel.
 
-> **Materialize sample collection (2026-10-03, `perf/materialize-sample-collection`).** All/Unique samples validated distinct + legal for N=4..18. All Materialize N<14 ran a full sequential enumeration; now always two-phase (early-exit samples + fast counter): N=12 `5.6 -> 0.4 ms`, N=13 `30 -> 1.1 ms`. Unique Materialize already matched CountOnly. Visualize is intentionally delay-bound (N<=10).
+Unique Materialize already matched CountOnly. Visualize is intentionally delay-bound (N<=10). Solver-mode parity track complete; next track should be chosen from the backlog.
 
 Historical shipped work
 **Recently shipped** and **Backlog — Kernel Performance** below. Keep this top section short:
