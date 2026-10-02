@@ -68,7 +68,12 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
-- **All-mode odd-N parallel tail removed.** `BitboardNQueenSolver.CountSolutions` (N >= 14,
+- **Unique N<16 parity.** Lowered `UniqueCountOnlyParallelThresholdN` 16 -> 8 so N=8..15 use the
+  half-board parallel counter (Unique CountOnly N=14 `15.6 -> 4.6 ms`, N=15 `122.7 -> 30.2 ms`,
+  allocations `32 MB / 242 MB -> ~25 KB`). Unique Materialize now uses the two-phase
+  sample+count path for N>=15 and an early-exit sample DFS for capped N<15 (N=14
+  `96 ms -> 10 us`, N=15 `88.8 -> 30.2 ms`). 710/710 tests pass.
+- **All-mode odd-N parallel tail removed.**
   parallel) now schedules the odd-N middle-row subtree as weighted depth-2 work items instead
   of running it sequentially after the parallel phase. All N=15 (CountOnly and Materialize)
   improved `87.1 -> 23.9 ms`; N=14/16 unchanged within noise; 710/710 tests pass.

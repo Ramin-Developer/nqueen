@@ -15,35 +15,19 @@ public partial class BitmaskSolver
 
         if (boardSize >= SimulationSettings.LargeBoardSymmetryPruningThreshold)
         {
-            if (boardSize >= SimulationSettings.UniqueCountOnlyParallelThresholdN)
-            {
-                // Two-phase approach (mirrors CollectAllSamplesAndCountParallel in All mode):
-                //   Phase 1 � collect up to cap canonical samples via an early-exit DFS (milliseconds).
-                //   Phase 2 � count using CountUniqueFastHalfBoard, the same half-board algorithm
-                //              used by the CountOnly path, cutting the search space by ~half vs.
-                //              SymmetryPrunedUniqueCounter which traverses all N root rows.
-                CollectUniqueSamplesDFS(boardSize, Math.Max(1, cap), packedSample, ref materialized);
-                _solutionCount = CountUniqueFastHalfBoard(boardSize);
-            }
-            else
-            {
-                // N=15: SymmetryPrunedUniqueCounter is the correct path; CountUniqueFastHalfBoard
-                // is only reliable for N >= UniqueCountOnlyParallelThresholdN (16).
-                _solutionCount = Engines.SymmetryPrunedUniqueCounter.Count(boardSize, cap,
-                    prefixMinimality: EnablePrefixMinimalityPruning,
-                    reflectionPruning: EnablePartialReflectionPruning,
-                    onMaterialized: rows =>
-                {
-                    if (materialized < Math.Max(1, cap))
-                    {
-                        var packed = boardSize <= 25 ? SymmetryHelper.GetCanonicalKey(rows, _scratchBuffer!, out _) : 0;
-                        packedSample.Add((packed, boardSize));
-                        materialized++;
-                        if (materialized >= cap && _capEnabled)
-                            _eventsSuppressedAfterCap = true;
-                    }
-                });
-            }
+            // Two-phase approach (mirrors CollectAllSamplesAndCountParallel in All mode):
+            //   Phase 1 - collect up to cap canonical samples via an early-exit DFS (milliseconds).
+            //   Phase 2 - count using CountUniqueFastHalfBoard, the same half-board algorithm
+            //             used by the CountOnly path.
+            CollectUniqueSamplesDFS(boardSize, Math.Max(1, cap), packedSample, ref materialized);
+            _solutionCount = CountUniqueFastHalfBoard(boardSize);
+        }
+        else if (_capEnabled)
+        {
+            // Small capped boards: the count is known, so only the display sample is needed;
+            // an early-exit DFS avoids enumerating every solution.
+            _solutionCount = ExpectedSolutionCounts.GetUnique(boardSize);
+            CollectUniqueSamplesDFS(boardSize, Math.Max(1, cap), packedSample, ref materialized);
         }
         else
         {

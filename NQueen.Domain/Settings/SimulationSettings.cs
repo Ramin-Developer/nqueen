@@ -20,7 +20,7 @@ public static class SimulationSettings
     public const int ParallelAllMaterializeAutoEnableThresholdN = 14;
 
     // Threshold for enabling optimized Unique count-only execution path
-    public const int UniqueCountOnlyParallelThresholdN = 16;
+    public const int UniqueCountOnlyParallelThresholdN = 8;
 
     // Storage strategies (changed to MaterializeSample to satisfy tests expecting sample solutions)
     public const ResultStorageMode DefaultAllStorageMode =
