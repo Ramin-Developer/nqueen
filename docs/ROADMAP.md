@@ -39,7 +39,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `perf/symmetry-class-tuning`, PR #55). |
-| Code coverage | **Measured on demand / per-PR, not hand-maintained here.** The last frozen baseline was 40.24 % line / 23.36 % branch (2025-04-23, branch `test/coverage-report-refresh`); that snapshot predates coverage PRs #35–#38, the Domain `Settings`/`Context` tests, and the later test reorganization, so it materially **understates current reality** and is kept only as a historical marker. To get a current figure, run `dotnet test --collect:"XPlat Code Coverage"` locally. **Branch** coverage is the metric to watch for this combinatorial solver (many conditional paths); there is intentionally **no hard percentage gate** — see *Backlog — CI & Tooling* for the planned CI automation that will replace this row with live data. |
+| Code coverage | **81.1 % line / 67.7 % branch** (Unit + ViewModel, non-Slow, Release; 2026-10-02, `test/coverage-refresh`). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 87.4 / 75.3, GUI 71.6 / 59.2 (XAML views untested), ConsoleApp 40.2 / 37.0. Weakest classes: `BitmaskSearchEngine` 58.6 %, `BitmaskParallelEngine` 73.1 %, Console `DispatchCommands`/`Program` 0 %. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
@@ -500,7 +500,7 @@ their methods may be inlined or merged into other compilation units during instr
 The dedicated test classes exist and execute successfully (14 and 7 tests respectively).
 
 Every `BitmaskSolver.*.cs` partial now has a dedicated test class — the track is
-complete. Fresh coverage baseline collected 2025-04-23: overall 40.24 % line / 23.36 % branch.
+complete. Coverage refreshed 2026-10-02: Kernel 87.4 % line / 75.3 % branch (overall 81.1 % / 67.7 %; see Current State).
 
 ---
 
