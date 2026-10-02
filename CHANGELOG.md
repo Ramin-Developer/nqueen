@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Coverage gap tests** (`test/coverage-gaps`): added `InteractiveMenuTests` (20, Console menu/`Program.Main` via redirected stdin/stdout, non-parallel collection) and `BitmaskEngineDirectTests` (16, `BitmaskSearchEngine` CountOnly/pruning/symmetry/cancel paths and `BitmaskParallelEngine.RunUnique`). Coverage 81.1/67.7 -> 88.0/76.0 % line/branch; ConsoleApp 40.2 -> 96.4 %, Kernel 87.4 -> 93.5 %, `BitmaskSearchEngine` 58.6 -> 92.8 %.
+
 - **Coverage refresh** (`test/coverage-refresh`): replaced the stale 2025 baseline (40.2 % / 23.4 %) with current figures: 81.1 % line / 67.7 % branch across 710 tests; per-assembly breakdown and refresh command in `docs/ROADMAP.md`.
 
 - **Console vs GUI parity check** (`perf/console-gui-parity`): confirmed Console and GUI share `BitmaskSolverRunConfigurator` -> `BitmaskSolver.Solve`; extended `FrontEndInvocationPathBenchmark` to N=8/12/14/16. Time and allocations match (Alloc Ratio 1.00-1.01); GUI-style async + sinks add a fixed ~3-13 us, negligible from N=12. Results in `NQueen.Benchmarking/README.md`.
