@@ -1,4 +1,4 @@
-﻿namespace NQueen.Shared.Utils;
+namespace NQueen.Shared.Utils;
 
 public class NumericUtils
 {
@@ -6,7 +6,7 @@ public class NumericUtils
     {
         var currentProcess = Process.GetCurrentProcess();
         var memoryUsageInBytes = currentProcess.WorkingSet64;
-        var roundedMemoryUsageInMB = RoundToNearestTen(memoryUsageInBytes / _megaByte);
+        var roundedMemoryUsageInMB = RoundToNearestTen(memoryUsageInBytes / MegaByte);
 
         return FormatWithSpaceSeparator(roundedMemoryUsageInMB, 0);
     }
@@ -36,7 +36,7 @@ public class NumericUtils
     {
         var numberFormat = new NumberFormatInfo
         {
-            NumberGroupSeparator = _thousandSeparator,
+            NumberGroupSeparator = ThousandSeparator,
             NumberDecimalDigits = 0
         };
 
@@ -47,7 +47,7 @@ public class NumericUtils
     {
         var numberFormat = new NumberFormatInfo
         {
-            NumberGroupSeparator = _thousandSeparator,
+            NumberGroupSeparator = ThousandSeparator,
             NumberDecimalDigits = 0
         };
 
@@ -58,7 +58,7 @@ public class NumericUtils
     {
         var numberFormat = new NumberFormatInfo
         {
-            NumberGroupSeparator = _thousandSeparator,
+            NumberGroupSeparator = ThousandSeparator,
             NumberDecimalDigits = decimalPlaces
         };
 
@@ -68,6 +68,6 @@ public class NumericUtils
     private static double RoundToNearestTen(double value) =>
         Math.Round(value / 10) * 10;
 
-    private const double _megaByte = 1024.0 * 1024.0;
-    private const string _thousandSeparator = " ";
+    private const double MegaByte = 1024.0 * 1024.0;
+    private const string ThousandSeparator = " ";
 }

@@ -4,7 +4,7 @@ namespace NQueen.UnitTests.Tests.Symmetry;
 [Trait("Behavior", "Comparer")]
 public class MemoryIntArrayComparerTests
 {
-    private static readonly MemoryIntArrayComparer _comparer = MemoryIntArrayComparer.Instance;
+    private static readonly MemoryIntArrayComparer s_comparer = MemoryIntArrayComparer.Instance;
 
     [Theory]
     [MemberData(nameof(ExpectedSolutions.MemoryComparerEqualityCases), MemberType = typeof(ExpectedSolutions))]
@@ -13,7 +13,7 @@ public class MemoryIntArrayComparerTests
         var memoryA = new Memory<int>(first);
         var memoryB = new Memory<int>(second);
 
-        var areEqual = _comparer.Equals(memoryA, memoryB);
+        var areEqual = s_comparer.Equals(memoryA, memoryB);
 
         areEqual.ShouldBe(expected, $"comparing {string.Join(',', first)} and {string.Join(',', second)} should be {expected}");
     }

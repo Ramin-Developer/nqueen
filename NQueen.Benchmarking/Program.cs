@@ -6,7 +6,7 @@ internal class Program
     private const string BenchmarkProfileEnvironmentVariable = "BENCHMARK_PROFILE";
     private const string DefaultProfile = "canonical";
 
-    private static readonly IReadOnlyDictionary<string, Type[]> BenchmarkProfiles = new Dictionary<string, Type[]>(StringComparer.OrdinalIgnoreCase)
+    private static readonly IReadOnlyDictionary<string, Type[]> s_benchmarkProfiles = new Dictionary<string, Type[]>(StringComparer.OrdinalIgnoreCase)
     {
         [DefaultProfile] =
         [
@@ -43,9 +43,9 @@ internal class Program
 
     private static void RunProfile(string profile)
     {
-        if (!BenchmarkProfiles.TryGetValue(profile, out var benchmarkTypes))
+        if (!s_benchmarkProfiles.TryGetValue(profile, out var benchmarkTypes))
         {
-            var availableProfiles = string.Join(", ", BenchmarkProfiles.Keys.Order(StringComparer.OrdinalIgnoreCase));
+            var availableProfiles = string.Join(", ", s_benchmarkProfiles.Keys.Order(StringComparer.OrdinalIgnoreCase));
             throw new ArgumentException($"Unknown benchmark profile '{profile}'. Available profiles: {availableProfiles}.");
         }
 

@@ -2,8 +2,8 @@ namespace NQueen.Domain.Models;
 
 public class Solution
 {
-    private static int _globalSequence; // fallback sequence when id not provided
-    public static void ResetSequence() => Interlocked.Exchange(ref _globalSequence, 0);
+    private static int s_globalSequence; // fallback sequence when id not provided
+    public static void ResetSequence() => Interlocked.Exchange(ref s_globalSequence, 0);
 
     // Existing array-based constructor (kept for compatibility)
     public Solution(int[] queenPositions, ISolutionFormatter formatter, int? id = null)
@@ -13,7 +13,7 @@ public class Solution
         foreach (var v in queenPositions)
             if (v < 0)
                 throw new ArgumentException("Queen positions must contain non-negative values.", nameof(queenPositions));
-        Id = id ?? Interlocked.Increment(ref _globalSequence);
+        Id = id ?? Interlocked.Increment(ref s_globalSequence);
         Name = $"Solution No. {Id:D2}";
         _queenPositions = queenPositions; // materialized upfront
         BoardSize = queenPositions.Length;
@@ -26,7 +26,7 @@ public class Solution
     {
         if (boardSize <= 0 || boardSize > BoardSettings.MaxPackedSolutionStorageSize)
             throw new ArgumentOutOfRangeException(nameof(boardSize), $"Packed storage supports board sizes 1..{BoardSettings.MaxPackedSolutionStorageSize}.");
-        Id = id ?? Interlocked.Increment(ref _globalSequence);
+        Id = id ?? Interlocked.Increment(ref s_globalSequence);
         Name = $"Solution No. {Id:D2}";
         BoardSize = boardSize;
         _packed = packedRows;

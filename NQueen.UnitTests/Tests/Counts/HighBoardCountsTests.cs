@@ -7,19 +7,19 @@ public class HighBoardCountsTests(SolverBackEndFixture fixture)
 {
     private readonly ISolverBackEnd _solver = fixture.Sut;
 
-    private static readonly bool _fullCoverage =
+    private static readonly bool s_fullCoverage =
         Environment.GetEnvironmentVariable(TestShared.TestSettings.EnvFullHighboardCoverage) == "true";
 
     // Prefer lookup-path boards to avoid long enumerations; allow opt-in full lookup coverage via env var.
     // N=20 remains an explicit manual/performance validation case because it is below LookupThresholdN.
-    private static readonly int[] _fullBoardSet =
+    private static readonly int[] s_fullBoardSet =
         [.. Enumerable.Range(
             SimulationSettings.LookupThresholdN,
             BoardSettings.MaxKnownSolutionCountSize - SimulationSettings.LookupThresholdN + 1)];
-    private static readonly int[] _fastBoardSet = [SimulationSettings.LookupThresholdN];
+    private static readonly int[] s_fastBoardSet = [SimulationSettings.LookupThresholdN];
 
     public static TheoryData<int> HighBoards =>
-        [.. (_fullCoverage ? _fullBoardSet : _fastBoardSet)];
+        [.. (s_fullCoverage ? s_fullBoardSet : s_fastBoardSet)];
 
     // Single board for materialization sampling
     // Prefer lookup-path board size; fall back to a small fast board if lookup is unavailable

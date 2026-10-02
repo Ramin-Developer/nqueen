@@ -5,13 +5,13 @@ namespace NQueen.UnitTests.Tests.Counts;
 [Trait("Speed", "Slow")]
 public class LargeBoardAllSolutionCountsTests(SolverBackEndFixture fixture)
 {
-    private static readonly bool _enableFullAllEnum =
+    private static readonly bool s_enableFullAllEnum =
         Environment.GetEnvironmentVariable(NQueen.TestShared.TestSettings.EnvEnableFullAllEnum) == "1";
 
     // Permanently reduce dataset to avoid long-running enumerations in unit tests
     public static TheoryData<int> LargeBoardsEnumerated =>
     [
-        .. (_enableFullAllEnum ? new[] { 15, 16, 17 } : new[] { 15 })
+        .. (s_enableFullAllEnum ? new[] { 15, 16, 17 } : new[] { 15 })
     ];
 
     // Verify All-mode counts (count-only) match expected lookup table values for enumerated large boards.
