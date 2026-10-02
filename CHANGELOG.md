@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **GUI coverage plan** (`docs/gui-coverage-plan`): registered the 7-step *Next Track — GUI Coverage* in `docs/ROADMAP.md` (target GUI >= 85 % line / 75 % branch) and pointed the handoff at it.
+
 - **Coverage gap tests** (`test/coverage-gaps`): added `InteractiveMenuTests` (20, Console menu/`Program.Main` via redirected stdin/stdout, non-parallel collection) and `BitmaskEngineDirectTests` (16, `BitmaskSearchEngine` CountOnly/pruning/symmetry/cancel paths and `BitmaskParallelEngine.RunUnique`). Coverage 81.1/67.7 -> 88.0/76.0 % line/branch; ConsoleApp 40.2 -> 96.4 %, Kernel 87.4 -> 93.5 %, `BitmaskSearchEngine` 58.6 -> 92.8 %.
 
 - **Coverage refresh** (`test/coverage-refresh`): replaced the stale 2025 baseline (40.2 % / 23.4 %) with current figures: 81.1 % line / 67.7 % branch across 710 tests; per-assembly breakdown and refresh command in `docs/ROADMAP.md`.
