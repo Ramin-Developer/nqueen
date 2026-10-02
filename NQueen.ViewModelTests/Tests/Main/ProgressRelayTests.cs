@@ -20,7 +20,7 @@ public class ProgressRelayTests : IDisposable
                 // Keep the task brief; we manually force heartbeat conditions below via _lastProgressUpdateUtc.
                 await Task.Delay(300);
                 // Return a trivial solution set so simulation can finish cleanly.
-                new SimulationResults([new Solution([0], _formatter, null)], 0.0);
+                return new SimulationResults([new Solution([0], _formatter, null)], 0.0);
             });
 
         var ctx = new SimulationContext(8, SolutionMode.Unique, DisplayMode.Hide);
