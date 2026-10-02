@@ -140,7 +140,7 @@ public class MainViewModelValidationTests
         mainVm.SolutionMode = finalSolutionMode;
         mainVm.BoardSizeText = finalBoardSizeText;
 
-        errors = mainVm.GetErrors(nameof(mainVm.BoardSizeText)).Cast<string>().ToList();
+        errors = [.. mainVm.GetErrors(nameof(mainVm.BoardSizeText)).Cast<string>()];
         errors.ShouldContain(ErrorMessages.OutOfRangeAll); // 21 invalid for All (max 20)
     }
 
@@ -156,7 +156,7 @@ public class MainViewModelValidationTests
 
         errors.ShouldNotBeEmpty();
         mainVm.BoardSizeText = "8";
-        errors = mainVm.GetErrors(nameof(mainVm.BoardSizeText)).Cast<string>().ToList();
+        errors = [.. mainVm.GetErrors(nameof(mainVm.BoardSizeText)).Cast<string>()];
         errors.ShouldBeEmpty();
         mainVm.HasErrors.ShouldBeFalse();
     }

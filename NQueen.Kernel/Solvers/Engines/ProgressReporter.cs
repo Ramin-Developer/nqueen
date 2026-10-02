@@ -1,19 +1,11 @@
 namespace NQueen.Kernel.Solvers.Engines;
 
-internal readonly struct ProgressReporter
+internal readonly struct ProgressReporter(Action<double> report, int bucketSize = 1, int heartbeatMs = 1500)
 {
-    private readonly Action<double> _report;
-    private readonly int _bucketSize;
-    private readonly Stopwatch _heartbeat;
-    private readonly int _heartbeatMs;
-
-    public ProgressReporter(Action<double> report, int bucketSize = 1, int heartbeatMs = 1500)
-    {
-        _report = report;
-        _bucketSize = bucketSize;
-        _heartbeat = Stopwatch.StartNew();
-        _heartbeatMs = heartbeatMs;
-    }
+    private readonly Action<double> _report = report;
+    private readonly int _bucketSize = bucketSize;
+    private readonly Stopwatch _heartbeat = Stopwatch.StartNew();
+    private readonly int _heartbeatMs = heartbeatMs;
 
     public void ReportBucket(int done, int totalTasks, ref int bucketReported)
     {

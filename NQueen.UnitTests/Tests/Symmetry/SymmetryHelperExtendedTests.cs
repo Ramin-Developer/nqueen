@@ -9,10 +9,7 @@ public class SymmetryHelperExtendedTests
     [Theory]
     [InlineData(1, 0, 0b1111UL)]   // board size one → mask unchanged
     [InlineData(5, 2, 0b11111UL)]  // column >= 2 → mask unchanged
-    public void ApplyAdvancedSymmetryPruning_ReturnsMaskUnchanged(int boardSize, int col, ulong mask)
-    {
-        SymmetryHelper.ApplyAdvancedSymmetryPruning(boardSize, col, new int[boardSize], mask).ShouldBe(mask);
-    }
+    public void ApplyAdvancedSymmetryPruning_ReturnsMaskUnchanged(int boardSize, int col, ulong mask) => SymmetryHelper.ApplyAdvancedSymmetryPruning(boardSize, col, new int[boardSize], mask).ShouldBe(mask);
 
     [Theory]
     [InlineData(8, 0xFFUL, 0b00001111UL)]  // even board N=8: maxRow=4, bits 0..3

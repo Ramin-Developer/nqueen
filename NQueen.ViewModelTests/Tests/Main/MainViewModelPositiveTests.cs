@@ -116,7 +116,7 @@ public class MainViewModelPositiveTests
 
         var solutions = solutionMode == SolutionMode.All
             ? new[] { new Solution([1, 3, 0, 2], mockFormatter, null), new Solution([2, 0, 3, 1], mockFormatter, null) }
-            : new[] { new Solution([1, 3, 0, 2], mockFormatter, null) };
+            : [new Solution([1, 3, 0, 2], mockFormatter, null)];
 
         var mockSolver = new Mock<ISolver>();
 

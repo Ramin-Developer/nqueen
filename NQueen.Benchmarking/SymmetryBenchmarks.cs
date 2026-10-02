@@ -72,7 +72,7 @@ public class SymmetryAddIfUniquePackedBenchmark
             UseParallel = true
         };
         var results = solver.Solve();
-        _solutions = results.Solutions.Select(s => (int[])s.QueenPositions.Clone()).Take(500).ToList();
+        _solutions = [.. results.Solutions.Select(s => (int[])s.QueenPositions.Clone()).Take(500)];
         _scratch = new int[SymmetryHelper.GetScratchBufferSize(BoardSize)];
     }
 

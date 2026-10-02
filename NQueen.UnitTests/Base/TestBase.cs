@@ -7,59 +7,53 @@ public class TestBase(ISolverBackEnd sut)
     public List<UInt128> ActualSolutionsPacked { get; set; } = [];
 
     // Legacy helper for tests expecting raw int[] solutions
-    public static List<int[]> FetchExpectedSols(SimulationContext simContext)
+    public static List<int[]> FetchExpectedSols(SimulationContext simContext) => simContext.SolutionMode switch
     {
-        return simContext.SolutionMode switch
-        {
-            SolutionMode.Single => NQueen.Domain.Utils.ExpectedSolutionData.SingleSolutions
-                .TryGetValue(simContext.BoardSize, out var singleSolutions)
-                ? singleSolutions
-                : throw new KeyNotFoundException(
-                    $"No single solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.Single => NQueen.Domain.Utils.ExpectedSolutionData.SingleSolutions
+            .TryGetValue(simContext.BoardSize, out var singleSolutions)
+            ? singleSolutions
+            : throw new KeyNotFoundException(
+                $"No single solutions found for board size {simContext.BoardSize}."),
 
-            SolutionMode.Unique => NQueen.Domain.Utils.ExpectedSolutionData.UniqueSolutions
-                .TryGetValue(simContext.BoardSize, out var uniqueSolutions)
-                ? uniqueSolutions
-                : throw new KeyNotFoundException(
-                    $"No unique solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.Unique => NQueen.Domain.Utils.ExpectedSolutionData.UniqueSolutions
+            .TryGetValue(simContext.BoardSize, out var uniqueSolutions)
+            ? uniqueSolutions
+            : throw new KeyNotFoundException(
+                $"No unique solutions found for board size {simContext.BoardSize}."),
 
-            SolutionMode.All => NQueen.Domain.Utils.ExpectedSolutionData.AllSolutions
-                .TryGetValue(simContext.BoardSize, out var allSolutions)
-                ? allSolutions
-                : throw new KeyNotFoundException(
-                    $"No all solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.All => NQueen.Domain.Utils.ExpectedSolutionData.AllSolutions
+            .TryGetValue(simContext.BoardSize, out var allSolutions)
+            ? allSolutions
+            : throw new KeyNotFoundException(
+                $"No all solutions found for board size {simContext.BoardSize}."),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(simContext),
-                    "Invalid solution mode.")
-        };
-    }
+        _ => throw new ArgumentOutOfRangeException(nameof(simContext),
+                "Invalid solution mode.")
+    };
 
-    public static List<UInt128> FetchExpectedSolsPacked(SimulationContext simContext)
+    public static List<UInt128> FetchExpectedSolsPacked(SimulationContext simContext) => simContext.SolutionMode switch
     {
-        return simContext.SolutionMode switch
-        {
-            SolutionMode.Single => NQueen.TestShared.Data.ExpectedSolutions.SinglePacked
-                .TryGetValue(simContext.BoardSize, out var singleSolutions)
-                ? singleSolutions
-                : throw new KeyNotFoundException(
-                    $"No single solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.Single => NQueen.TestShared.Data.ExpectedSolutions.SinglePacked
+            .TryGetValue(simContext.BoardSize, out var singleSolutions)
+            ? singleSolutions
+            : throw new KeyNotFoundException(
+                $"No single solutions found for board size {simContext.BoardSize}."),
 
-            SolutionMode.Unique => NQueen.TestShared.Data.ExpectedSolutions.UniquePacked
-                .TryGetValue(simContext.BoardSize, out var uniqueSolutions)
-                ? uniqueSolutions
-                : throw new KeyNotFoundException(
-                    $"No unique solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.Unique => NQueen.TestShared.Data.ExpectedSolutions.UniquePacked
+            .TryGetValue(simContext.BoardSize, out var uniqueSolutions)
+            ? uniqueSolutions
+            : throw new KeyNotFoundException(
+                $"No unique solutions found for board size {simContext.BoardSize}."),
 
-            SolutionMode.All => NQueen.TestShared.Data.ExpectedSolutions.AllPacked
-                .TryGetValue(simContext.BoardSize, out var allSolutions)
-                ? allSolutions
-                : throw new KeyNotFoundException(
-                    $"No all solutions found for board size {simContext.BoardSize}."),
+        SolutionMode.All => NQueen.TestShared.Data.ExpectedSolutions.AllPacked
+            .TryGetValue(simContext.BoardSize, out var allSolutions)
+            ? allSolutions
+            : throw new KeyNotFoundException(
+                $"No all solutions found for board size {simContext.BoardSize}."),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(simContext),
-                    "Invalid solution mode.")
-        };
-    }
+        _ => throw new ArgumentOutOfRangeException(nameof(simContext),
+                "Invalid solution mode.")
+    };
 
     public async Task<IEnumerable<UInt128>> FetchActualSolsPackedAsync(SimulationContext simContext) =>
         (await Sut.GetSimResultsAsync(simContext))

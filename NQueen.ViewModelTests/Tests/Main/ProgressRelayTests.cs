@@ -20,7 +20,7 @@ public class ProgressRelayTests : IDisposable
                 // Keep the task brief; we manually force heartbeat conditions below via _lastProgressUpdateUtc.
                 await Task.Delay(300);
                 // Return a trivial solution set so simulation can finish cleanly.
-                return new SimulationResults(new[] { new Solution(new[] { 0 }, _formatter, null) }, 0.0);
+                new SimulationResults([new Solution([0], _formatter, null)], 0.0);
             });
 
         var ctx = new SimulationContext(8, SolutionMode.Unique, DisplayMode.Hide);
@@ -43,7 +43,7 @@ public class ProgressRelayTests : IDisposable
         // Invoke private heartbeat tick method via reflection to simulate timer firing.
         var tickMethod = vm.GetType().GetMethod("ProgressHeartbeatTimer_Tick", BindingFlags.NonPublic | BindingFlags.Instance);
         tickMethod.ShouldNotBeNull();
-        tickMethod!.Invoke(vm, new object?[] { null, EventArgs.Empty });
+        tickMethod!.Invoke(vm, [null, EventArgs.Empty]);
 
         // Assert: synthetic progress advanced above0 but below cap (95).
         vm.ProgressPercent.ShouldBeGreaterThan(0, "Heartbeat should increment progress after silence interval.");

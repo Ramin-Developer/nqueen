@@ -30,6 +30,10 @@ if exist "TestResults" (
     if exist "TestResults" echo Could not remove "TestResults".
 )
 
+echo Applying code-style fixes (collection expressions, primary constructors, expression bodies)...
+dotnet format style NQueen.slnx --severity info --diagnostics IDE0028 IDE0090 IDE0290 IDE0022 IDE0300 IDE0301 IDE0305
+if errorlevel 1 echo Code-style fixes could not be fully applied. Review dotnet format output.
+
 echo Cleanup complete.
 echo %cmdcmdline% | find /i "/c" >nul && pause
 endlocal
