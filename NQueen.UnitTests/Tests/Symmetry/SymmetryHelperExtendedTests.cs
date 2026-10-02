@@ -64,7 +64,7 @@ public class SymmetryHelperExtendedTests
     [Fact]
     public void AddIfUnique_NewSolution_ReturnsTrue()
     {
-        var keys = new HashSet<UInt128>();
+        HashSet<UInt128> keys = [];
         int[] scratch = new int[5 * 8];
         SymmetryHelper.AddIfUnique([0, 2, 4, 1, 3], keys, scratch).ShouldBeTrue();
     }
@@ -72,7 +72,7 @@ public class SymmetryHelperExtendedTests
     [Fact]
     public void AddIfUnique_DuplicateSolution_ReturnsFalse()
     {
-        var keys = new HashSet<UInt128>();
+        HashSet<UInt128> keys = [];
         int[] scratch = new int[5 * 8];
         int[] sol = [0, 2, 4, 1, 3];
         SymmetryHelper.AddIfUnique(sol, keys, scratch);
@@ -82,7 +82,7 @@ public class SymmetryHelperExtendedTests
     [Fact]
     public void AddIfUniquePacked_NewSolution_ReturnsKeyAndCanonicalCopy()
     {
-        var keys = new HashSet<UInt128>();
+        HashSet<UInt128> keys = [];
         int[] scratch = new int[5 * 8];
         bool added = SymmetryHelper.AddIfUniquePacked([0, 2, 4, 1, 3], keys, scratch, out var key, out var copy);
         added.ShouldBeTrue();
@@ -93,7 +93,7 @@ public class SymmetryHelperExtendedTests
     [Fact]
     public void AddIfUniquePackedReuseBuffer_NewSolution_ReturnsTrue()
     {
-        var keys = new HashSet<UInt128>();
+        HashSet<UInt128> keys = [];
         int[] scratch = new int[5 * 8];
         int[] buf = new int[5];
         bool added = SymmetryHelper.AddIfUniquePackedReuseBuffer(

@@ -39,7 +39,7 @@ public class SymmetryPrunedUniqueCounterTests
     [Fact]
     public void Count_WithCallback_N5_CollectsAllUniqueSolutions()
     {
-        var collected = new List<int[]>();
+        List<int[]> collected = [];
         var count = SymmetryPrunedUniqueCounter.Count(5, cap: 10, onMaterialized: rows => collected.Add(rows));
         count.ShouldBe(2UL);
         collected.Count().ShouldBe(2);
@@ -70,7 +70,7 @@ public class SymmetryPrunedUniqueCounterTests
     [Fact]
     public void Count_N6_MaterializedSolutions_AreValidPlacements()
     {
-        var solutions = new List<int[]>();
+        List<int[]> solutions = [];
         SymmetryPrunedUniqueCounter.Count(6, cap: 1, onMaterialized: rows => solutions.Add(rows));
         solutions.ShouldNotBeEmpty();
         foreach (var sol in solutions)

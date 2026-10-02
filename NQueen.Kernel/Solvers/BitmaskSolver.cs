@@ -408,10 +408,10 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
 
     // Ensures the thread-pool minimum is raised to the available core count at most once
     // per process; repeated calls are no-ops.
-    private static int _minThreadsSet = 0;
+    private static int s_minThreadsSet = 0;
     private static void EnsureMinThreads()
     {
-        if (Interlocked.CompareExchange(ref _minThreadsSet, 1, 0) == 0)
+        if (Interlocked.CompareExchange(ref s_minThreadsSet, 1, 0) == 0)
         {
             int cores = Environment.ProcessorCount;
             ThreadPool.SetMinThreads(cores, cores);

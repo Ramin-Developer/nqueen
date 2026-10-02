@@ -79,7 +79,7 @@ public class SymmetryAddIfUniquePackedBenchmark
     [Benchmark(Baseline = true)]
     public int ColdInsertions()
     {
-        var set = new HashSet<UInt128>();
+        HashSet<UInt128> set = [];
         foreach (var sol in _solutions)
             SymmetryHelper.AddIfUniquePacked(sol, set, _scratch, out _, out _);
         return set.Count;
@@ -88,7 +88,7 @@ public class SymmetryAddIfUniquePackedBenchmark
     [Benchmark]
     public int DuplicateInsertions()
     {
-        var set = new HashSet<UInt128>();
+        HashSet<UInt128> set = [];
         foreach (var sol in _solutions)
             SymmetryHelper.AddIfUniquePacked(sol, set, _scratch, out _, out _);
         foreach (var sol in _solutions)

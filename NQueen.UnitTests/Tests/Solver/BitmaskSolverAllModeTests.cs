@@ -138,7 +138,7 @@ public class BitmaskSolverAllModeTests
             EnableEvents = true,
             UseCountOnlyAllMode = true,
         };
-        var reported = new List<double>();
+        List<double> reported = [];
         var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
         var ctx = new SimulationContext(8, SolutionMode.All, DisplayMode.Hide, OnProgress: progress);
 
@@ -157,7 +157,7 @@ public class BitmaskSolverAllModeTests
             EnableEvents = false,
             UseCountOnlyAllMode = true,
         };
-        var reported = new List<double>();
+        List<double> reported = [];
         var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
         var ctx = new SimulationContext(8, SolutionMode.All, DisplayMode.Hide, OnProgress: progress);
 

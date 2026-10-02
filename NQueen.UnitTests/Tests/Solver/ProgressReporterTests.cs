@@ -14,7 +14,7 @@ public class ProgressReporterTests
     [Fact]
     public void ReportBucket_ZeroTotalTasks_ReportsOneHundred()
     {
-        var reported = new List<double>();
+        List<double> reported = [];
         var reporter = new ProgressReporter(reported.Add, bucketSize: 1, heartbeatMs: NoHeartbeat);
         int bucketReported = 0;
 
@@ -27,7 +27,7 @@ public class ProgressReporterTests
     [Fact]
     public void ReportBucket_CrossingBucketBoundary_ReportsBucketedPercent()
     {
-        var reported = new List<double>();
+        List<double> reported = [];
         var reporter = new ProgressReporter(reported.Add, bucketSize: 10, heartbeatMs: NoHeartbeat);
         int bucketReported = 0;
 
@@ -42,7 +42,7 @@ public class ProgressReporterTests
     [Fact]
     public void ReportBucket_WithinSameBucket_DoesNotReportAgain()
     {
-        var reported = new List<double>();
+        List<double> reported = [];
         var reporter = new ProgressReporter(reported.Add, bucketSize: 10, heartbeatMs: NoHeartbeat);
         int bucketReported = 0;
 
@@ -57,7 +57,7 @@ public class ProgressReporterTests
     [Fact]
     public void ReportBucket_AdvancingBuckets_ReportsEachNewBucketOnce()
     {
-        var reported = new List<double>();
+        List<double> reported = [];
         var reporter = new ProgressReporter(reported.Add, bucketSize: 25, heartbeatMs: NoHeartbeat);
         int bucketReported = 0;
 
@@ -72,7 +72,7 @@ public class ProgressReporterTests
     [Fact]
     public void ReportBucket_BucketNeverGoesBackwards()
     {
-        var reported = new List<double>();
+        List<double> reported = [];
         var reporter = new ProgressReporter(reported.Add, bucketSize: 10, heartbeatMs: NoHeartbeat);
         int bucketReported = 0;
 

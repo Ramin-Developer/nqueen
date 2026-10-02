@@ -30,32 +30,32 @@ namespace NQueen.Domain.Utils;
 public static class ExpectedSolutionCounts
 {
     // Dictionary-based API (existing)
-    public static IReadOnlyDictionary<int, ulong> AllSolutions => _allSolutions;
+    public static IReadOnlyDictionary<int, ulong> AllSolutions => s_allSolutions;
 
-    public static IReadOnlyDictionary<int, ulong> UniqueSolutions => _uniqueSolutions;
+    public static IReadOnlyDictionary<int, ulong> UniqueSolutions => s_uniqueSolutions;
 
     // Use ReadOnlySpan for allocation-free enumeration.
-    public static ReadOnlySpan<ulong> AllSolutionsSpan => _allSolutionsArr;
+    public static ReadOnlySpan<ulong> AllSolutionsSpan => s_allSolutionsArr;
 
-    public static ReadOnlySpan<ulong> UniqueSolutionsSpan => _uniqueSolutionsArr;
+    public static ReadOnlySpan<ulong> UniqueSolutionsSpan => s_uniqueSolutionsArr;
 
     /// <summary>Fast direct lookup for total solutions; returns 0 if n out of range.</summary>
     public static ulong GetAllFast(int n) =>
-        (n >= 1 && n < _allSolutionsArr.Length)
-            ? _allSolutionsArr[n]
+        (n >= 1 && n < s_allSolutionsArr.Length)
+            ? s_allSolutionsArr[n]
             : 0UL;
 
     /// <summary>Fast direct lookup for unique solutions; returns 0 if n out of range.</summary>    
     public static ulong GetUniqueFast(int n) =>
-        (n >= 1 && n < _uniqueSolutionsArr.Length)
-            ? _uniqueSolutionsArr[n]
+        (n >= 1 && n < s_uniqueSolutionsArr.Length)
+            ? s_uniqueSolutionsArr[n]
             : 0UL;
 
     public static bool TryGetAll(int n, out ulong count) =>
-        _allSolutions.TryGetValue(n, out count);
+        s_allSolutions.TryGetValue(n, out count);
 
     public static bool TryGetUnique(int n, out ulong count) =>
-        _uniqueSolutions.TryGetValue(n, out count);
+        s_uniqueSolutions.TryGetValue(n, out count);
 
     public static ulong GetAll(int n) =>
         TryGetAll(n, out var v)
@@ -65,7 +65,7 @@ public static class ExpectedSolutionCounts
         TryGetUnique(n, out var v)
             ? v : 0UL;
 
-    private static readonly Dictionary<int, ulong> _uniqueSolutions = new()
+    private static readonly Dictionary<int, ulong> s_uniqueSolutions = new()
     {
         {1, 1}, {2, 0}, {3, 0}, {4, 1}, {5, 2}, {6, 1}, {7, 6}, {8, 12}, {9, 46}, {10, 92},
         {11, 341}, {12, 1_787}, {13, 9_233}, {14, 45_752}, {15, 285_053}, {16, 1_846_955},
@@ -75,7 +75,7 @@ public static class ExpectedSolutionCounts
         {27, 7_515_327_188_557_750}, {28, 58_296_223_675_307_196}, {29, 452_251_596_286_501_684}
     };
 
-    private static readonly Dictionary<int, ulong> _allSolutions = new()
+    private static readonly Dictionary<int, ulong> s_allSolutions = new()
     {
         {1, 1}, {2, 0}, {3, 0}, {4, 2}, {5, 10}, {6, 4}, {7, 40}, {8, 92}, {9, 352}, {10, 724},
         {11, 2_680}, {12, 14_200}, {13, 73_712}, {14, 365_596}, {15, 2_279_184}, {16, 14_772_512},
@@ -87,7 +87,7 @@ public static class ExpectedSolutionCounts
     };
 
     // Array representations (index 0 unused to align indices with board size n)
-    private static readonly ulong[] _uniqueSolutionsArr =
+    private static readonly ulong[] s_uniqueSolutionsArr =
     [
         0UL,
         1, 0, 0, 1, 2, 1, 6, 12,
@@ -98,7 +98,7 @@ public static class ExpectedSolutionCounts
         7_515_327_188_557_750, 58_296_223_675_307_196, 452_251_596_286_501_684
     ];
 
-    private static readonly ulong[] _allSolutionsArr =
+    private static readonly ulong[] s_allSolutionsArr =
     [
         0UL,
         1, 0, 0, 2, 10, 4, 40, 92,

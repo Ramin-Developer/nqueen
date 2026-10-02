@@ -2,9 +2,9 @@ namespace NQueen.UnitTests.Tests.Domain;
 
 public class SimulationResultsTests
 {
-    private static readonly ISolutionFormatter Formatter = new SolutionFormatter();
+    private static readonly ISolutionFormatter s_formatter = new SolutionFormatter();
 
-    private static Solution MakeSolution(int id) => new([0, 1], Formatter, id: id);
+    private static Solution MakeSolution(int id) => new([0, 1], s_formatter, id: id);
 
     [Fact]
     public void PreferredConstructor_KeepsExplicitTotal_NotInferred()

@@ -62,6 +62,15 @@ All notable changes to this project are documented here.
   package versions are no longer needed. Build and full test suite (667/667) remain green.
 
 ### Changed
+- **Optimized Unique CountOnly half-board DFS pruning.** Split the hot count-only DFS into a
+  no-reflection path for even boards and an incremental horizontal-reflection prefix path for
+  pruning-enabled odd boards. Short BenchmarkDotNet comparison on the local i7-14700K improved
+  N=16 `186.2 → 177.9 ms`, N=17 `1,457.2 → 1,351.4 ms`, and N=18 `8,866.6 → 8,507.7 ms`;
+  a manual N=20 Unique CountOnly validation improved from about `575 s` to about `556 s`.
+  Count tests remain green.
+- **Cleaned up private-field naming analyzer warnings.** Aligned `.editorconfig` naming rules
+  with the repository convention for constants, static fields, and instance fields, then renamed
+  the reported private members without changing runtime behavior.
 - **Simplified solution-summary label selection.** Extracted the CountOnly vs Materialize label
   decision into a small ViewModel helper so the cap wording is tied directly to storage mode.
 - **Refreshed clean-machine benchmark baselines.** Updated benchmark documentation with the
