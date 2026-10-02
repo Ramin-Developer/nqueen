@@ -75,8 +75,11 @@ public partial class BitmaskSolver
     {
         if (countOnly)
         {
-            // Optimized All count-only: symmetry-reduced bitboard with parallel top-level split
-            _solutionCount = (ulong)BitboardNQueenSolver.CountSolutions(BoardSize, parallel: true);
+            // N >= 8: symmetry-class counter (All = 2*C2 + 4*C4 + 8*C8); smaller boards keep
+            // the half-board bitboard counter.
+            _solutionCount = BoardSize >= SimulationSettings.UniqueCountOnlyParallelThresholdN
+                ? CountAllSymmetryClass(BoardSize)
+                : (ulong)BitboardNQueenSolver.CountSolutions(BoardSize, parallel: true);
             RaiseProgress(100.0);
             return;
         }
@@ -108,7 +111,7 @@ public partial class BitmaskSolver
         int cap = Math.Max(1, SimulationSettings.MaxDisplayedCount);
         CollectAllSampleSolutionsDFS(N, cap);
 
-        _solutionCount = (ulong)BitboardNQueenSolver.CountSolutions(N, parallel: UseParallel);
+        _solutionCount = CountAllSymmetryClass(N);
         RaiseProgress(100.0);
     }
 

@@ -10,6 +10,19 @@ public partial class BitmaskSolver
     // Unique = C2 + C4 + C8. Reliable for N >= 5.
     private ulong CountUniqueSymmetryClass(int n)
     {
+        var (c2, c4, c8) = CountSymmetryClasses(n);
+        return (ulong)(c2 + c4 + c8);
+    }
+
+    // All solutions from the same classes: each class-k representative stands for k boards.
+    private ulong CountAllSymmetryClass(int n)
+    {
+        var (c2, c4, c8) = CountSymmetryClasses(n);
+        return (ulong)(2 * c2 + 4 * c4 + 8 * c8);
+    }
+
+    private (long C2, long C4, long C8) CountSymmetryClasses(int n)
+    {
         var items = BuildSymmetryClassItems(n);
         long c2 = 0, c4 = 0, c8 = 0;
         var po = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
@@ -32,10 +45,10 @@ public partial class BitmaskSolver
                 Interlocked.Add(ref c8, local.Count8);
             });
 
-        return (ulong)(c2 + c4 + c8);
+        return (c2, c4, c8);
     }
 
-    // Splits each root (corner bound1 / non-corner bound1) one row deeper so the parallel loop
+    // Splits
     // gets ~N^2 balanced items instead of ~N coarse ones. Row-level pruning for the split row is
     // applied by SymmetryClassCounter.Run exactly as the sequential algorithm would.
     private static SymmetryClassItem[] BuildSymmetryClassItems(int n)
