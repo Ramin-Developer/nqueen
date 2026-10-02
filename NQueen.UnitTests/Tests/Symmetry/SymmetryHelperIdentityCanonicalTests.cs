@@ -48,7 +48,7 @@ public class SymmetryHelperIdentityCanonicalTests(SolverBackEndFixture fixture) 
     public void UniqueEnumeration_CountMatchesExpected(int n)
     {
         int cap = int.MaxValue;
-        var collected = new List<int[]>();
+        List<int[]> collected = [];
 
         // Use the consolidated symmetry-pruned unique counter
         ulong count = NQueen.Kernel.Solvers.Engines.SymmetryPrunedUniqueCounter.Count(n, cap, rows => collected.Add(rows));

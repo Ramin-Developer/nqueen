@@ -62,7 +62,7 @@ public sealed partial class MainViewModel : ObservableObject, INotifyDataErrorIn
     {
         if (_errors.TryGetValue(nameof(BoardSizeText), out var list) == false)
         {
-            list = new List<string>();
+            list = [];
             _errors[nameof(BoardSizeText)] = list;
         }
         if (!list.Contains(message)) list.Add(message);

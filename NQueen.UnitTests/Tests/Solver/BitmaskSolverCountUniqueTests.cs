@@ -101,7 +101,7 @@ public class BitmaskSolverCountUniqueTests
             EnableEvents = true,
             UseCountOnlyUniqueMode = true,
         };
-        var reported = new List<double>();
+        List<double> reported = [];
         var progress = new SynchronousProgress<ProgressInfo>(info => reported.Add(info.Percent));
         var ctx = new SimulationContext(8, SolutionMode.Unique, DisplayMode.Hide, OnProgress: progress);
 
