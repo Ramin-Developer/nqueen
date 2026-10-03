@@ -625,6 +625,12 @@ effort × expected impact.
   candidate needs **disassembly or µarch evidence of a dynamic cost difference** before any
   implementation. Only pick up after the GUI coverage track, and only with a fresh
   BenchmarkDotNet baseline + `DOTNET_JitDisasm` capture of the target method.
+  _Evidence pass (`perf/unique-disasm-evidence`): Unique CountOnly half-board N=16/17/18 =
+  61.3 / 423.7 / 3,013.6 ms (StdDev <0.3 %). x86-64-v3 disasm of `SymmetryClassCounter`
+  already uses BMI (`blsr`/`tzcnt`/`andn`); the only residual overhead is bounds checks on
+  `_board[y]` in `Backtrack2` and leaf-only `Check()`. SIMD: no lane parallelism in the
+  serial bit-scan DFS. Candidate left: `_board` -> `InlineArray`/unchecked refs in
+  `Backtrack2` (estimated low single-digit %); iterative DFS not justified._
 - ~~**Unique CountOnly vs Materialize gap** at N = 17–19 — historical data shows a
   ~5–6× difference. Two-phase split in `EnumerateUniqueVisualizeAdaptive` closed
   part of the gap but there is likely more to find.~~ _Closed 2026-06-17 on
