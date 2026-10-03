@@ -631,6 +631,8 @@ effort × expected impact.
   `_board[y]` in `Backtrack2` and leaf-only `Check()`. SIMD: no lane parallelism in the
   serial bit-scan DFS. Candidate left: `_board` -> `InlineArray`/unchecked refs in
   `Backtrack2` (estimated low single-digit %); iterative DFS not justified._
+  _Iterative A/B: explicit-stack `Backtrack2` prototype (tests green) measured 62.4 / 423.2 /
+  3,020.0 ms vs recursive 61.3 / 423.7 / 3,013.6 ms - within noise; reverted. Closed as negative._
 - ~~**Unique CountOnly vs Materialize gap** at N = 17–19 — historical data shows a
   ~5–6× difference. Two-phase split in `EnumerateUniqueVisualizeAdaptive` closed
   part of the gap but there is likely more to find.~~ _Closed 2026-06-17 on
