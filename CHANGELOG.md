@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **GPU spike, negative result** (`perf/gpu-spike`): ILGPU/CUDA Unique CountOnly on an RTX 4060 is correct but 2.4-3.7x slower than the CPU (N=18 7,324 vs 3,014 ms); spike removed, no ILGPU dependency added.
+
 - **Unique disassembly evidence** (`perf/unique-disasm-evidence`): fresh N=16/17/18 baseline (61.3 / 423.7 / 3,013.6 ms) + `SymmetryClassCounter` disasm; BMI already emitted, only `Backtrack2` bounds checks remain; SIMD/iterative DFS not justified. Iterative `Backtrack2` A/B prototype: no gain (within noise), reverted.
 
 - **Kernel perf backlog entry** (`docs/kernel-perf-backlog`): registered iterative DFS / SIMD as a deferred, low-value (<10 %) investigation gated on disassembly-level evidence; marked the solver-mode parity investigation complete.
