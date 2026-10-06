@@ -23,7 +23,7 @@ in the same change that touches `CHANGELOG.md`.
 > **Keep in mind.** N=20 Unique CountOnly stays a real simulation path; verify displayed counts
 > against the canonical value (`4,878,666,808`) before using a run as perf evidence.
 >
-> **Next task.** Execute **Next Track — GUI Coverage** (planned below; branch `test/gui-coverage`).
+> **Next task.** Finish **Next Track — GUI Coverage** phase 2 (GUI 83.7 / 65.4 % -> >= 85 / 75 %).
 > After that, pick from the backlogs; new kernel perf work (iterative DFS / SIMD) is deferred as
 > low value (<10 %) and needs disassembly-level evidence first.
 
@@ -40,7 +40,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **710 / 710 passing** (Unit + ViewModel suites; latest validation on `perf/symmetry-class-tuning`, PR #55). |
-| Code coverage | **88.0 % line / 76.0 % branch** (Unit + ViewModel, non-Slow, Release; 2026-10-02, `test/coverage-gaps`). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 93.5 / 83.1, ConsoleApp 96.4 / 84.4, GUI 71.7 / 59.4 (XAML views untested). Remaining gaps: `BitmaskParallelEngine` 80.6 % (N>=18 prefix-prune path), GUI views/`App`/dialog service. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
+| Code coverage | **91.5 % line / 77.9 % branch** (Unit + ViewModel, 773 tests, non-Slow, Release; 2026-10-06, after PR #67). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 93.5 / 83.1, ConsoleApp 96.4 / 84.4, GUI 83.7 / 65.4. Remaining gaps: GUI `App` 53.8 %, `MainViewModel` 81.7 %, `SquareViewModel` 84.6 %, `MainWindow` 86.2 %; `BitmaskParallelEngine` 80.6 % (N>=18 prefix-prune path). Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
@@ -507,8 +507,10 @@ complete. Coverage refreshed 2026-10-02: Kernel 93.5 % line / 83.1 % branch (ove
 
 ## Next Track — GUI Coverage (in progress)
 
-Phase 1 shipped (steps 1-4 + MainWindow smoke): DI, view smoke, WpfDispatcher, SaveFileDialog seam.
-Remaining: MainWindow/ViewModel branch gaps and coverage measurement.
+Phase 1 shipped (PR #67): DI, view smoke, WpfDispatcher, SaveFileDialog seam, MainWindow smoke.
+Measured 2026-10-06: GUI 71.7 / 59.4 % -> **83.7 / 65.4 %** line / branch. Views, `WpfDispatcher`,
+`SaveFileDialogService`, DI extensions now 100 %. Phase 2 (new branch): `MainViewModel` 81.7 %,
+`SquareViewModel` 84.6 %, `MainWindow` 86.2 % branches; decide on `App` (53.8 %) exclusion.
 
 Goal: lift `NQueen.GUI` from 71.7 % line / 59.4 % branch to >= 85 % / 75 % without
 UI-automation flakiness. Uncovered today: `App.xaml.cs`, `MainWindow.xaml.cs` (115 lines),
