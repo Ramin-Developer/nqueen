@@ -32,8 +32,5 @@ public class SaveFileDialogServiceTests
     }
 
     [Fact]
-    public void WhenPathEmptyThenNothingIsWritten()
-    {
-        Should.NotThrow(() => new SaveFileDialogService().SaveContent(string.Empty, "board"));
-    }
+    public void WhenPathEmptyThenNothingIsWritten() => Should.NotThrow(() => new SaveFileDialogService().SaveContent(string.Empty, "board"));
 }

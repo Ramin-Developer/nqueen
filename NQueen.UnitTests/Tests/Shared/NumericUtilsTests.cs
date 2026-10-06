@@ -1,4 +1,3 @@
-using NQueen.Shared.Utils;
 using System.Globalization;
 
 namespace NQueen.UnitTests.Tests.Shared;

@@ -82,23 +82,17 @@ public class ViewSmokeTests
     }
 
     [Fact]
-    public void WhenMainWindowHasNullViewModelThenThrows()
-    {
-        WpfTestHost.Run(() =>
-        {
-            using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
-            Should.Throw<ArgumentNullException>(() => new MainWindow(null!, provider));
-        });
-    }
+    public void WhenMainWindowHasNullViewModelThenThrows() => WpfTestHost.Run(() =>
+                                                                   {
+                                                                       using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
+                                                                       Should.Throw<ArgumentNullException>(() => new MainWindow(null!, provider));
+                                                                   });
 
     [Fact]
-    public void WhenMainWindowHasNullServiceProviderThenThrows()
-    {
-        WpfTestHost.Run(() =>
-        {
-            using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
-            var viewModel = provider.GetRequiredService<MainViewModel>();
-            Should.Throw<ArgumentNullException>(() => new MainWindow(viewModel, null!));
-        });
-    }
+    public void WhenMainWindowHasNullServiceProviderThenThrows() => WpfTestHost.Run(() =>
+                                                                         {
+                                                                             using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
+                                                                             var viewModel = provider.GetRequiredService<MainViewModel>();
+                                                                             Should.Throw<ArgumentNullException>(() => new MainWindow(viewModel, null!));
+                                                                         });
 }

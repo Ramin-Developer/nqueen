@@ -1,6 +1,6 @@
-namespace NQueen.Benchmarking;
-
 using Microsoft.VSDiagnostics;
+
+namespace NQueen.Benchmarking;
 
 /// <summary>
 /// Focused isolation of the Unique count-only fast half-board path at N=16/N=18 (even) and
