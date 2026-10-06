@@ -36,7 +36,7 @@ public class LazyPositionListTests
     [Fact]
     public void Constructor_NullArray_Throws()
     {
-        Action act = () => _ = new LazyPositionList(null!);
+        static void act() => _ = new LazyPositionList(null!);
 
         Should.Throw<ArgumentNullException>(act);
     }

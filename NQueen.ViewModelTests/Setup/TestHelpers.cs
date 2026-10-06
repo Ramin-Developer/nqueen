@@ -40,15 +40,16 @@ public static class TestHelpers
             solver,
             serviceProvider.GetRequiredService<IDispatcher>(),
             serviceProvider.GetRequiredService<ISaveFileDialogService>(),
-            solutionFormatter);
-
-        vm.SuppressUserDialogs = suppressUserDialogs;
-        vm.SolutionMode = solutionMode;
-        vm.DisplayMode = displayMode;
-        vm.BoardSizeText = boardSize.ToString();
-        vm.SimulationResults = simulationResults ?? new SimulationResults([], 0);
-        // Tests should not incur visualization delay; 0 disables throttling/timer
-        vm.DelayInMilliseconds = 0;
+            solutionFormatter)
+        {
+            SuppressUserDialogs = suppressUserDialogs,
+            SolutionMode = solutionMode,
+            DisplayMode = displayMode,
+            BoardSizeText = boardSize.ToString(),
+            SimulationResults = simulationResults ?? new SimulationResults([], 0),
+            // Tests should not incur visualization delay; 0 disables throttling/timer
+            DelayInMilliseconds = 0
+        };
         return vm;
     }
 
@@ -71,15 +72,16 @@ public static class TestHelpers
             mockSolver,
             serviceProvider.GetRequiredService<IDispatcher>(),
             serviceProvider.GetRequiredService<ISaveFileDialogService>(),
-            solutionFormatter);
-
-        vm.SuppressUserDialogs = suppressUserDialogs;
-        vm.SolutionMode = ctx.SolutionMode;
-        vm.DisplayMode = ctx.DisplayMode;
-        vm.BoardSizeText = ctx.BoardSize.ToString();
-        vm.SimulationResults = simulationResults ?? new SimulationResults([], 0);
-        // Tests should not incur visualization delay; 0 disables throttling/timer
-        vm.DelayInMilliseconds = 0;
+            solutionFormatter)
+        {
+            SuppressUserDialogs = suppressUserDialogs,
+            SolutionMode = ctx.SolutionMode,
+            DisplayMode = ctx.DisplayMode,
+            BoardSizeText = ctx.BoardSize.ToString(),
+            SimulationResults = simulationResults ?? new SimulationResults([], 0),
+            // Tests should not incur visualization delay; 0 disables throttling/timer
+            DelayInMilliseconds = 0
+        };
         return vm;
     }
 

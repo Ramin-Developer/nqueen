@@ -89,7 +89,7 @@ public class Solution
             get
             {
                 var rows = _rows;
-                if (rows == null) rows = _owner.QueenPositions;
+                rows ??= _owner.QueenPositions;
                 return new Position(index, rows[index]);
             }
         }

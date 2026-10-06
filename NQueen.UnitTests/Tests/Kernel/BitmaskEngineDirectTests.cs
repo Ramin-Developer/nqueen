@@ -1,5 +1,3 @@
-using NQueen.Kernel.Solvers.Engines;
-
 namespace NQueen.UnitTests.Tests.Kernel;
 
 [Trait("Category", "Kernel")]

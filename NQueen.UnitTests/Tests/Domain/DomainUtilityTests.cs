@@ -58,7 +58,7 @@ public class DomainUtilityTests
     [Fact]
     public void IntArrayStructuralComparer_GetHashCode_NullThrows()
     {
-        Action act = () => IntArrayStructuralComparer.Instance.GetHashCode(null!);
+        static void act() => IntArrayStructuralComparer.Instance.GetHashCode(null!);
         Should.Throw<ArgumentNullException>(act);
     }
 

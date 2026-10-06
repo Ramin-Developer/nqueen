@@ -1,5 +1,3 @@
-using NQueen.Shared.Utils;
-
 namespace NQueen.UnitTests.Tests.Shared;
 
 public class ParsingUtilsTests

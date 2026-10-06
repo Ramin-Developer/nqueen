@@ -29,7 +29,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_NullArray_Throws()
     {
-        Action act = () => _ = new Solution(null!, s_formatter, id: 1);
+        static void act() => _ = new Solution(null!, s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -37,7 +37,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_EmptyArray_Throws()
     {
-        Action act = () => _ = new Solution([], s_formatter, id: 1);
+        static void act() => _ = new Solution([], s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -45,7 +45,7 @@ public class SolutionTests
     [Fact]
     public void ArrayConstructor_NegativePosition_Throws()
     {
-        Action act = () => _ = new Solution([0, -1, 2], s_formatter, id: 1);
+        static void act() => _ = new Solution([0, -1, 2], s_formatter, id: 1);
 
         Should.Throw<ArgumentException>(act);
     }
@@ -79,7 +79,7 @@ public class SolutionTests
     [InlineData(26)]
     public void PackedConstructor_BoardSizeOutOfRange_Throws(int boardSize)
     {
-        Action act = () => _ = new Solution(UInt128.Zero, boardSize, s_formatter, id: 1);
+        void act() => _ = new Solution(UInt128.Zero, boardSize, s_formatter, id: 1);
 
         Should.Throw<ArgumentOutOfRangeException>(act);
     }

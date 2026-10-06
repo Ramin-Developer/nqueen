@@ -505,7 +505,10 @@ complete. Coverage refreshed 2026-10-02: Kernel 93.5 % line / 83.1 % branch (ove
 
 ---
 
-## Next Track — GUI Coverage (planned)
+## Next Track — GUI Coverage (in progress)
+
+Phase 1 shipped (steps 1-4 + MainWindow smoke): DI, view smoke, WpfDispatcher, SaveFileDialog seam.
+Remaining: MainWindow/ViewModel branch gaps and coverage measurement.
 
 Goal: lift `NQueen.GUI` from 71.7 % line / 59.4 % branch to >= 85 % / 75 % without
 UI-automation flakiness. Uncovered today: `App.xaml.cs`, `MainWindow.xaml.cs` (115 lines),

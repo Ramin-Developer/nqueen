@@ -100,8 +100,16 @@ public partial class ChessboardViewModel(IDispatcher uiDispatcher) : ObservableO
             ? s_wheatBrush
             : s_brownBrush;
 
-    private static readonly SolidColorBrush s_wheatBrush = new(Colors.Wheat);
-    private static readonly SolidColorBrush s_brownBrush = new(Colors.Brown);
+    // Frozen so the shared brushes can be used from any dispatcher thread.
+    private static readonly SolidColorBrush s_wheatBrush = CreateFrozenBrush(Colors.Wheat);
+    private static readonly SolidColorBrush s_brownBrush = CreateFrozenBrush(Colors.Brown);
+
+    private static SolidColorBrush CreateFrozenBrush(Color color)
+    {
+        var brush = new SolidColorBrush(color);
+        brush.Freeze();
+        return brush;
+    }
 
     private int _lastBoardSize = -1;
     private double _lastWidth = -1;
