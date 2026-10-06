@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Coverage refresh after GUI phase 1** (`docs/coverage-refresh`): 91.5 % line / 77.9 % branch overall (was 88.0 / 76.0); GUI 83.7 / 65.4 % (was 71.7 / 59.4). Recorded in `docs/ROADMAP.md`.
+
 - **GUI coverage, phase 1** (`test/gui-coverage`): STA `WpfTestHost`; tests for GUI DI registrations, view construction, `MainWindow` lifecycle, real `WpfDispatcher`, and `SaveFileDialogService` (new injectable dialog seam). +27 tests.
 
 - **GPU spike, negative result** (`perf/gpu-spike`): ILGPU/CUDA Unique CountOnly on an RTX 4060 is correct but 2.4-3.7x slower than the CPU (N=18 7,324 vs 3,014 ms); spike removed, no ILGPU dependency added.
