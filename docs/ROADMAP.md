@@ -633,6 +633,10 @@ effort × expected impact.
   `Backtrack2` (estimated low single-digit %); iterative DFS not justified._
   _Iterative A/B: explicit-stack `Backtrack2` prototype (tests green) measured 62.4 / 423.2 /
   3,020.0 ms vs recursive 61.3 / 423.7 / 3,013.6 ms - within noise; reverted. Closed as negative._
+  _GPU spike (`perf/gpu-spike`, ILGPU 1.5.1 / CUDA, RTX 4060): symmetry-class counter split to
+  depth 7 (1.2-4.4 M tasks), iterative per-thread DFS. Counts correct; N=16/17/18 = 225 / 1,134 /
+  7,324 ms vs CPU 61 / 424 / 3,014 ms (2.4-3.7x slower). Causes: warp divergence, 64-bit integer
+  ops, local-memory stacks. Closed as negative; spike code kept in commit `9a07987` only._
 - ~~**Unique CountOnly vs Materialize gap** at N = 17–19 — historical data shows a
   ~5–6× difference. Two-phase split in `EnumerateUniqueVisualizeAdaptive` closed
   part of the gap but there is likely more to find.~~ _Closed 2026-06-17 on
