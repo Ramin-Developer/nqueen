@@ -8,7 +8,7 @@ namespace NQueen.ViewModelTests.Tests.Gui;
 public class ViewSmokeTests
 {
     private static bool Hosted<T>(FrameworkElement owner, string name) =>
-        owner.FindName(name) is System.Windows.Controls.ContentControl { Content: T };
+        owner.FindName(name) is ContentControl { Content: T };
 
     [Theory]
     [InlineData(typeof(ChessboardView))]
@@ -19,7 +19,7 @@ public class ViewSmokeTests
     [InlineData(typeof(SolutionSummaryPanel))]
     public void WhenViewConstructedThenComponentInitializes(Type viewType)
     {
-        var created = WpfTestHost.Run(() => Activator.CreateInstance(viewType) is System.Windows.Controls.UserControl);
+        var created = WpfTestHost.Run(() => Activator.CreateInstance(viewType) is UserControl);
 
         created.ShouldBeTrue();
     }
@@ -31,7 +31,7 @@ public class ViewSmokeTests
         {
             var panel = new InputPanel();
             panel.RaiseEvent(new RoutedEventArgs(FrameworkElement.LoadedEvent));
-            return ((System.Windows.Controls.Slider)panel.FindName("DelaySlider")).Minimum;
+            return ((Slider)panel.FindName("DelaySlider")).Minimum;
         });
 
         minimum.ShouldBe(SimulationSettings.MinDelayInMilliseconds);
@@ -84,40 +84,21 @@ public class ViewSmokeTests
     [Fact]
     public void WhenMainWindowHasNullViewModelThenThrows()
     {
-        var thrown = WpfTestHost.Run(() =>
+        WpfTestHost.Run(() =>
         {
             using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
-            try
-            {
-                _ = new MainWindow(null!, provider);
-                return false;
-            }
-            catch (ArgumentNullException)
-            {
-                return true;
-            }
+            Should.Throw<ArgumentNullException>(() => new MainWindow(null!, provider));
         });
-
-        thrown.ShouldBeTrue();
     }
 
     [Fact]
     public void WhenMainWindowHasNullServiceProviderThenThrows()
     {
-        var thrown = WpfTestHost.Run(() =>
+        WpfTestHost.Run(() =>
         {
             using var provider = (ServiceProvider)GuiServiceCollectionExtensions.BuildGuiServiceProvider();
-            try
-            {
-                _ = new MainWindow(provider.GetRequiredService<MainViewModel>(), null!);
-                return false;
-            }
-            catch (ArgumentNullException)
-            {
-                return true;
-            }
+            var viewModel = provider.GetRequiredService<MainViewModel>();
+            Should.Throw<ArgumentNullException>(() => new MainWindow(viewModel, null!));
         });
-
-        thrown.ShouldBeTrue();
     }
 }

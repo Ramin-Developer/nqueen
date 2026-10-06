@@ -6,9 +6,9 @@ namespace NQueen.ViewModelTests.Setup;
 /// </summary>
 public static class WpfTestHost
 {
-    private static readonly Lazy<Dispatcher> _dispatcher = new(Start, LazyThreadSafetyMode.ExecutionAndPublication);
+    private static readonly Lazy<Dispatcher> s_dispatcher = new(Start, LazyThreadSafetyMode.ExecutionAndPublication);
 
-    public static Dispatcher Dispatcher => _dispatcher.Value;
+    public static Dispatcher Dispatcher => s_dispatcher.Value;
 
     public static void Run(Action action) => Dispatcher.Invoke(action);
 

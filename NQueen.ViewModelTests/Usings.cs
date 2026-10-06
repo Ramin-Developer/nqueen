@@ -1,4 +1,4 @@
-﻿global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.DependencyInjection;
 global using Moq;
 global using NQueen.Domain.Context;
 global using NQueen.Domain.Enums;
@@ -20,4 +20,5 @@ global using NQueen.ViewModelTests.Setup;
 global using Shouldly;
 global using System.Reflection;
 global using System.Windows;
+global using System.Windows.Controls;
 global using System.Windows.Threading;
