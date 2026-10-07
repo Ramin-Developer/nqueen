@@ -42,7 +42,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **787 / 787 passing** (Unit 607 + ViewModel 180, non-Slow; `test/gui-coverage-phase2`). |
-`MainWindow` 86.2 %.
+| Code coverage | **93.5 % line / 81.4 % branch** (Unit + ViewModel, 787 tests, non-Slow, Release; after PR #76). Per assembly (line): Domain 96.5, Shared 97.0, Kernel 95.5 (`BitmaskParallelEngine` 94.3), ConsoleApp 96.4, GUI 91.1. Remaining gaps: GUI `App` 53.8 % (host wiring), `SquareViewModel` 84.6 %, `MainWindow` 86.2 %. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`. |
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
