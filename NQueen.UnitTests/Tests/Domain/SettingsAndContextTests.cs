@@ -13,10 +13,9 @@ public class SettingsAndContextTests
         BoardSettings.MinSize.ShouldBe(1);
         BoardSettings.MaxBitmaskBoardSize.ShouldBe(64);
         BoardSettings.MaxPackedSolutionStorageSize.ShouldBe(25);
-        BoardSettings.MaxKnownSolutionCountSize.ShouldBe(29);
         BoardSettings.MaxSizeForSingle.ShouldBe(37);
-        BoardSettings.MaxSizeForUnique.ShouldBe(BoardSettings.MaxKnownSolutionCountSize);
-        BoardSettings.MaxSizeForAll.ShouldBe(BoardSettings.MaxKnownSolutionCountSize);
+        BoardSettings.MaxSizeForUnique.ShouldBe(25);
+        BoardSettings.MaxSizeForAll.ShouldBe(25);
         BoardSettings.WhiteQueenChar.ShouldBe('\u2655');
     }
 
@@ -34,7 +33,7 @@ public class SettingsAndContextTests
         BoardSettings.DefaultBoardSize.ShouldBeLessThanOrEqualTo(BoardSettings.MaxSizeForAll);
         BoardSettings.MaxSizeForUnique.ShouldBe(BoardSettings.MaxSizeForAll);
         BoardSettings.MaxSizeForSingle.ShouldBeGreaterThan(BoardSettings.MaxSizeForUnique);
-        BoardSettings.MaxPackedSolutionStorageSize.ShouldBeLessThan(BoardSettings.MaxKnownSolutionCountSize);
+        ExpectedSolutionCounts.AllSolutions.Keys.Max().ShouldBeGreaterThanOrEqualTo(BoardSettings.MaxSizeForAll);
         BoardSettings.MaxSizeForSingle.ShouldBeLessThanOrEqualTo(BoardSettings.MaxBitmaskBoardSize);
     }
 

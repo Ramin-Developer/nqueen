@@ -12,11 +12,9 @@ public static class BoardSettings
 
     public const int MaxPackedSolutionStorageSize = 25;
 
-    public const int MaxKnownSolutionCountSize = 29;
-
     public const int MaxSizeForSingle = 37;
-    public const int MaxSizeForUnique = MaxKnownSolutionCountSize;
-    public const int MaxSizeForAll = MaxKnownSolutionCountSize;
+    public const int MaxSizeForUnique = 25;
+    public const int MaxSizeForAll = 25;
 
     public const char WhiteQueenChar = '\u2655';
     public const string QueenImageResource =

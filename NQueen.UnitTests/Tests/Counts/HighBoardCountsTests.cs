@@ -15,7 +15,7 @@ public class HighBoardCountsTests(SolverBackEndFixture fixture)
     private static readonly int[] s_fullBoardSet =
         [.. Enumerable.Range(
             SimulationSettings.LookupThresholdN,
-            BoardSettings.MaxKnownSolutionCountSize - SimulationSettings.LookupThresholdN + 1)];
+            BoardSettings.MaxSizeForAll - SimulationSettings.LookupThresholdN + 1)];
     private static readonly int[] s_fastBoardSet = [SimulationSettings.LookupThresholdN];
 
     public static TheoryData<int> HighBoards =>
