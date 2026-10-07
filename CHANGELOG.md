@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Penultimate-row inlining, negative result** (`perf/backtrack2-penultimate-row`): resolving the leaf inline at row N-2 in `Backtrack2` measured 61.28 / 419.59 / 2,992.7 ms vs 60.75 / 426.74 / 3,013.9 ms at N=16/17/18 (within noise, tests green); reverted. GUI coverage phase 2 registered as the next own-branch task; Q27 border pre-placement left as the only algorithmic research candidate.
+
 - **N=20 + tuning evidence** (`docs/n20-perf-evidence`): N=20 Unique CountOnly = 4,878,666,808 in 192.3 s (was 641.5 s), 27.2/28 effective cores. Negative: `Backtrack2` unchecked `_board` refs (N=16/17/18 61.20 / 424.64 / 3,024.5 vs 60.75 / 426.74 / 3,013.9 ms, noise); more parallelism (no idle headroom). NativeAOT Console: startup 87 -> 19 ms, N=16 330 -> 95 ms, N=18 ~-3 %.
 
 - **Remove unpublished N=28/29 counts** (`fix/remove-unpublished-counts`): dropped invalid N=28/29 rows (All/Unique ratio ~15-16 > 8) from `ExpectedSolutionCounts`; table now holds only published OEIS values (N=1..27). Symmetry-bound test now covers every table row.

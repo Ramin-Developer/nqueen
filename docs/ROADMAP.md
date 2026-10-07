@@ -23,9 +23,11 @@ in the same change that touches `CHANGELOG.md`.
 > **Keep in mind.** N=20 Unique CountOnly stays a real simulation path; verify displayed counts
 > against the canonical value (`4,878,666,808`) before using a run as perf evidence.
 >
-> **Next task.** Finish **Next Track — GUI Coverage** phase 2 (GUI 83.7 / 65.4 % -> >= 85 / 75 %).
-> After that, pick from the backlogs; new kernel perf work (iterative DFS / SIMD) is deferred as
-> low value (<10 %) and needs disassembly-level evidence first.
+> **Next task.** Finish **Next Track — GUI Coverage** phase 2 (GUI 83.7 / 65.4 % -> >= 85 / 75 %)
+> on its own branch (`test/gui-coverage-phase2`), one filled PR.
+> After that, pick from the backlogs; new kernel perf work is deferred as low value: iterative DFS,
+> SIMD, `Backtrack2` bounds elision and penultimate-row inlining all measured within noise. Only
+> remaining algorithmic idea: Q27-style border pre-placement (est. 1.2-2x, high effort, research track).
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
@@ -44,6 +46,9 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+
+- **Penultimate-row inlining in `Backtrack2`, negative** (`perf/backtrack2-penultimate-row`).
+  N=16/17/18 61.28 / 419.59 / 2,992.7 vs 60.75 / 426.74 / 3,013.9 ms (within noise); reverted.
 
 - **N=20 + tuning evidence** (`docs/n20-perf-evidence`). N=20 Unique CountOnly 192.3 s (count
   verified, 27.2/28 cores). `Backtrack2` bounds elision and extra parallelism: negative. NativeAOT
