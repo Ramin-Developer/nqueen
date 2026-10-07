@@ -11,9 +11,6 @@ internal sealed partial class BitmaskParallelEngine
         Action<double> ReportProgress
     );
 
-    private const int PrefixPruneStartDepth = 4;
-    private const int PrefixPruneThresholdN = 18;
-
     public static void RunUnique(UniqueRequest request)
     {
         ThreadPool.SetMinThreads(Environment.ProcessorCount, Environment.ProcessorCount);
@@ -156,16 +153,6 @@ internal sealed partial class BitmaskParallelEngine
 
                     if (col == N) continue;
                     avail = ~(cols | d1 | d2) & mask;
-
-                    if (N >= PrefixPruneThresholdN && col >= PrefixPruneStartDepth)
-                    {
-                        if (!IdentityPrefixMinimal(rowsArr, col, scratch, N))
-                        {
-                            col--;
-                            Restore(col, out avail);
-                            continue;
-                        }
-                    }
                 }
             }
             finally
@@ -261,44 +248,6 @@ internal sealed partial class BitmaskParallelEngine
             d2 = stackD2[c];
             rows[c] = -1;
         }
-    }
-
-    private static bool IdentityPrefixMinimal(int[] rows, int depth, int[] scratch, int N)
-    {
-        for (int t = 0; t < 8; t++)
-        {
-            int baseOffset = t * N;
-            for (int i = 0; i < depth; i++)
-                scratch[baseOffset + i] = int.MaxValue;
-        }
-
-        for (int c = 0; c < depth; c++)
-        {
-            int r = rows[c];
-            if (r < 0) continue;
-
-            scratch[0 * N + c] = r;
-            scratch[1 * N + r] = N - 1 - c;
-            scratch[2 * N + (N - 1 - c)] = N - 1 - r;
-            scratch[3 * N + (N - 1 - r)] = c;
-            scratch[4 * N + (N - 1 - c)] = r;
-            scratch[5 * N + c] = N - 1 - r;
-            scratch[6 * N + r] = c;
-            scratch[7 * N + (N - 1 - r)] = N - 1 - c;
-        }
-
-        for (int t = 1; t < 8; t++)
-        {
-            for (int i = 0; i < depth; i++)
-            {
-                int a = scratch[t * N + i];
-                int b = scratch[0 * N + i];
-                if (a == int.MaxValue || b == int.MaxValue) continue;
-                if (a < b) return false;
-                if (a > b) break;
-            }
-        }
-        return true;
     }
 
     private readonly record struct PartialState(int[] Rows, int Depth, ulong Cols, ulong D1, ulong D2);

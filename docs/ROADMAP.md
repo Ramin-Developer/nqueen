@@ -23,8 +23,8 @@ in the same change that touches `CHANGELOG.md`.
 > **Keep in mind.** N=20 Unique CountOnly stays a real simulation path; verify displayed counts
 > against the canonical value (`4,878,666,808`) before using a run as perf evidence.
 >
-> **Next task.** GUI Coverage track complete (phase 2: GUI 91.2 / 75.4 %). Next: the follow-up
-> `BitmaskParallelEngine` N>=18 prefix-prune coverage item, then pick from the backlogs.
+> **Next task.** GUI Coverage track complete (phase 2: GUI 91.2 / 75.4 %); the dead
+> `BitmaskParallelEngine` N>=18 prefix-prune path was removed. Next: pick from the backlogs.
 > New kernel perf work is deferred as low value: iterative DFS,
 > SIMD, `Backtrack2` bounds elision and penultimate-row inlining all measured within noise. Only
 > remaining algorithmic idea: Q27-style border pre-placement (est. 1.2-2x, high effort, research track).
@@ -42,7 +42,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
 | Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
 | Test count | **787 / 787 passing** (Unit 607 + ViewModel 180, non-Slow; `test/gui-coverage-phase2`). |
-| Code coverage | **92.9 % line / 80.4 % branch** (Unit + ViewModel, 787 tests, non-Slow, Release; 2026-10-07, `test/gui-coverage-phase2`). Per assembly (line / branch): Domain 96.5 / 84.9, Shared 97.0 / 83.3, Kernel 93.7 / 83.8, ConsoleApp 96.4 / 84.4, GUI 91.2 / 75.4. Remaining gaps: GUI `App` 53.8 % (host wiring), `SquareViewModel` 84.6 %, `MainWindow` 86.2 %; `BitmaskParallelEngine` (N>=18 prefix-prune path). Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`.
+`MainWindow` 86.2 %.
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
@@ -549,9 +549,9 @@ branches. One branch (`test/gui-coverage`), one PR.
 Out of scope: pixel/visual tests and FlaUI/WinAppDriver automation (flaky on CI).
 `App.xaml.cs` startup may stay excluded via `[ExcludeFromCodeCoverage]` if it only wires the host.
 
-Follow-up (after GUI track): cover the `BitmaskParallelEngine.RunUnique` N>=18
-`IdentityPrefixMinimal` prune path (currently untested, 80.6 %) with a `Slow`-tagged test or
-by lowering `PrefixPruneThresholdN` via an internal test hook.
+Follow-up resolved: the `BitmaskParallelEngine.RunUnique` N>=18 `IdentityPrefixMinimal` prune
+path was unreachable (only caller uses N < 8) and returned 0 when forced on at N=8/10/12, so it
+was removed instead of covered.
 
 ---
 

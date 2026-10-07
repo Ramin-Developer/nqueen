@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Removed dead prefix-prune path** (`test/parallel-prefix-prune-coverage`): `BitmaskParallelEngine.RunUnique`'s N>=18 `IdentityPrefixMinimal` pruning was unreachable (sole caller uses N < 8) and incorrect (forced on at N=8/10/12 it returned 0 instead of 12/92/1787). Removed `PrefixPruneThresholdN`, `PrefixPruneStartDepth`, the gate and the method; no behavior change.
+
 - **GUI coverage, phase 2** (`test/gui-coverage-phase2`): added `VisualizationTimerTests` (8) running Visualize simulations on the `WpfTestHost` dispatcher so the `DispatcherTimer` channel-drain/render path executes. GUI 83.7 / 65.4 % -> 91.2 / 75.4 % line/branch (target >= 85 / 75 % met); overall 92.9 / 80.4 %; `MainViewModel` 81.8 -> 90.8 %.
 
 - **Penultimate-row inlining, negative result** (`perf/backtrack2-penultimate-row`): resolving the leaf inline at row N-2 in `Backtrack2` measured 61.28 / 419.59 / 2,992.7 ms vs 60.75 / 426.74 / 3,013.9 ms at N=16/17/18 (within noise, tests green); reverted. GUI coverage phase 2 registered as the next own-branch task; Q27 border pre-placement left as the only algorithmic research candidate.
