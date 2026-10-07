@@ -6,7 +6,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
-- **NQueen Results workbook** (`docs/nqueen-results-workbook`): added `Documentation/NQueen Results.xlsm` (replaces `Elapsed Times.xlsm`, now removed); corrected Unique counts for N=21/24/25/26 to OEIS values (comments hold exact values beyond Excel's 15 digits); factor shown with 9 decimals; styled headers and borders.
+- **NQueen Results workbook** (`docs/nqueen-results-workbook`): added `Documentation/NQueen Results.xlsm` (replaces `Elapsed Times.xlsm`, now removed); corrected Unique counts for N=21/24/25/26 to OEIS values (original formatting kept).
 
 - **Coverage refresh after GUI phase 1** (`docs/coverage-refresh`): 91.5 % line / 77.9 % branch overall (was 88.0 / 76.0); GUI 83.7 / 65.4 % (was 71.7 / 59.4). Recorded in `docs/ROADMAP.md`.
 
