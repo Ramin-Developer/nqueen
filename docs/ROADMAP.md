@@ -26,8 +26,10 @@ in the same change that touches `CHANGELOG.md`.
 > **Next task.** GUI Coverage track complete (phase 2: GUI 91.2 / 75.4 %); the dead
 > `BitmaskParallelEngine` N>=18 prefix-prune path was removed. Next: pick from the backlogs.
 > New kernel perf work is deferred as low value: iterative DFS,
-> SIMD, `Backtrack2` bounds elision and penultimate-row inlining all measured within noise. Only
-> remaining algorithmic idea: Q27-style border pre-placement (est. 1.2-2x, high effort, research track).
+> SIMD, `Backtrack2` bounds elision and penultimate-row inlining all measured within noise. Q27-style
+> border pre-placement was prototyped: correct for N=4..18 but 1.7x slower at N=18
+> (5,170 vs 3,108 ms All CountOnly); reverted. Matching Q27 would need specialised
+> per-constellation DFS variants (very high effort) - not pursued.
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
