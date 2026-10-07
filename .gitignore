@@ -357,7 +357,7 @@ TSWLatexianTemp*
 *.xlsb
 ~$*
 # Keep the documentation spreadsheet tracked while other spreadsheets remain ignored.
-!Documentation/NQueen Results.xlsm
+!Results/NQueen Results.xlsm
 
 # -------------------------
 # Python
