@@ -125,6 +125,38 @@ public class DomainUtilityTests
     public void ExpectedSolutionCounts_GetUniqueFast_ReturnsKnownValues(int n, ulong expected) => ExpectedSolutionCounts.GetUniqueFast(n).ShouldBe(expected);
 
     [Fact]
+    public void ExpectedSolutionCounts_PublishedBoardSizes_SatisfySymmetryBounds()
+    {
+        // Each fundamental solution has at most 8 symmetric variants, so Unique <= All <= 8 * Unique.
+        // N = 28, 29 have no published (OEIS) counts and are excluded.
+        for (int n = 1; n <= 27; n++)
+        {
+            ulong unique = ExpectedSolutionCounts.GetUniqueFast(n);
+            ulong all = ExpectedSolutionCounts.GetAllFast(n);
+            all.ShouldBeGreaterThanOrEqualTo(unique, $"N={n}");
+            all.ShouldBeLessThanOrEqualTo(8 * unique, $"N={n}");
+        }
+    }
+
+    [Theory]
+    [InlineData(24, 28_439_272_956_934UL, 227_514_171_973_736UL)]
+    [InlineData(25, 275_986_683_743_434UL, 2_207_893_435_808_352UL)]
+    [InlineData(26, 2_789_712_466_510_289UL, 22_317_699_616_364_044UL)]
+    [InlineData(27, 29_363_495_934_315_694UL, 234_907_967_154_122_528UL)]
+    public void ExpectedSolutionCounts_LargestBoards_MatchOeis(int n, ulong unique, ulong all)
+    {
+        ExpectedSolutionCounts.GetUnique(n).ShouldBe(unique);
+        ExpectedSolutionCounts.GetAll(n).ShouldBe(all);
+    }
+
+    [Fact]
+    public void ExpectedSolutionCounts_CoversUniqueAndAllLimits()
+    {
+        ExpectedSolutionCounts.UniqueSolutions.Keys.Max().ShouldBeGreaterThanOrEqualTo(BoardSettings.MaxSizeForUnique);
+        ExpectedSolutionCounts.AllSolutions.Keys.Max().ShouldBeGreaterThanOrEqualTo(BoardSettings.MaxSizeForAll);
+    }
+
+    [Fact]
     public void ExpectedSolutionCounts_TryGetAll_KnownSize_ReturnsTrue()
     {
         ExpectedSolutionCounts.TryGetAll(8, out var count).ShouldBeTrue();

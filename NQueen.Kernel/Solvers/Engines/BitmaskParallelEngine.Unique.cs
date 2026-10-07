@@ -27,7 +27,7 @@ internal sealed partial class BitmaskParallelEngine
         int materializedCount = 0;
         bool shouldMaterialize = request.ShouldMaterialize();
         int cap = shouldMaterialize ? SimulationSettings.MaxDisplayedCount : 0;
-        ulong expectedTotal = N <= 29 ? ExpectedSolutionCounts.GetUniqueFast(N) : 0UL;
+        ulong expectedTotal = ExpectedSolutionCounts.GetUniqueFast(N);
 
         ulong mask = (N == 64) ? ulong.MaxValue : ((1UL << N) - 1UL);
         var partialStates = new List<PartialState>(Math.Max(plan.TargetRoots, 128));
