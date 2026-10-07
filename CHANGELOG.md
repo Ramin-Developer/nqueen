@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Remove unpublished N=28/29 counts** (`fix/remove-unpublished-counts`): dropped invalid N=28/29 rows (All/Unique ratio ~15-16 > 8) from `ExpectedSolutionCounts`; table now holds only published OEIS values (N=1..27). Symmetry-bound test now covers every table row.
+
 - **NQueen Results workbook** (`docs/nqueen-results-workbook`): added `Results/NQueen Results.xlsm` (replaces `Elapsed Times.xlsm`, now removed); corrected Unique counts for N=21/24/25/26 to OEIS values (original formatting kept).
 
 - **Coverage refresh after GUI phase 1** (`docs/coverage-refresh`): 91.5 % line / 77.9 % branch overall (was 88.0 / 76.0); GUI 83.7 / 65.4 % (was 71.7 / 59.4). Recorded in `docs/ROADMAP.md`.
