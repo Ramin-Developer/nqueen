@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **N=20 + tuning evidence** (`docs/n20-perf-evidence`): N=20 Unique CountOnly = 4,878,666,808 in 192.3 s (was 641.5 s), 27.2/28 effective cores. Negative: `Backtrack2` unchecked `_board` refs (N=16/17/18 61.20 / 424.64 / 3,024.5 vs 60.75 / 426.74 / 3,013.9 ms, noise); more parallelism (no idle headroom). NativeAOT Console: startup 87 -> 19 ms, N=16 330 -> 95 ms, N=18 ~-3 %.
+
 - **Remove unpublished N=28/29 counts** (`fix/remove-unpublished-counts`): dropped invalid N=28/29 rows (All/Unique ratio ~15-16 > 8) from `ExpectedSolutionCounts`; table now holds only published OEIS values (N=1..27). Symmetry-bound test now covers every table row.
 
 - **NQueen Results workbook** (`docs/nqueen-results-workbook`): added `Results/NQueen Results.xlsm` (replaces `Elapsed Times.xlsm`, now removed); corrected Unique counts for N=21/24/25/26 to OEIS values (original formatting kept).

@@ -45,6 +45,10 @@ Keep this top section short: current state, next task, and only the warnings nee
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
 
+- **N=20 + tuning evidence** (`docs/n20-perf-evidence`). N=20 Unique CountOnly 192.3 s (count
+  verified, 27.2/28 cores). `Backtrack2` bounds elision and extra parallelism: negative. NativeAOT
+  Console: startup 87 -> 19 ms, N=18 ~-3 % (candidate for a publish profile).
+
 - **Console vs GUI parity check** (`perf/console-gui-parity`, 2026-10-03). Same kernel path;
   time/allocations match at N=8..16; GUI adds a fixed ~3-13 us async/sink overhead.
 - **Materialize sample collection** (PR #57, 2026-10-03). All Materialize N<14 now two-phase
