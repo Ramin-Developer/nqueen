@@ -125,11 +125,10 @@ public class DomainUtilityTests
     public void ExpectedSolutionCounts_GetUniqueFast_ReturnsKnownValues(int n, ulong expected) => ExpectedSolutionCounts.GetUniqueFast(n).ShouldBe(expected);
 
     [Fact]
-    public void ExpectedSolutionCounts_PublishedBoardSizes_SatisfySymmetryBounds()
+    public void ExpectedSolutionCounts_AllBoardSizes_SatisfySymmetryBounds()
     {
         // Each fundamental solution has at most 8 symmetric variants, so Unique <= All <= 8 * Unique.
-        // N = 28, 29 have no published (OEIS) counts and are excluded.
-        for (int n = 1; n <= 27; n++)
+        foreach (int n in ExpectedSolutionCounts.AllSolutions.Keys)
         {
             ulong unique = ExpectedSolutionCounts.GetUniqueFast(n);
             ulong all = ExpectedSolutionCounts.GetAllFast(n);
