@@ -30,7 +30,7 @@ in the same change that touches `CHANGELOG.md`.
 > border pre-placement was prototyped: correct for N=4..18 but 1.7x slower at N=18
 > (5,170 vs 3,108 ms All CountOnly); reverted. Matching Q27 would need specialised
 > per-constellation DFS variants (very high effort) - not pursued.
-> .NET 11 (rc.2) measured: no gain vs .NET 10 at N=16..18; upgrade at GA for maintenance only.
+> .NET 11 (rc.2) measured: ~3-6 % faster at N=16/17, ~0-1 % at N=18 vs .NET 10; upgrade at GA for maintenance, not for speed.
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.

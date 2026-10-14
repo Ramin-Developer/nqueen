@@ -6,7 +6,7 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
-- **.NET 11 runtime evaluation, negative result** (`perf/net11-preview-eval`): same Unique/All CountOnly harness on .NET 10.0.13 vs 11.0.0 (SDK 11.0.100-rc.2). Comparable fast-mode timings: Unique N=16 61.9 vs 60.9 ms, N=17 420.9 vs 421.9 ms; N=18 ~3,056 vs ~3,075 ms (no measurable gain). Both runtimes showed the same bimodal timings (~2.4x slow mode) from hybrid-core scheduling, not the runtime. No upgrade for performance; move to .NET 11 at GA for maintenance only.
+- **.NET 11 runtime evaluation** (`perf/net11-preview-eval`): same Unique/All CountOnly harness (median of 9-13 runs, idle machine) on .NET 10.0.13 vs 11.0.0 (SDK 11.0.100-rc.2). Unique N=16/17/18 64.4 / 434.7 / 3,050.5 vs 60.6 / 420.2 / 3,025.8 ms; All 63.2 / 432.3 / 3,038.7 vs 60.5 / 420.8 / 3,036.2 ms. Gain ~3-6 % at N=16/17, ~0-1 % at N=18 (where the long runs dominate). An earlier run under background load showed bimodal ~2.4x slowdowns on both runtimes; discarded. No upgrade for performance; move to .NET 11 at GA for maintenance.
 
 - **Q27 border pre-placement, negative result** (`perf/q27-border-preplacement`): time-boxed prototype (symmetry-reduced border constellations weighted by orbit size + interior bitmask DFS) matched All counts for N=4..18 but was slower than the Takaken path: N=16/17/18 125.5 / 733.8 / 5,170 ms vs 73.5 / 440.9 / 3,108 ms (single Stopwatch run). Reverted; no code change.
 
