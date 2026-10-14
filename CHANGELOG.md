@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **.NET 11 runtime evaluation, negative result** (`perf/net11-preview-eval`): same Unique/All CountOnly harness on .NET 10.0.13 vs 11.0.0 (SDK 11.0.100-rc.2). Comparable fast-mode timings: Unique N=16 61.9 vs 60.9 ms, N=17 420.9 vs 421.9 ms; N=18 ~3,056 vs ~3,075 ms (no measurable gain). Both runtimes showed the same bimodal timings (~2.4x slow mode) from hybrid-core scheduling, not the runtime. No upgrade for performance; move to .NET 11 at GA for maintenance only.
+
 - **Q27 border pre-placement, negative result** (`perf/q27-border-preplacement`): time-boxed prototype (symmetry-reduced border constellations weighted by orbit size + interior bitmask DFS) matched All counts for N=4..18 but was slower than the Takaken path: N=16/17/18 125.5 / 733.8 / 5,170 ms vs 73.5 / 440.9 / 3,108 ms (single Stopwatch run). Reverted; no code change.
 
 - **Removed dead prefix-prune path** (`test/parallel-prefix-prune-coverage`): `BitmaskParallelEngine.RunUnique`'s N>=18 `IdentityPrefixMinimal` pruning was unreachable (sole caller uses N < 8) and incorrect (forced on at N=8/10/12 it returned 0 instead of 12/92/1787). Removed `PrefixPruneThresholdN`, `PrefixPruneStartDepth`, the gate and the method; no behavior change.
