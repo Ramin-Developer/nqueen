@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Roadmap: .NET 11 + NativeAOT backlog** (`docs/net11-backlog`): registered the NativeAOT Console publish profile and the .NET 11-at-GA upgrade (with per-feature impact notes) under *Backlog — CI & Tooling* in `docs/ROADMAP.md`.
+
 - **NuGet refresh** (`chore/nuget-refresh`): FluentValidation(+DI) 12.2.0, Microsoft.Extensions.DependencyInjection/Hosting 10.0.13, Microsoft.NET.Test.Sdk 18.11.0, Microsoft.Testing.Extensions.CodeCoverage 18.12.0, xunit.v3.core/assert 4.0.2, xunit.runner.visualstudio 4.0.1. Removed the DiagnosticsHub package's injected netstandard2.0 `System.Collections.Immutable` reference in `NQueen.Benchmarking` (framework copy is used; clears the VS yellow triangle).
 
 - **.NET 11 runtime evaluation** (`perf/net11-preview-eval`): same Unique/All CountOnly harness (median of 9-13 runs, idle machine) on .NET 10.0.13 vs 11.0.0 (SDK 11.0.100-rc.2). Unique N=16/17/18 64.4 / 434.7 / 3,050.5 vs 60.6 / 420.2 / 3,025.8 ms; All 63.2 / 432.3 / 3,038.7 vs 60.5 / 420.8 / 3,036.2 ms. Gain ~3-6 % at N=16/17, ~0-1 % at N=18 (where the long runs dominate). An earlier run under background load showed bimodal ~2.4x slowdowns on both runtimes; discarded. No upgrade for performance; move to .NET 11 at GA for maintenance.

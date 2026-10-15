@@ -690,6 +690,22 @@ Non-perf infrastructure work. Items are listed roughly by effort × expected val
   and informational patch gate. Badge added to `README.md`. One manual step after merge:
   add `CODECOV_TOKEN` to repo Actions secrets. See `CHANGELOG.md [Unreleased] → CI`._
 
+- **NativeAOT publish profile for Console.** Measured on .NET 10: startup 87 -> 19 ms,
+  N=16 330 -> 95 ms end-to-end, N=18 ~-3 %. Add a publish profile (`PublishAot=true`), verify
+  trimming/AOT warnings are clean, document the publish command. No .NET 11 dependency.
+
+### Platform upgrades
+
+- **Move to .NET 11 at GA** (maintenance, not speed). rc.2 measured ~3-6 % faster at N=16/17,
+  ~0-1 % at N=18 (JIT codegen only). After upgrading, re-run the N=16/17/18 Unique/All harness
+  and record the results. Expected per-feature impact (from preview notes, unverified):
+  - JIT codegen (bounds-check elimination, loop opts, inlining): the measured gain; automatic.
+  - Runtime async: lower async overhead/allocations; only GUI/Console wrapper (~3-13 us), negligible.
+  - AVX10.2 / Arm SVE: no use (SIMD not justified; i7-14700K lacks AVX10).
+  - GC changes: hot path is allocation-free in CountOnly; at most minor GUI memory gain.
+  - NativeAOT/R2R startup: small extra gain on top of the NativeAOT profile above.
+  - C# 15: ergonomics only.
+
 ---
 
 ## How to keep this document honest
