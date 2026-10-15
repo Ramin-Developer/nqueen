@@ -25,13 +25,4 @@
 		<ProjectReference Include="..\NQueen.Kernel\NQueen.Kernel.csproj" />
 	</ItemGroup>
 
-	<!-- The DiagnosticsHub package injects a netstandard2.0 System.Collections.Immutable
-		 reference that conflicts with the newer shared-framework copy (yellow triangle).
-		 The framework already provides it, so drop the package's hard reference. -->
-	<Target Name="RemoveDiagnosticsHubImmutableReference" BeforeTargets="ResolveAssemblyReferences">
-		<ItemGroup>
-			<Reference Remove="System.Collections.Immutable" />
-		</ItemGroup>
-	</Target>
-
 </Project>

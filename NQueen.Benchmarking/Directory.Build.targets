@@ -1,0 +1,8 @@
+<Project>
+    <!-- Imported after NuGet package targets: drop the DiagnosticsHub package's injected
+         netstandard2.0 System.Collections.Immutable reference at evaluation time so the
+         .NET 10 framework copy is used and VS no longer flags it (yellow triangle). -->
+    <ItemGroup>
+        <Reference Remove="System.Collections.Immutable" />
+    </ItemGroup>
+</Project>
