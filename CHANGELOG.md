@@ -6,6 +6,9 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+- NativeAOT publish profile for Console (`NativeAot-win-x64`): `dotnet publish NQueen.Console -p:PublishProfile=NativeAot-win-x64`. Publishes with 0 AOT/trim warnings (startup ~87 -> 19 ms).
+
 - **NuGet bump + C# 14 cleanup** (`nuget-package-upgrade`): Microsoft.Extensions.DependencyInjection/Hosting 10.0.14, BenchmarkDotNetDiagnosers 18.12.37802.2; collection expressions in tests and `BitmaskParallelEngine.Unique`; `field` keyword for `BitmaskSolver.DelayInMillisec`; sealed 13 leaf classes (converters, dispatchers, services, leaf ViewModels, formatters, validator).
 
 - **Roadmap: .NET 11 + NativeAOT backlog** (`docs/net11-backlog`): registered the NativeAOT Console publish profile and the .NET 11-at-GA upgrade (with per-feature impact notes) under *Backlog — CI & Tooling* in `docs/ROADMAP.md`.

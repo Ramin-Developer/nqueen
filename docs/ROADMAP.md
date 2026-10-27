@@ -49,6 +49,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+- **NativeAOT publish profile for Console** (`ci/console-nativeaot-profile`). `dotnet publish NQueen.Console -p:PublishProfile=NativeAot-win-x64`; 0 AOT/trim warnings.
 
 - **Penultimate-row inlining in `Backtrack2`, negative** (`perf/backtrack2-penultimate-row`).
   N=16/17/18 61.28 / 419.59 / 2,992.7 vs 60.75 / 426.74 / 3,013.9 ms (within noise); reverted.
@@ -689,10 +690,6 @@ Non-perf infrastructure work. Items are listed roughly by effort × expected val
   `.github/codecov.yml` added with no-regression ratchet (`target: auto`, 1 % threshold)
   and informational patch gate. Badge added to `README.md`. One manual step after merge:
   add `CODECOV_TOKEN` to repo Actions secrets. See `CHANGELOG.md [Unreleased] → CI`._
-
-- **NativeAOT publish profile for Console.** Measured on .NET 10: startup 87 -> 19 ms,
-  N=16 330 -> 95 ms end-to-end, N=18 ~-3 %. Add a publish profile (`PublishAot=true`), verify
-  trimming/AOT warnings are clean, document the publish command. No .NET 11 dependency.
 
 ### Platform upgrades
 
