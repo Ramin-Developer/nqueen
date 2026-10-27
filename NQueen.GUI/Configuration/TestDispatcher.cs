@@ -1,6 +1,6 @@
-﻿namespace NQueen.GUI.Configuration;
+namespace NQueen.GUI.Configuration;
 
-public class TestDispatcher : IDispatcher
+public sealed class TestDispatcher : IDispatcher
 {
     public void Invoke(Action action) => action();
 

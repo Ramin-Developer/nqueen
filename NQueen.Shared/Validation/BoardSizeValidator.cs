@@ -1,6 +1,6 @@
-﻿namespace NQueen.Shared.Validation;
+namespace NQueen.Shared.Validation;
 
-public class BoardSizeValidator : AbstractValidator<string>
+public sealed class BoardSizeValidator : AbstractValidator<string>
 {
     public BoardSizeValidator(SolutionMode solutionMode)
     {

@@ -1,6 +1,6 @@
 namespace NQueen.Domain.Models;
 
-public class SolutionFormatter : ISolutionFormatter
+public sealed class SolutionFormatter : ISolutionFormatter
 {
     public string FormatSolutions(
         IReadOnlyList<Position> positions,

@@ -1,6 +1,6 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
-public class SquareViewModel(Position position, Brush color) : ObservableObject
+public sealed class SquareViewModel(Position position, Brush color) : ObservableObject
 {
     public Brush Color { get; } = color;
 

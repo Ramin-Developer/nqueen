@@ -5,7 +5,7 @@ namespace NQueen.ConsoleApp.Commands;
 /// This app always shows both the total count of unique solutions and a few example solutions (up to a cap).
 /// This approach is memory-efficient and informative for all board sizes.
 /// </summary>
-public class DispatchCommands
+public sealed class DispatchCommands
 {
     public static void RunInteractiveMenu(IServiceProvider services)
     {

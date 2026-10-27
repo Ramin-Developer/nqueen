@@ -1,6 +1,6 @@
-﻿namespace NQueen.GUI.ViewModels;
+namespace NQueen.GUI.ViewModels;
 
-public class InputViewModel(SolutionMode solutionMode)
+public sealed class InputViewModel(SolutionMode solutionMode)
 {
     public FluentValidation.Results.ValidationResult ValidateBoardSize(string? boardSizeText)
     {
