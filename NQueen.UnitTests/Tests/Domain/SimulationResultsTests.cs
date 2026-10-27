@@ -9,7 +9,7 @@ public class SimulationResultsTests
     [Fact]
     public void PreferredConstructor_KeepsExplicitTotal_NotInferred()
     {
-        var solutions = new List<Solution> { MakeSolution(1), MakeSolution(2) };
+        List<Solution> solutions = [MakeSolution(1), MakeSolution(2)];
 
         var results = new SimulationResults(solutions, totalSolutions: 100UL, ElapsedTimeInSec: 1.5);
 
@@ -22,7 +22,7 @@ public class SimulationResultsTests
     [Fact]
     public void LegacyConstructor_InfersTotalFromList()
     {
-        var solutions = new List<Solution> { MakeSolution(1), MakeSolution(2), MakeSolution(3) };
+        List<Solution> solutions = [MakeSolution(1), MakeSolution(2), MakeSolution(3)];
 
         var results = new SimulationResults(solutions, ElapsedTimeInSec: 0.25);
 
@@ -33,7 +33,7 @@ public class SimulationResultsTests
     [Fact]
     public void IsTruncated_True_WhenTotalExceedsMaterializedList()
     {
-        var solutions = new List<Solution> { MakeSolution(1) };
+        List<Solution> solutions = [MakeSolution(1)];
 
         var results = new SimulationResults(solutions, totalSolutions: 5UL, ElapsedTimeInSec: 0.1);
 
@@ -43,7 +43,7 @@ public class SimulationResultsTests
     [Fact]
     public void IsTruncated_False_WhenTotalMatchesListCount()
     {
-        var solutions = new List<Solution> { MakeSolution(1), MakeSolution(2) };
+        List<Solution> solutions = [MakeSolution(1), MakeSolution(2)];
 
         var results = new SimulationResults(solutions, totalSolutions: 2UL, ElapsedTimeInSec: 0.1);
 

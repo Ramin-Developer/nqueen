@@ -181,7 +181,7 @@ public class DomainUtilityTests
     public void DefaultSolutionFormatter_FormatSolutions_ProducesCommaSeparatedPositions()
     {
         var formatter = new SolutionFormatter();
-        var positions = new List<Position> { new(0, 1), new(1, 3) };
+        List<Position> positions = [new(0, 1), new(1, 3)];
 
         var result = formatter.FormatSolutions(positions);
 
@@ -202,7 +202,7 @@ public class DomainUtilityTests
     public void SolutionFormatter_FormatSolutions_OrdersByColumn()
     {
         var formatter = new SolutionFormatter();
-        var positions = new List<Position> { new(2, 0), new(0, 3), new(1, 1) };
+        List<Position> positions = [new(2, 0), new(0, 3), new(1, 1)];
 
         var result = formatter.FormatSolutions(positions);
 

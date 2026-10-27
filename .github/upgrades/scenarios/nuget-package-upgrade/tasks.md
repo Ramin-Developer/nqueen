@@ -1,14 +1,15 @@
 # NuGet Package Upgrade Progress
 
-**Progress**: 5/5 tasks complete <progress value="100" max="100"></progress> 100%
-**Status**: Complete
-**Progress**: 1/4 tasks complete <progress value="25" max="100"></progress> 25%
-**Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
-**Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
-- ✅ 01-upgrade-packages: Upgrade Microsoft.Extensions and BenchmarkDotNetDiagnosers packages ([Content](tasks/01-upgrade-packages/task.md), [Progress](tasks/01-upgrade-packages/progress-details.md))
-- ✅ 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md), [Progress](tasks/01-update-central-package-versions/progress-details.md))
-- 🔄 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md))
-- ✅ 02-validate-package-upgrade: Validate package upgrade compatibility ([Content](tasks/02-validate-package-upgrade/task.md), [Progress](tasks/02-validate-package-upgrade/progress-details.md))
-- 🔲 02-validate-package-upgrade: Validate package upgrade compatibility
-- ✅ 03-modernize-maintainability: Apply safe readability and maintainability refactoring ([Content](tasks/03-modernize-maintainability/task.md), [Progress](tasks/03-modernize-maintainability/progress-details.md))
-- ✅ 04-update-docs-and-pr-materials: Update documentation and PR materials ([Content](tasks/04-update-docs-and-pr-materials/task.md), [Progress](tasks/04-update-docs-and-pr-materials/progress-details.md))
+**Progress**: 1/5 tasks complete <progress value="20" max="100"></progress> 20%
+**Status**: In Progress - Task 02-collection-expressions
+Bump 3 centrally managed packages, then apply safe C# 14 modernizations.
+
+**Progress**: 2/5 tasks complete <progress value="40" max="100"></progress> 40%
+
+- 🔄 02-collection-expressions: Convert legacy collection initializers to collection expressions ([Content](tasks/02-collection-expressions/task.md), [Progress](tasks/02-collection-expressions/progress-details.md))
+
+- ✅ 01-upgrade-packages: Upgrade Microsoft.Extensions and BenchmarkDotNetDiagnosers packages
+- ✅ 02-collection-expressions: Convert legacy collection initializers to collection expressions ([Content](tasks/02-collection-expressions/task.md), [Progress](tasks/02-collection-expressions/progress-details.md))
+- 🔲 03-guard-clauses-and-lock: Modernize null guards and synchronization primitive
+- 🔲 04-primary-ctors-and-field-keyword: Apply primary constructors and C# 14 field keyword
+- 🔲 05-seal-classes: Seal non-inherited classes
