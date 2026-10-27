@@ -1,11 +1,11 @@
 # NuGet Package Upgrade Progress
 
-## Overview
-**Progress**: 4/4 tasks complete <progress value="100" max="100"></progress> 100%
+**Progress**: 5/5 tasks complete <progress value="100" max="100"></progress> 100%
+**Status**: Complete
 **Progress**: 1/4 tasks complete <progress value="25" max="100"></progress> 25%
 **Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
 **Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
-
+- ✅ 01-upgrade-packages: Upgrade Microsoft.Extensions and BenchmarkDotNetDiagnosers packages ([Content](tasks/01-upgrade-packages/task.md), [Progress](tasks/01-upgrade-packages/progress-details.md))
 - ✅ 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md), [Progress](tasks/01-update-central-package-versions/progress-details.md))
 - 🔄 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md))
 - ✅ 02-validate-package-upgrade: Validate package upgrade compatibility ([Content](tasks/02-validate-package-upgrade/task.md), [Progress](tasks/02-validate-package-upgrade/progress-details.md))

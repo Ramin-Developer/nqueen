@@ -2,43 +2,45 @@
 
 ## Overview
 
-**Target**: Centrally managed NuGet packages and safe solution modernization.
-**Scope**: 9-project .NET 10 solution using Central Package Management through `Directory.Packages.props`.
+**Target**: Bump 3 centrally managed packages to latest stable, then apply safe C# 14 modernizations.
+**Scope**: NQueen.slnx, 9 projects; no breaking API changes found.
 
 ## Tasks
 
-### 01-update-central-package-versions: Update central package versions
+### 01-upgrade-packages: Upgrade Microsoft.Extensions and BenchmarkDotNetDiagnosers packages
 
-Update `Directory.Packages.props` with the assessment-selected latest stable compatible versions for packages that have updates available. Keep packages with no newer compatible version unchanged, and keep any package with commercial licensing concerns pinned to the latest non-commercial version in accordance with the saved user preference.
+Update `Directory.Packages.props`: Microsoft.Extensions.DependencyInjection and Microsoft.Extensions.Hosting 10.0.13 → 10.0.14; Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers 18.7.37220.1 → 18.12.37802.2. API diffs (`apidiff/*.apidiff.md`) show no breaking changes.
 
-Affects Microsoft.Extensions.DependencyInjection, Microsoft.Extensions.Hosting, Microsoft.NET.Test.Sdk, Microsoft.Testing.Extensions.CodeCoverage, Moq, xunit.v3.assert, and xunit.v3.core. The assessment found no version divergence and no source-breaking public API diffs for these updates.
-
-**Done when**: `Directory.Packages.props` reflects the selected package versions and restore succeeds without introducing package downgrade or compatibility warnings.
+**Done when**: Versions updated, solution restores and builds with no errors or warnings, all tests pass.
 
 ---
 
-### 02-validate-package-upgrade: Validate package upgrade compatibility
+### 02-collection-expressions: Convert legacy collection initializers to collection expressions
 
-Restore, build, and run the test suites after the package changes so any compiler, analyzer, or test-platform changes are surfaced. Because the assessment ran in quick mode, use build and test results as the concrete compatibility signal for call-site issues.
+Replace `new List<T> { ... }`, `new T[] { ... }` and `Array.Empty<T>()` with `[...]` where the target type is explicit (e.g. `ExpectedSolutionData.cs`, `BitmaskParallelEngine.Unique.cs`, test files).
 
-Affects all projects that consume the upgraded packages, especially test projects using xUnit v3, Microsoft.NET.Test.Sdk, Moq, and Microsoft.Testing.Extensions.CodeCoverage.
-
-**Done when**: The solution restores and builds with zero errors and zero warnings, and the available test suites pass.
+**Done when**: No remaining convertible initializers; build clean, tests pass.
 
 ---
 
-### 03-modernize-maintainability: Apply safe readability and maintainability refactoring
+### 03-guard-clauses-and-lock: Modernize null guards and synchronization primitive
 
-Review the solution for low-risk modernization opportunities that improve readability or maintainability without changing solver behavior or pursuing performance micro-optimizations. Keep changes aligned with the repository conventions: C# 14/.NET 10, global usings per project, partial files for large view models, and no magic strings for property names.
+Use `ArgumentNullException.ThrowIfNull` for constructor/method null checks (MainViewModel, MainWindow, LazyPositionList, SynchronousProgress, BitmaskSolver). Switch `BitmaskSolver._sync` to `System.Threading.Lock` if it is a plain `object`.
 
-Limit refactoring to clear, behavior-preserving cleanup discovered during the review. Avoid broad rewrites, public API churn, or algorithmic changes unless required by validation.
-
-**Done when**: Safe modernization changes are applied, behavior remains unchanged, and affected projects build cleanly with tests passing.
+**Done when**: Guards modernized without behavior change; build clean, tests pass.
 
 ---
 
-### 04-update-docs-and-pr-materials: Update documentation and PR materials
+### 04-primary-ctors-and-field-keyword: Apply primary constructors and C# 14 field keyword
 
-Update `CHANGELOG.md` and `docs/ROADMAP.md` for the shipped package maintenance and modernization work, following repository guidance. Prepare a filled PR summary that captures what changed, validation results, and any follow-up notes.
+Convert trivial constructor-assigned fields to primary constructors (e.g. `Solution`, test helpers) and replace backing fields with the `field` keyword where a property only validates/assigns (e.g. `BitmaskSolver.DelayInMillisec`). Skip WPF code-behind where unsafe.
 
-**Done when**: Documentation reflects the change, the branch is ready to push, and a complete PR description is available for review.
+**Done when**: Conversions applied where trivial; build clean, tests pass.
+
+---
+
+### 05-seal-classes: Seal non-inherited classes
+
+Mark leaf classes `sealed` (GUI converters, dispatchers, services, leaf ViewModels, test mocks, benchmark classes) after verifying no subclasses or mocking requirements.
+
+**Done when**: Leaf classes sealed; build clean, tests pass; CHANGELOG updated under [Unreleased].
