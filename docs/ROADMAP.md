@@ -638,6 +638,7 @@ effort × expected impact.
   — see Candidate queue #2 entry above for trace evidence._
 
 ### Investigations
+- **GPU offload (closed, not pursued).** ILGPU/CUDA prototype on RTX 4060 vs i7-14700K (count-all, N=14-18): GPU 0.6-1.15x CPU speed (i.e. mostly slower), and the prototype's GPU counts were incorrect. Not pursued: NVIDIA-only dependency, second solver to maintain, no benefit for Unique/Single/GUI.
 
 - ~~**Solver-mode parity performance pass**~~ _Complete (PRs #52–#60): Console and GUI share
   `BitmaskSolverRunConfigurator` -> `BitmaskSolver`; Single/All/Unique/Materialize brought to
