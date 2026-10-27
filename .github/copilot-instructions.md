@@ -73,3 +73,4 @@
 - Minimize token usage to the absolute minimum.
 - Create a branch per relevant task; finish with a fully filled PR link.
 - After the user merges the PR: switch to main, pull, delete merged branch (local+remote), remove stale artifacts, and get ready for the next task.
+- Before long-running activities (benchmarks, publishes, full builds/tests), state an approximate duration and run them in the background with periodic progress checks.
