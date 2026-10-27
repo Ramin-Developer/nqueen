@@ -11,7 +11,7 @@ public class SolutionFormatterTests
     [InlineData(IndexingType.OneBased,  "(1,2)", "(2,4)")]  // one-origin (each coordinate +1)
     public void FormatSolutions_FormatsWithExpectedOrigin(IndexingType indexing, string first, string second)
     {
-        var positions = new List<Position> { new(0, 1), new(1, 3) };
+        List<Position> positions = [new(0, 1), new(1, 3)];
         var result = _formatter.FormatSolutions(positions, indexing);
         result.ShouldContain(first);
         result.ShouldContain(second);
@@ -23,7 +23,7 @@ public class SolutionFormatterTests
     public void FormatSolutions_ExceedsLineLength_WrapsToMultipleLines()
     {
         // noOfQueensPerLine = 2 → 3 positions should produce 2 lines
-        var positions = new List<Position> { new(0, 0), new(1, 1), new(2, 2) };
+        List<Position> positions = [new(0, 0), new(1, 1), new(2, 2)];
         var result = _formatter.FormatSolutions(positions, IndexingType.ZeroBased, noOfQueensPerLine: 2);
         result.ShouldContain(Environment.NewLine);
     }
@@ -32,7 +32,7 @@ public class SolutionFormatterTests
     public void FormatSolutions_ExactLineLength_NoNewline()
     {
         // noOfQueensPerLine = 3, exactly 3 positions → no newline needed
-        var positions = new List<Position> { new(0, 0), new(1, 1), new(2, 2) };
+        List<Position> positions = [new(0, 0), new(1, 1), new(2, 2)];
         var result = _formatter.FormatSolutions(positions, IndexingType.ZeroBased, noOfQueensPerLine: 3);
         result.ShouldNotContain(Environment.NewLine);
     }
@@ -42,7 +42,7 @@ public class SolutionFormatterTests
     [Fact]
     public void FormatSolutions_UnorderedInput_OutputIsOrderedByColumn()
     {
-        var positions = new List<Position> { new(2, 0), new(0, 3), new(1, 1) };
+        List<Position> positions = [new(2, 0), new(0, 3), new(1, 1)];
         var result = _formatter.FormatSolutions(positions, IndexingType.ZeroBased);
         var col0Pos = result.IndexOf("(0,", StringComparison.Ordinal);
         var col1Pos = result.IndexOf("(1,", StringComparison.Ordinal);

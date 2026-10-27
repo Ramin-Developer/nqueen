@@ -240,7 +240,7 @@ public class MainViewModelValidationTests
     public static IEnumerable<object[]> RespectSolutionModeLimitsData()
     {
         int invalidSize = Math.Max(BoardSettings.MaxSizeForUnique, BoardSettings.MaxSizeForAll) + 1; // exceeds both
-        yield return new object[] { invalidSize.ToString(), invalidSize.ToString(), SolutionMode.Unique, SolutionMode.All };
+        yield return [invalidSize.ToString(), invalidSize.ToString(), SolutionMode.Unique, SolutionMode.All];
     }
 
     public static IEnumerable<object[]> ChessboardUpdatesWhenSwitchingToValidModeData()
@@ -253,15 +253,15 @@ public class MainViewModelValidationTests
             invalidForUniqueAll = BoardSettings.MaxSizeForSingle;
         }
         // Case: size invalid for Unique/All, then becomes valid in Single
-        yield return new object[] { invalidForUniqueAll.ToString(), SolutionMode.All, SolutionMode.Single, invalidForUniqueAll };
-        yield return new object[] { invalidForUniqueAll.ToString(), SolutionMode.Unique, SolutionMode.Single, invalidForUniqueAll };
+        yield return [invalidForUniqueAll.ToString(), SolutionMode.All, SolutionMode.Single, invalidForUniqueAll];
+        yield return [invalidForUniqueAll.ToString(), SolutionMode.Unique, SolutionMode.Single, invalidForUniqueAll];
 
         // Also test the largest Single size if it is still invalid for Unique/All
         int largestSingle = BoardSettings.MaxSizeForSingle;
         if (largestSingle > Math.Max(BoardSettings.MaxSizeForUnique, BoardSettings.MaxSizeForAll))
         {
-            yield return new object[] { largestSingle.ToString(), SolutionMode.All, SolutionMode.Single, largestSingle };
-            yield return new object[] { largestSingle.ToString(), SolutionMode.Unique, SolutionMode.Single, largestSingle };
+            yield return [largestSingle.ToString(), SolutionMode.All, SolutionMode.Single, largestSingle];
+            yield return [largestSingle.ToString(), SolutionMode.Unique, SolutionMode.Single, largestSingle];
         }
     }
 
@@ -278,8 +278,8 @@ public class MainViewModelValidationTests
         // Existing large size (Single max) should be invalid for Unique/All
         int largestSingle = BoardSettings.MaxSizeForSingle;
 
-        yield return new object[] { largestSingle.ToString(), SolutionMode.Single, SolutionMode.Unique };
-        yield return new object[] { invalidForUniqueAll.ToString(), SolutionMode.Single, SolutionMode.All };
-        yield return new object[] { invalidForUniqueAll.ToString(), SolutionMode.Single, SolutionMode.Unique };
+        yield return [largestSingle.ToString(), SolutionMode.Single, SolutionMode.Unique];
+        yield return [invalidForUniqueAll.ToString(), SolutionMode.Single, SolutionMode.All];
+        yield return [invalidForUniqueAll.ToString(), SolutionMode.Single, SolutionMode.Unique];
     }
 }

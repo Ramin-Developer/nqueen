@@ -190,7 +190,7 @@ internal sealed partial class BitmaskParallelEngine
         {
             if (depth == splitDepth)
             {
-                var prefix = depth > 0 ? [.. rows[..depth]] : Array.Empty<int>();
+                int[] prefix = depth > 0 ? [.. rows[..depth]] : [];
                 dest.Add(new PartialState(prefix, depth, cols, d1, d2));
                 depth--;
                 if (depth < 0) break;

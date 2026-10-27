@@ -6,14 +6,14 @@
     },
     "targetId": ""
   },
-  "analysisStartTime": "2026-09-30T23:04:36.9835039Z",
-  "analysisEndTime": "2026-09-30T23:04:38.8788182Z",
+  "analysisStartTime": "2026-10-27T18:17:22.7873091Z",
+  "analysisEndTime": "2026-10-27T18:17:23.5745625Z",
   "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
   "stats": {
     "summary": {
       "projects": 9,
       "issues": 1,
-      "incidents": 28,
+      "incidents": 5,
       "effort": 0
     },
     "charts": {
@@ -21,10 +21,10 @@
         "Mandatory": 0,
         "Optional": 0,
         "Potential": 0,
-        "Information": 28
+        "Information": 5
       },
       "category": {
-        "Pkg": 28
+        "Pkg": 5
       }
     }
   },
@@ -48,43 +48,19 @@
         ],
         "isSdkStyle": true,
         "isTestProject": false,
-        "numberOfFiles": 13,
-        "numberOfCodeFiles": 13,
-        "linesTotal": 1013,
-        "linesOfCode": 1013,
+        "numberOfFiles": 14,
+        "numberOfCodeFiles": 14,
+        "linesTotal": 1111,
+        "linesOfCode": 1111,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
       "ruleInstances": [
         {
-          "incidentId": "1a4dcca7-e7e3-4e2b-abef-5425dc04944d",
+          "incidentId": "af3437b5-1972-4602-a941-c58a5b29d992",
           "ruleId": "Pkg.0001",
-          "description": "Project references \u0027BenchmarkDotNet\u0027 0.15.8 (included in this upgrade).",
-          "projectPath": "NQueen.Benchmarking\\NQueen.Benchmarking.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "BenchmarkDotNet, 0.15.8",
-              "protected": "BenchmarkDotNet, 0.15.8"
-            },
-            "kind": "File",
-            "path": "NQueen.Benchmarking\\NQueen.Benchmarking.csproj",
-            "snippet": "BenchmarkDotNet, 0.15.8",
-            "protectedSnippet": "BenchmarkDotNet, 0.15.8",
-            "label": "BenchmarkDotNet 0.15.8",
-            "properties": {
-              "PackageId": "BenchmarkDotNet",
-              "PackageVersion": "0.15.8",
-              "PackageNewVersion": "0.15.8",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "43654037-ad01-4df5-9603-6fc9256f6990",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers\u0027 18.7.37220.1 (included in this upgrade).",
+          "description": "Project references \u0027Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers\u0027 18.7.37220.1; proposed upgrade to 18.12.37802.2.",
           "projectPath": "NQueen.Benchmarking\\NQueen.Benchmarking.csproj",
           "state": "Active",
           "location": {
@@ -100,7 +76,7 @@
             "properties": {
               "PackageId": "Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers",
               "PackageVersion": "18.7.37220.1",
-              "PackageNewVersion": "18.7.37220.1",
+              "PackageNewVersion": "18.12.37802.2",
               "PackageReplacements": null
             }
           }
@@ -137,25 +113,25 @@
       },
       "ruleInstances": [
         {
-          "incidentId": "1c0b9559-7f69-4dc2-b784-c8ff86b1c2d8",
+          "incidentId": "58d9158d-1dac-4fd9-bbe4-9b0c8e9d549d",
           "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Extensions.Hosting\u0027 10.0.11; proposed upgrade to 10.0.12.",
+          "description": "Project references \u0027Microsoft.Extensions.Hosting\u0027 10.0.13; proposed upgrade to 10.0.14.",
           "projectPath": "NQueen.Console\\NQueen.ConsoleApp.csproj",
           "state": "Active",
           "location": {
             "snippetModel": {
-              "unrestricted": "Microsoft.Extensions.Hosting, 10.0.11",
-              "protected": "Microsoft.Extensions.Hosting, 10.0.11"
+              "unrestricted": "Microsoft.Extensions.Hosting, 10.0.13",
+              "protected": "Microsoft.Extensions.Hosting, 10.0.13"
             },
             "kind": "File",
             "path": "NQueen.Console\\NQueen.ConsoleApp.csproj",
-            "snippet": "Microsoft.Extensions.Hosting, 10.0.11",
-            "protectedSnippet": "Microsoft.Extensions.Hosting, 10.0.11",
-            "label": "Microsoft.Extensions.Hosting 10.0.11",
+            "snippet": "Microsoft.Extensions.Hosting, 10.0.13",
+            "protectedSnippet": "Microsoft.Extensions.Hosting, 10.0.13",
+            "label": "Microsoft.Extensions.Hosting 10.0.13",
             "properties": {
               "PackageId": "Microsoft.Extensions.Hosting",
-              "PackageVersion": "10.0.11",
-              "PackageNewVersion": "10.0.12",
+              "PackageVersion": "10.0.13",
+              "PackageNewVersion": "10.0.14",
               "PackageReplacements": null
             }
           }
@@ -184,8 +160,8 @@
         "isTestProject": false,
         "numberOfFiles": 29,
         "numberOfCodeFiles": 29,
-        "linesTotal": 1305,
-        "linesOfCode": 1305,
+        "linesTotal": 1297,
+        "linesOfCode": 1297,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
@@ -214,81 +190,57 @@
         "isTestProject": false,
         "numberOfFiles": 28,
         "numberOfCodeFiles": 28,
-        "linesTotal": 2192,
-        "linesOfCode": 2192,
+        "linesTotal": 2214,
+        "linesOfCode": 2214,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
       "ruleInstances": [
         {
-          "incidentId": "8b2a812e-2e29-45d1-a6b7-efe241aba94c",
+          "incidentId": "0ae76514-045d-4c54-aba7-3eb3a2f591a7",
           "ruleId": "Pkg.0001",
-          "description": "Project references \u0027CommunityToolkit.Mvvm\u0027 8.4.2 (included in this upgrade).",
+          "description": "Project references \u0027Microsoft.Extensions.DependencyInjection\u0027 10.0.13; proposed upgrade to 10.0.14.",
           "projectPath": "NQueen.GUI\\NQueen.GUI.csproj",
           "state": "Active",
           "location": {
             "snippetModel": {
-              "unrestricted": "CommunityToolkit.Mvvm, 8.4.2",
-              "protected": "CommunityToolkit.Mvvm, 8.4.2"
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+              "protected": "Microsoft.Extensions.DependencyInjection, 10.0.13"
             },
             "kind": "File",
             "path": "NQueen.GUI\\NQueen.GUI.csproj",
-            "snippet": "CommunityToolkit.Mvvm, 8.4.2",
-            "protectedSnippet": "CommunityToolkit.Mvvm, 8.4.2",
-            "label": "CommunityToolkit.Mvvm 8.4.2",
-            "properties": {
-              "PackageId": "CommunityToolkit.Mvvm",
-              "PackageVersion": "8.4.2",
-              "PackageNewVersion": "8.4.2",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "e2675d9d-830a-40e9-adb1-f6d0d1315e16",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Extensions.DependencyInjection\u0027 10.0.11; proposed upgrade to 10.0.12.",
-          "projectPath": "NQueen.GUI\\NQueen.GUI.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-              "protected": "Microsoft.Extensions.DependencyInjection, 10.0.11"
-            },
-            "kind": "File",
-            "path": "NQueen.GUI\\NQueen.GUI.csproj",
-            "snippet": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-            "label": "Microsoft.Extensions.DependencyInjection 10.0.11",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+            "label": "Microsoft.Extensions.DependencyInjection 10.0.13",
             "properties": {
               "PackageId": "Microsoft.Extensions.DependencyInjection",
-              "PackageVersion": "10.0.11",
-              "PackageNewVersion": "10.0.12",
+              "PackageVersion": "10.0.13",
+              "PackageNewVersion": "10.0.14",
               "PackageReplacements": null
             }
           }
         },
         {
-          "incidentId": "a21fc6a2-c2e8-4da8-8111-5fcbd752f23a",
+          "incidentId": "caa06466-f19c-4acc-8049-66c89a57ab53",
           "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Extensions.Hosting\u0027 10.0.11; proposed upgrade to 10.0.12.",
+          "description": "Project references \u0027Microsoft.Extensions.Hosting\u0027 10.0.13; proposed upgrade to 10.0.14.",
           "projectPath": "NQueen.GUI\\NQueen.GUI.csproj",
           "state": "Active",
           "location": {
             "snippetModel": {
-              "unrestricted": "Microsoft.Extensions.Hosting, 10.0.11",
-              "protected": "Microsoft.Extensions.Hosting, 10.0.11"
+              "unrestricted": "Microsoft.Extensions.Hosting, 10.0.13",
+              "protected": "Microsoft.Extensions.Hosting, 10.0.13"
             },
             "kind": "File",
             "path": "NQueen.GUI\\NQueen.GUI.csproj",
-            "snippet": "Microsoft.Extensions.Hosting, 10.0.11",
-            "protectedSnippet": "Microsoft.Extensions.Hosting, 10.0.11",
-            "label": "Microsoft.Extensions.Hosting 10.0.11",
+            "snippet": "Microsoft.Extensions.Hosting, 10.0.13",
+            "protectedSnippet": "Microsoft.Extensions.Hosting, 10.0.13",
+            "label": "Microsoft.Extensions.Hosting 10.0.13",
             "properties": {
               "PackageId": "Microsoft.Extensions.Hosting",
-              "PackageVersion": "10.0.11",
-              "PackageNewVersion": "10.0.12",
+              "PackageVersion": "10.0.13",
+              "PackageNewVersion": "10.0.14",
               "PackageReplacements": null
             }
           }
@@ -315,10 +267,10 @@
         ],
         "isSdkStyle": true,
         "isTestProject": false,
-        "numberOfFiles": 16,
-        "numberOfCodeFiles": 16,
-        "linesTotal": 2515,
-        "linesOfCode": 2515,
+        "numberOfFiles": 17,
+        "numberOfCodeFiles": 17,
+        "linesTotal": 2484,
+        "linesOfCode": 2484,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
@@ -329,7 +281,7 @@
     {
       "path": "NQueen.Shared\\NQueen.Shared.csproj",
       "startingProject": true,
-      "issues": 1,
+      "issues": 0,
       "storyPoints": 0,
       "properties": {
         "appName": "NQueen.Shared",
@@ -353,38 +305,13 @@
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
-      "ruleInstances": [
-        {
-          "incidentId": "07152d0c-ee71-4354-9d1d-d64890b3c101",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027FluentValidation.DependencyInjectionExtensions\u0027 12.1.1 (included in this upgrade).",
-          "projectPath": "NQueen.Shared\\NQueen.Shared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "FluentValidation.DependencyInjectionExtensions, 12.1.1",
-              "protected": "FluentValidation.DependencyInjectionExtensions, 12.1.1"
-            },
-            "kind": "File",
-            "path": "NQueen.Shared\\NQueen.Shared.csproj",
-            "snippet": "FluentValidation.DependencyInjectionExtensions, 12.1.1",
-            "protectedSnippet": "FluentValidation.DependencyInjectionExtensions, 12.1.1",
-            "label": "FluentValidation.DependencyInjectionExtensions 12.1.1",
-            "properties": {
-              "PackageId": "FluentValidation.DependencyInjectionExtensions",
-              "PackageVersion": "12.1.1",
-              "PackageNewVersion": "12.1.1",
-              "PackageReplacements": null
-            }
-          }
-        }
-      ],
+      "ruleInstances": [],
       "features": []
     },
     {
       "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
       "startingProject": true,
-      "issues": 1,
+      "issues": 0,
       "storyPoints": 0,
       "properties": {
         "appName": "NQueen.TestShared",
@@ -402,134 +329,13 @@
         "isTestProject": true,
         "numberOfFiles": 11,
         "numberOfCodeFiles": 9,
-        "linesTotal": 3015,
-        "linesOfCode": 369,
+        "linesTotal": 3006,
+        "linesOfCode": 367,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
-      "ruleInstances": [
-        {
-          "incidentId": "7b5db05a-47c4-4f34-ae03-a8725c280638",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Shouldly\u0027 4.3.0 (included in this upgrade).",
-          "projectPath": "NQueen.TestShared\\NQueen.TestShared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Shouldly, 4.3.0",
-              "protected": "Shouldly, 4.3.0"
-            },
-            "kind": "File",
-            "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
-            "snippet": "Shouldly, 4.3.0",
-            "protectedSnippet": "Shouldly, 4.3.0",
-            "label": "Shouldly 4.3.0",
-            "properties": {
-              "PackageId": "Shouldly",
-              "PackageVersion": "4.3.0",
-              "PackageNewVersion": "4.3.0",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "a26ed217-db05-4424-ab89-847d53339da3",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.NET.Test.Sdk\u0027 18.9.0; proposed upgrade to 18.10.1.",
-          "projectPath": "NQueen.TestShared\\NQueen.TestShared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.NET.Test.Sdk, 18.9.0",
-              "protected": "Microsoft.NET.Test.Sdk, 18.9.0"
-            },
-            "kind": "File",
-            "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
-            "snippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "protectedSnippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "label": "Microsoft.NET.Test.Sdk 18.9.0",
-            "properties": {
-              "PackageId": "Microsoft.NET.Test.Sdk",
-              "PackageVersion": "18.9.0",
-              "PackageNewVersion": "18.10.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "afdc4ba2-65ea-4d1e-8bb8-d841c524d2ca",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.core\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.TestShared\\NQueen.TestShared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.core, 4.0.0",
-              "protected": "xunit.v3.core, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
-            "snippet": "xunit.v3.core, 4.0.0",
-            "protectedSnippet": "xunit.v3.core, 4.0.0",
-            "label": "xunit.v3.core 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.core",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "b25558cf-9c1c-42b9-aa6a-51ad31bfa81d",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.assert\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.TestShared\\NQueen.TestShared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.assert, 4.0.0",
-              "protected": "xunit.v3.assert, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
-            "snippet": "xunit.v3.assert, 4.0.0",
-            "protectedSnippet": "xunit.v3.assert, 4.0.0",
-            "label": "xunit.v3.assert 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.assert",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "77441166-485e-466f-a129-8c8bd7597ba7",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.runner.visualstudio\u0027 4.0.0 (included in this upgrade).",
-          "projectPath": "NQueen.TestShared\\NQueen.TestShared.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.runner.visualstudio, 4.0.0",
-              "protected": "xunit.runner.visualstudio, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.TestShared\\NQueen.TestShared.csproj",
-            "snippet": "xunit.runner.visualstudio, 4.0.0",
-            "protectedSnippet": "xunit.runner.visualstudio, 4.0.0",
-            "label": "xunit.runner.visualstudio 4.0.0",
-            "properties": {
-              "PackageId": "xunit.runner.visualstudio",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.0",
-              "PackageReplacements": null
-            }
-          }
-        }
-      ],
+      "ruleInstances": [],
       "features": []
     },
     {
@@ -551,203 +357,35 @@
         ],
         "isSdkStyle": true,
         "isTestProject": true,
-        "numberOfFiles": 46,
-        "numberOfCodeFiles": 44,
-        "linesTotal": 6995,
-        "linesOfCode": 4349,
+        "numberOfFiles": 48,
+        "numberOfCodeFiles": 46,
+        "linesTotal": 7337,
+        "linesOfCode": 4698,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
       "ruleInstances": [
         {
-          "incidentId": "6be69bcc-6c18-4ba2-aa4b-317bfa4932a6",
+          "incidentId": "4f723405-a1bf-498e-a502-38f872a8df9b",
           "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Shouldly\u0027 4.3.0 (included in this upgrade).",
+          "description": "Project references \u0027Microsoft.Extensions.DependencyInjection\u0027 10.0.13; proposed upgrade to 10.0.14.",
           "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
           "state": "Active",
           "location": {
             "snippetModel": {
-              "unrestricted": "Shouldly, 4.3.0",
-              "protected": "Shouldly, 4.3.0"
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+              "protected": "Microsoft.Extensions.DependencyInjection, 10.0.13"
             },
             "kind": "File",
             "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "Shouldly, 4.3.0",
-            "protectedSnippet": "Shouldly, 4.3.0",
-            "label": "Shouldly 4.3.0",
-            "properties": {
-              "PackageId": "Shouldly",
-              "PackageVersion": "4.3.0",
-              "PackageNewVersion": "4.3.0",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "627cb073-45e8-427e-8214-36072407af7f",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Extensions.DependencyInjection\u0027 10.0.11; proposed upgrade to 10.0.12.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-              "protected": "Microsoft.Extensions.DependencyInjection, 10.0.11"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 10.0.11",
-            "label": "Microsoft.Extensions.DependencyInjection 10.0.11",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 10.0.13",
+            "label": "Microsoft.Extensions.DependencyInjection 10.0.13",
             "properties": {
               "PackageId": "Microsoft.Extensions.DependencyInjection",
-              "PackageVersion": "10.0.11",
-              "PackageNewVersion": "10.0.12",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "d57acb9e-7655-4ff0-b847-37f15935477c",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.NET.Test.Sdk\u0027 18.9.0; proposed upgrade to 18.10.1.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.NET.Test.Sdk, 18.9.0",
-              "protected": "Microsoft.NET.Test.Sdk, 18.9.0"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "protectedSnippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "label": "Microsoft.NET.Test.Sdk 18.9.0",
-            "properties": {
-              "PackageId": "Microsoft.NET.Test.Sdk",
-              "PackageVersion": "18.9.0",
-              "PackageNewVersion": "18.10.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "ea7259c1-b983-448c-b722-c695c9170f63",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Testing.Extensions.CodeCoverage\u0027 18.11.0; proposed upgrade to 18.11.2.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-              "protected": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-            "protectedSnippet": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-            "label": "Microsoft.Testing.Extensions.CodeCoverage 18.11.0",
-            "properties": {
-              "PackageId": "Microsoft.Testing.Extensions.CodeCoverage",
-              "PackageVersion": "18.11.0",
-              "PackageNewVersion": "18.11.2",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "fbb089cd-aafa-4c0f-bb0b-86472be38be4",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Moq\u0027 4.20.72; proposed upgrade to 4.21.0.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Moq, 4.20.72",
-              "protected": "Moq, 4.20.72"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "Moq, 4.20.72",
-            "protectedSnippet": "Moq, 4.20.72",
-            "label": "Moq 4.20.72",
-            "properties": {
-              "PackageId": "Moq",
-              "PackageVersion": "4.20.72",
-              "PackageNewVersion": "4.21.0",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "faffb409-b6fa-4589-b562-9f2fcacbba67",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.core\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.core, 4.0.0",
-              "protected": "xunit.v3.core, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "xunit.v3.core, 4.0.0",
-            "protectedSnippet": "xunit.v3.core, 4.0.0",
-            "label": "xunit.v3.core 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.core",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "ba3cbe45-1476-4d80-b152-8158e7169f4a",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.assert\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.assert, 4.0.0",
-              "protected": "xunit.v3.assert, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "xunit.v3.assert, 4.0.0",
-            "protectedSnippet": "xunit.v3.assert, 4.0.0",
-            "label": "xunit.v3.assert 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.assert",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "f786716f-9a2e-4a34-83e4-dd305115c1f2",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.runner.visualstudio\u0027 4.0.0 (included in this upgrade).",
-          "projectPath": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.runner.visualstudio, 4.0.0",
-              "protected": "xunit.runner.visualstudio, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.UnitTests\\NQueen.UnitTests.csproj",
-            "snippet": "xunit.runner.visualstudio, 4.0.0",
-            "protectedSnippet": "xunit.runner.visualstudio, 4.0.0",
-            "label": "xunit.runner.visualstudio 4.0.0",
-            "properties": {
-              "PackageId": "xunit.runner.visualstudio",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.0",
+              "PackageVersion": "10.0.13",
+              "PackageNewVersion": "10.0.14",
               "PackageReplacements": null
             }
           }
@@ -758,7 +396,7 @@
     {
       "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
       "startingProject": true,
-      "issues": 1,
+      "issues": 0,
       "storyPoints": 0,
       "properties": {
         "appName": "NQueen.ViewModelTests",
@@ -774,208 +412,15 @@
         ],
         "isSdkStyle": true,
         "isTestProject": true,
-        "numberOfFiles": 21,
-        "numberOfCodeFiles": 19,
-        "linesTotal": 4319,
-        "linesOfCode": 1673,
+        "numberOfFiles": 27,
+        "numberOfCodeFiles": 25,
+        "linesTotal": 4684,
+        "linesOfCode": 2045,
         "totalApiScanned": 0,
         "minLinesOfCodeToChange": 0,
         "maxLinesOfCodeToChange": 0
       },
-      "ruleInstances": [
-        {
-          "incidentId": "965844db-f7e7-48c6-8804-9c60da9ab38b",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027FluentValidation\u0027 12.1.1 (included in this upgrade).",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "FluentValidation, 12.1.1",
-              "protected": "FluentValidation, 12.1.1"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "FluentValidation, 12.1.1",
-            "protectedSnippet": "FluentValidation, 12.1.1",
-            "label": "FluentValidation 12.1.1",
-            "properties": {
-              "PackageId": "FluentValidation",
-              "PackageVersion": "12.1.1",
-              "PackageNewVersion": "12.1.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "87c1483a-1573-4c9a-b98d-813f0ff130ce",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Shouldly\u0027 4.3.0 (included in this upgrade).",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Shouldly, 4.3.0",
-              "protected": "Shouldly, 4.3.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "Shouldly, 4.3.0",
-            "protectedSnippet": "Shouldly, 4.3.0",
-            "label": "Shouldly 4.3.0",
-            "properties": {
-              "PackageId": "Shouldly",
-              "PackageVersion": "4.3.0",
-              "PackageNewVersion": "4.3.0",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "d3f50d97-95a8-4874-8b69-09ef23df3a80",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.NET.Test.Sdk\u0027 18.9.0; proposed upgrade to 18.10.1.",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.NET.Test.Sdk, 18.9.0",
-              "protected": "Microsoft.NET.Test.Sdk, 18.9.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "protectedSnippet": "Microsoft.NET.Test.Sdk, 18.9.0",
-            "label": "Microsoft.NET.Test.Sdk 18.9.0",
-            "properties": {
-              "PackageId": "Microsoft.NET.Test.Sdk",
-              "PackageVersion": "18.9.0",
-              "PackageNewVersion": "18.10.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "2c6a9187-b71d-4c84-af46-8c2d3b3f5045",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Microsoft.Testing.Extensions.CodeCoverage\u0027 18.11.0; proposed upgrade to 18.11.2.",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-              "protected": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-            "protectedSnippet": "Microsoft.Testing.Extensions.CodeCoverage, 18.11.0",
-            "label": "Microsoft.Testing.Extensions.CodeCoverage 18.11.0",
-            "properties": {
-              "PackageId": "Microsoft.Testing.Extensions.CodeCoverage",
-              "PackageVersion": "18.11.0",
-              "PackageNewVersion": "18.11.2",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "05747561-a519-4b9e-b647-030d05c9e4c2",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027Moq\u0027 4.20.72; proposed upgrade to 4.21.0.",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "Moq, 4.20.72",
-              "protected": "Moq, 4.20.72"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "Moq, 4.20.72",
-            "protectedSnippet": "Moq, 4.20.72",
-            "label": "Moq 4.20.72",
-            "properties": {
-              "PackageId": "Moq",
-              "PackageVersion": "4.20.72",
-              "PackageNewVersion": "4.21.0",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "ee33270f-8fb3-47a4-ae88-3126c248faa6",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.core\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.core, 4.0.0",
-              "protected": "xunit.v3.core, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "xunit.v3.core, 4.0.0",
-            "protectedSnippet": "xunit.v3.core, 4.0.0",
-            "label": "xunit.v3.core 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.core",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "053b27e5-0a6e-4885-bb8f-15c73b305b8e",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.v3.assert\u0027 4.0.0; proposed upgrade to 4.0.1.",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.v3.assert, 4.0.0",
-              "protected": "xunit.v3.assert, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "xunit.v3.assert, 4.0.0",
-            "protectedSnippet": "xunit.v3.assert, 4.0.0",
-            "label": "xunit.v3.assert 4.0.0",
-            "properties": {
-              "PackageId": "xunit.v3.assert",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.1",
-              "PackageReplacements": null
-            }
-          }
-        },
-        {
-          "incidentId": "4748e7a1-2193-41f8-b215-866d4503c503",
-          "ruleId": "Pkg.0001",
-          "description": "Project references \u0027xunit.runner.visualstudio\u0027 4.0.0 (included in this upgrade).",
-          "projectPath": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-          "state": "Active",
-          "location": {
-            "snippetModel": {
-              "unrestricted": "xunit.runner.visualstudio, 4.0.0",
-              "protected": "xunit.runner.visualstudio, 4.0.0"
-            },
-            "kind": "File",
-            "path": "NQueen.ViewModelTests\\NQueen.ViewModelTests.csproj",
-            "snippet": "xunit.runner.visualstudio, 4.0.0",
-            "protectedSnippet": "xunit.runner.visualstudio, 4.0.0",
-            "label": "xunit.runner.visualstudio 4.0.0",
-            "properties": {
-              "PackageId": "xunit.runner.visualstudio",
-              "PackageVersion": "4.0.0",
-              "PackageNewVersion": "4.0.0",
-              "PackageReplacements": null
-            }
-          }
-        }
-      ],
+      "ruleInstances": [],
       "features": []
     }
   ],

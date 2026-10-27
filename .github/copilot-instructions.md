@@ -66,3 +66,10 @@
 
 ### General Guidelines
 - Keep responses extremely concise and provide only short summaries unless explicitly asking for detail.
+
+### Standing Rules (all sessions)
+- Persist every user decision/answer here; never re-ask the same type of question.
+- Minimize resources: reuse one terminal; never spawn multiple Developer PowerShell/terminal windows.
+- Minimize token usage to the absolute minimum.
+- Create a branch per relevant task; finish with a fully filled PR link.
+- After the user merges the PR: switch to main, pull, delete merged branch (local+remote), remove stale artifacts, and get ready for the next task.

@@ -54,7 +54,7 @@ public class CommandManagerPositiveTests
 
         var solutionFormatter = new SolutionFormatter();
 
-        var queenPositions = new int[] { 1, 3, 0, 2 };
+        int[] queenPositions = [1, 3, 0, 2];
         var solution = new Solution(queenPositions, solutionFormatter, 1);
         mainVm.SimulationResults = new SimulationResults([solution], 0.0);
         mainVm.NoOfSolutions = "1";

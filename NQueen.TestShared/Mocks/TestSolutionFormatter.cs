@@ -1,6 +1,6 @@
-﻿namespace NQueen.TestShared.Mocks;
+namespace NQueen.TestShared.Mocks;
 
-public class TestSolutionFormatter : ISolutionFormatter
+public sealed class TestSolutionFormatter : ISolutionFormatter
 {
     public string FormatSolutions(
         IReadOnlyList<Position> positions,

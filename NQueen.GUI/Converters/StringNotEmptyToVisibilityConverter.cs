@@ -1,6 +1,6 @@
-﻿namespace NQueen.GUI.Converters;
+namespace NQueen.GUI.Converters;
 
-public class StringNotEmptyToVisibilityConverter : IValueConverter
+public sealed class StringNotEmptyToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter,
         CultureInfo culture)

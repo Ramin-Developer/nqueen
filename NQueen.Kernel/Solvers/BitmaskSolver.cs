@@ -17,13 +17,11 @@ public partial class BitmaskSolver(ISolutionFormatter solutionFormatter,
         _capEnabled = true;
     }
 
-    private int _delayInMillisec; // enforce min delay via setter below
-
     // ---------------- Public properties ----------------
     public int DelayInMillisec
     {
-        get => _delayInMillisec;
-        set => _delayInMillisec = value <= 0 ? 0 : Math.Max(NQueen.Domain.Settings.SimulationSettings.MinDelayInMilliseconds, value);
+        get;
+        set => field = value <= 0 ? 0 : Math.Max(NQueen.Domain.Settings.SimulationSettings.MinDelayInMilliseconds, value);
     }
 
     public int ProgressValue { get; set; }

@@ -4,7 +4,7 @@ namespace NQueen.GUI.Infrastructure;
 /// Shows the WPF save dialog and writes exported content. The dialog call is injectable so the
 /// accept/cancel paths are testable without displaying a window.
 /// </summary>
-public class SaveFileDialogService(Func<string?>? showDialog) : ISaveFileDialogService
+public sealed class SaveFileDialogService(Func<string?>? showDialog) : ISaveFileDialogService
 {
     private readonly Func<string?> _showDialog = showDialog ?? ShowWpfDialog;
 

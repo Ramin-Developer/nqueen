@@ -6,7 +6,7 @@
 > Types whose namespace changed but whose name is unchanged are reported as **moved** (fix the
 > `using` directives) rather than removed — do not assume a moved type was deleted.
 
-## 10.0.11 → 10.0.12 (target framework: .NETCoreApp,Version=v10.0)
+## 10.0.13 → 10.0.14 (target framework: .NETCoreApp,Version=v10.0)
 
 No source-breaking public API changes were detected between these versions. The upgrade is
 expected to be safe from an API-surface standpoint; a build is still recommended to confirm.

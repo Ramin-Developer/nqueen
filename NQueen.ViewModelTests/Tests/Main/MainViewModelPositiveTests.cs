@@ -91,7 +91,7 @@ public class MainViewModelPositiveTests
     [Fact]
     public async Task ProgressBar_ShouldUpdate_ForSingleMode()
     {
-        // Arrange: real solver — Single mode does not use the mock progress-event path
+        // Arrange: real solver ï¿½ Single mode does not use the mock progress-event path
         var mainVm = TestHelpers.CreateMainViewModel(4, SolutionMode.Single, DisplayMode.Visualize);
 
         // Act
@@ -173,7 +173,7 @@ public class MainViewModelPositiveTests
         // Arrange
         var mockSaveService = new MockSaveFileDialogService();
         var solutionFormatter = new SolutionFormatter();
-        var queenPositions = new int[] { 1, 3, 0, 2 };
+        int[] queenPositions = [1, 3, 0, 2];
         var solution = new Solution(queenPositions, solutionFormatter, 1);
 
         var mainVm = new MainViewModel(
@@ -188,7 +188,7 @@ public class MainViewModelPositiveTests
             IsIdle = true,
         };
 
-        // Populate ObservableSolutions and mark output as ready — same state
+        // Populate ObservableSolutions and mark output as ready ï¿½ same state
         // the VM is in after a completed simulation before the user clicks Save.
         mainVm.ObservableSolutions.Add(solution);
         mainVm.IsOutputReady = true;

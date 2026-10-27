@@ -1,14 +1,15 @@
 # NuGet Package Upgrade Progress
 
-## Overview
-**Progress**: 4/4 tasks complete <progress value="100" max="100"></progress> 100%
-**Progress**: 1/4 tasks complete <progress value="25" max="100"></progress> 25%
-**Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
-**Progress**: 0/4 tasks complete <progress value="0" max="100"></progress> 0%
+**Progress**: 1/5 tasks complete <progress value="20" max="100"></progress> 20%
+**Status**: In Progress - Task 02-collection-expressions
+Bump 3 centrally managed packages, then apply safe C# 14 modernizations.
 
-- ✅ 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md), [Progress](tasks/01-update-central-package-versions/progress-details.md))
-- 🔄 01-update-central-package-versions: Update central package versions ([Content](tasks/01-update-central-package-versions/task.md))
-- ✅ 02-validate-package-upgrade: Validate package upgrade compatibility ([Content](tasks/02-validate-package-upgrade/task.md), [Progress](tasks/02-validate-package-upgrade/progress-details.md))
-- 🔲 02-validate-package-upgrade: Validate package upgrade compatibility
-- ✅ 03-modernize-maintainability: Apply safe readability and maintainability refactoring ([Content](tasks/03-modernize-maintainability/task.md), [Progress](tasks/03-modernize-maintainability/progress-details.md))
-- ✅ 04-update-docs-and-pr-materials: Update documentation and PR materials ([Content](tasks/04-update-docs-and-pr-materials/task.md), [Progress](tasks/04-update-docs-and-pr-materials/progress-details.md))
+**Progress**: 2/5 tasks complete <progress value="40" max="100"></progress> 40%
+
+- 🔄 02-collection-expressions: Convert legacy collection initializers to collection expressions ([Content](tasks/02-collection-expressions/task.md), [Progress](tasks/02-collection-expressions/progress-details.md))
+- 🔄 03-guard-clauses-and-lock: Modernize null guards and synchronization primitive ([Content](tasks/03-guard-clauses-and-lock/task.md), [Progress](tasks/03-guard-clauses-and-lock/progress-details.md))
+- 🔄 04-primary-ctors-and-field-keyword: Apply primary constructors and C# 14 field keyword ([Content](tasks/04-primary-ctors-and-field-keyword/task.md), [Progress](tasks/04-primary-ctors-and-field-keyword/progress-details.md))
+- 🔄 05-seal-classes: Seal non-inherited classes ([Content](tasks/05-seal-classes/task.md), [Progress](tasks/05-seal-classes/progress-details.md))
+- ✅ 03-guard-clauses-and-lock: Modernize null guards and synchronization primitive ([Content](tasks/03-guard-clauses-and-lock/task.md), [Progress](tasks/03-guard-clauses-and-lock/progress-details.md))
+- ✅ 04-primary-ctors-and-field-keyword: Apply primary constructors and C# 14 field keyword ([Content](tasks/04-primary-ctors-and-field-keyword/task.md), [Progress](tasks/04-primary-ctors-and-field-keyword/progress-details.md))
+- ✅ 05-seal-classes: Seal non-inherited classes ([Content](tasks/05-seal-classes/task.md), [Progress](tasks/05-seal-classes/progress-details.md))
