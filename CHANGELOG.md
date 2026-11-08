@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **Baseline results** (`docs/baseline-results`): added `docs/BASELINE-RESULTS.md` with the desktop i7-14700K / .NET 10 Unique/All CountOnly timings and memory for N=16..20 (N=20 193.4 s) plus exact OEIS counts up to N=27, for future optimization/.NET upgrade comparisons.
+
 - **NuGet refresh** (`chore/nuget-refresh-2`): Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers 18.12.37802.2 -> 18.13.37903.2 (only outdated package). .NET 11 is still RC (rc.3, go-live), so projects stay on .NET 10 / C# 14.
 
 ### Added
