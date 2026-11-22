@@ -69,7 +69,7 @@ Common areas to investigate:
 
 ## Key Project Context
 
-- **Target framework**: .NET 10 (`net10.0` / `net10.0-windows` for GUI)
+- **Target framework**: .NET 11 (`net11.0` / `net11.0-windows` for GUI)
 - **Package management**: Central Package Management (CPM) enabled
 - **Test status**: 535/535 passing (446 unit + 89 view-model)
 - **Code coverage**: 40.24% line / 23.36% branch (baseline from 2025-04-23)

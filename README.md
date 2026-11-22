@@ -57,7 +57,7 @@ NQueen/
 ├── NQueen.Domain/          Interfaces, models, enums, context records, settings, utilities
 ├── NQueen.Kernel/          Solver implementations (BitmaskSolver, BitboardNQueenSolver) + DI extensions
 ├── NQueen.Shared/          Cross-cutting helpers (parsing, numerics)
-├── NQueen.GUI/             WPF MVVM front end (net10.0-windows)
+├── NQueen.GUI/             WPF MVVM front end (net11.0-windows)
 ├── NQueen.Console/         Console runner
 ├── NQueen.UnitTests/       Kernel / domain unit tests
 ├── NQueen.ViewModelTests/  ViewModel-level integration tests
@@ -73,9 +73,9 @@ NQueen/
 
 ## Tech stack
 
-- **.NET 10** (`net10.0` / `net10.0-windows` for the GUI)
+- **.NET 11 / C# 15** (`net11.0` / `net11.0-windows` for the GUI)
 - **WPF** (MVVM via `CommunityToolkit.Mvvm`) for the GUI
-- **BenchmarkDotNet** for reproducible microbenchmarks
+- **BenchmarkDotNet** for reproducible microbenchmarks (0.16 preview required for .NET 11)
 - **xUnit** + **Shouldly** for unit and view-model tests
 - **FluentValidation** for input validation
 - **Microsoft.Extensions.DependencyInjection** for DI composition
@@ -87,8 +87,8 @@ NQueen/
 
 | Requirement | Version |
 |---|---|
-| .NET SDK | **10.0** or later |
-| OS (GUI) | Windows 10 / 11 (`net10.0-windows`) |
+| .NET SDK | **11.0** or later |
+| OS (GUI) | Windows 10 / 11 (`net11.0-windows`) |
 | OS (Console / tests) | Windows, Linux, or macOS |
 
 ---

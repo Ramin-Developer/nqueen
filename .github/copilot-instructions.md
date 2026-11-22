@@ -3,7 +3,7 @@
 ## Project Guidelines
 
 ### Language & Framework
-- C# 14, .NET 10, targeting `net10.0` across all projects.
+- C# 15, .NET 11, targeting `net11.0` or `net11.0-windows` for WPF projects.
 - WPF for the GUI project (`NQueen.GUI`); console runner in `NQueen.Console`.
 
 ### Project Structure

@@ -100,6 +100,7 @@ coverage*.info
 coverage*.json
 coverage*.xml
 BenchmarkDotNet.Artifacts/
+.bdn/
 _NCrunch_*
 .*crunch*.local.xml
 nCrunchTemp_*

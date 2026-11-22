@@ -30,7 +30,7 @@ in the same change that touches `CHANGELOG.md`.
 > border pre-placement was prototyped: correct for N=4..18 but 1.7x slower at N=18
 > (5,170 vs 3,108 ms All CountOnly); reverted. Matching Q27 would need specialised
 > per-constellation DFS variants (very high effort) - not pursued.
-> .NET 11 (rc.2) measured: ~3-6 % faster at N=16/17, ~0-1 % at N=18 vs .NET 10; upgrade at GA for maintenance, not for speed.
+> .NET 11 is in use; the rc.2 evaluation showed modest, workload-dependent gains. Repeat the broader comparison on GA before claiming a speedup.
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
@@ -43,12 +43,13 @@ Keep this top section short: current state, next task, and only the warnings nee
 |---|---|
 | Latest release | **1.0.0** — 2026-05-29 (merged from `refactor/consolidate`) |
 | Active branch | `main` — solver-mode parity track complete (through PR #58); no track in flight. |
-| Target framework | .NET 10 across all projects (`net10.0` / `net10.0-windows` for GUI) |
+| Target framework | .NET 11 / C# 15 (`net11.0` / `net11.0-windows` for GUI) |
 | Test count | **787 / 787 passing** (Unit 607 + ViewModel 180, non-Slow; `test/gui-coverage-phase2`). |
 | Code coverage | **93.5 % line / 81.4 % branch** (Unit + ViewModel, 787 tests, non-Slow, Release; after PR #76). Per assembly (line): Domain 96.5, Shared 97.0, Kernel 95.5 (`BitmaskParallelEngine` 94.3), ConsoleApp 96.4, GUI 91.1. Remaining gaps: GUI `App` 53.8 % (host wiring), `SquareViewModel` 84.6 %, `MainWindow` 86.2 %. Refresh with `dotnet test -c Release --filter "Category!=Slow" --coverage --coverage-output-format cobertura` + `reportgenerator`. |
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+- **.NET 11 / C# 15 upgrade** (`upgrade/dotnet11-csharp15`), including CI and Microsoft.Extensions packages.
 - **NativeAOT publish profile for Console** (`ci/console-nativeaot-profile`). `dotnet publish NQueen.Console -p:PublishProfile=NativeAot-win-x64`; 0 AOT/trim warnings.
 
 - **Penultimate-row inlining in `Backtrack2`, negative** (`perf/backtrack2-penultimate-row`).
@@ -694,15 +695,8 @@ Non-perf infrastructure work. Items are listed roughly by effort × expected val
 
 ### Platform upgrades
 
-- **Move to .NET 11 at GA** (maintenance, not speed). rc.2 measured ~3-6 % faster at N=16/17,
-  ~0-1 % at N=18 (JIT codegen only). After upgrading, re-run the N=16/17/18 Unique/All harness
-  and record the results. Expected per-feature impact (from preview notes, unverified):
-  - JIT codegen (bounds-check elimination, loop opts, inlining): the measured gain; automatic.
-  - Runtime async: lower async overhead/allocations; only GUI/Console wrapper (~3-13 us), negligible.
-  - AVX10.2 / Arm SVE: no use (SIMD not justified; i7-14700K lacks AVX10).
-  - GC changes: hot path is allocation-free in CountOnly; at most minor GUI memory gain.
-  - NativeAOT/R2R startup: small extra gain on top of the NativeAOT profile above.
-  - C# 15: ergonomics only.
+- **Move BenchmarkDotNet to a stable .NET 11-compatible release** when available; 0.16.0-preview.2 is needed for .NET 11 support.
+- **Measure .NET 11 GA solver performance** across N=16/17/18 Unique/All against the .NET 10 baseline. The rc.2 comparison showed ~3-6 % faster at N=16/17 and ~0-1 % at N=18; results are workload-dependent.
 
 ---
 
