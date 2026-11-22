@@ -30,7 +30,7 @@ in the same change that touches `CHANGELOG.md`.
 > border pre-placement was prototyped: correct for N=4..18 but 1.7x slower at N=18
 > (5,170 vs 3,108 ms All CountOnly); reverted. Matching Q27 would need specialised
 > per-constellation DFS variants (very high effort) - not pursued.
-> .NET 11 is in use; the rc.2 evaluation showed modest, workload-dependent gains. Repeat the broader comparison on GA before claiming a speedup.
+> .NET 11 GA versus .NET 10 measurements are recorded in `docs/BASELINE-RESULTS.md`; gains were small and workload-dependent.
 
 Historical shipped work lives under **Recently shipped** and **Backlog — Kernel Performance** below.
 Keep this top section short: current state, next task, and only the warnings needed for the next session.
@@ -49,6 +49,7 @@ Keep this top section short: current state, next task, and only the warnings nee
 | Build status | 0 errors / 0 reported warnings (full solution build); style analyzers (IDE0028/0290/0300/0305, CA1829, IDE1006) clean after PR #54. |
 
 ### Recently shipped (see `CHANGELOG.md` `[Unreleased]` for full detail)
+- **.NET 10 / .NET 11 GA comparison**: N=16–18 Unique/All and a repeated N=17 All run are recorded in `docs/BASELINE-RESULTS.md`.
 - **.NET 11 / C# 15 upgrade** (`upgrade/dotnet11-csharp15`), including CI and Microsoft.Extensions packages.
 - **NativeAOT publish profile for Console** (`ci/console-nativeaot-profile`). `dotnet publish NQueen.Console -p:PublishProfile=NativeAot-win-x64`; 0 AOT/trim warnings.
 
@@ -696,7 +697,6 @@ Non-perf infrastructure work. Items are listed roughly by effort × expected val
 ### Platform upgrades
 
 - **Move BenchmarkDotNet to a stable .NET 11-compatible release** when available; 0.16.0-preview.2 is needed for .NET 11 support.
-- **Measure .NET 11 GA solver performance** across N=16/17/18 Unique/All against the .NET 10 baseline. The rc.2 comparison showed ~3-6 % faster at N=16/17 and ~0-1 % at N=18; results are workload-dependent.
 
 ---
 
