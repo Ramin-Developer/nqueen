@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **.NET 11 / C# 15 upgrade** (`upgrade/dotnet11-csharp15`): retargeted all projects, CI and Microsoft.Extensions packages. BenchmarkDotNet 0.16.0-preview.2 is required because the latest stable version does not support .NET 11. Preliminary N=18 All CountOnly short runs measured 3.009 s on .NET 10 versus 2.993 s on .NET 11 (3 iterations; different BenchmarkDotNet versions, insufficient for a performance conclusion).
+
 - **Baseline results** (`docs/baseline-results`): added `docs/BASELINE-RESULTS.md` with the desktop i7-14700K / .NET 10 Unique/All CountOnly timings and memory for N=16..20 (N=20 193.4 s) plus exact OEIS counts up to N=27, for future optimization/.NET upgrade comparisons.
 
 - **NuGet refresh** (`chore/nuget-refresh-2`): Microsoft.VisualStudio.DiagnosticsHub.BenchmarkDotNetDiagnosers 18.12.37802.2 -> 18.13.37903.2 (only outdated package). .NET 11 is still RC (rc.3, go-live), so projects stay on .NET 10 / C# 14.
